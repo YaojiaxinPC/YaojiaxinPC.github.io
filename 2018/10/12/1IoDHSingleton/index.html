@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yaojx.net/contentimg/1/5.png">
 <meta property="og:image" content="http://yaojx.net/contentimg/1/6.png">
 <meta property="og:image" content="http://yaojx.net/contentimg/1/7.png">
-<meta property="og:updated_time" content="2018-10-14T13:27:44.014Z">
+<meta property="og:updated_time" content="2018-10-14T17:20:27.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式_静态构造函数实现和IoDH实现">
 <meta name="twitter:description" content="单例模式，简单字面意思就是整个程序中只进行一次初始化的操作。相对于静态类，单例模式能做到延迟加载，以及类继承。本文记录“静态构造函数下的单例模式”，以及介绍“Initialization Demand Holder(IoDH)”模式实现。该示例使用VS2017以及C#进行编程。">
@@ -374,7 +374,7 @@
 <h2 id="一-前言"><a href="#一-前言" class="headerlink" title="一.前言"></a>一.前言</h2><p>　　单例模式，是编程中使用频率相当高的一种最简单的设计模式。可以简单理解为静态类的设计模式化。为什么会区别于静态类？</p>
 <p>　　静态类，一般用于“工具类”。在数据库连接等等场景下需要多线程的就不能使用静态类，其他应用于单线程下的操作，如文件读取，一般使用静态类。在软件优化中，第一个问题是初始化：静态类，会在程序启动的时候就会初始化，然后全局生存到进程结束。真有这个必要吗？我们打开程序时，一般先是登陆窗口，如果这个时候，一堆静态工具类也要加载初始化，那不就要等好久，还特占内存。</p>
 <p>　　所以在这个情况下产生了能做到延迟加载的单例模式，当然，它还能进行类继承等等其他解耦操作（不过该部分涉及到其他涉及模式，本文不深入讨论）。</p>
-<h2 id="二-代码记录"><a href="#二-代码记录" class="headerlink" title="二.代码记录"></a>二.代码记录</h2><h3 id="2-1-静态构造函数实现单例模式"><a href="#2-1-静态构造函数实现单例模式" class="headerlink" title="2.1  静态构造函数实现单例模式"></a>2.1  静态构造函数实现单例模式</h3><h4 id="2-1-1-静态类何时初始化"><a href="#2-1-1-静态类何时初始化" class="headerlink" title="2.1.1 静态类何时初始化"></a>2.1.1 静态类何时初始化</h4><p>　　这里我们直接上代码，根据结果进行记录：</p>
+<h2 id="二-代码记录"><a href="#二-代码记录" class="headerlink" title="二.代码记录"></a>二.代码记录</h2><h3 id="2-1-静态构造函数实现单例模式"><a href="#2-1-静态构造函数实现单例模式" class="headerlink" title="2.1 静态构造函数实现单例模式"></a>2.1 静态构造函数实现单例模式</h3><h4 id="2-1-1-静态类何时初始化"><a href="#2-1-1-静态类何时初始化" class="headerlink" title="2.1.1 静态类何时初始化"></a>2.1.1 静态类何时初始化</h4><p>　　这里我们直接上代码，根据结果进行记录：</p>
 <p>　　字段x初始化会在构造函数前面先执行。（重点。后面单例模式里面执行代码和想象中不同，考虑是这个原因。）</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#if step1</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonTest</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> string x = EchoAndReturn(<span class="string">"A_In type initializer"</span>);</span><br><span class="line"></span><br><span class="line">#if step1needstatic</span><br><span class="line">        <span class="comment">/// &lt;summary&gt;</span></span><br><span class="line">        <span class="comment">/// 当没有写静态构造函数时，框架会自动生成</span></span><br><span class="line">        <span class="comment">/// 导致静态字段的初始化跑到了静态方法调用之前</span></span><br><span class="line">        <span class="comment">/// 造成对象的提前初始化</span></span><br><span class="line">        <span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="title">SingletonTest</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            x = <span class="string">"A_static init"</span>;</span><br><span class="line">            Console.WriteLine(x);</span><br><span class="line">        &#125;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">SingletonTest</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            x = <span class="string">"A_nonstatic init"</span>;</span><br><span class="line">            Console.WriteLine(x);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> string <span class="title">EchoAndReturn</span><span class="params">(string s)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            Console.WriteLine(s);</span><br><span class="line">            <span class="keyword">return</span> s;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
 <p>　　对应main函数如下：</p>
@@ -388,10 +388,12 @@
 <p>　　1.程序运行–》2.静态类型的初始化，静态SingletonTest、字段x提前初始化–》3.执行main函数。</p>
 <p>　　这里在文末的博文中提到是：</p>
 <blockquote>
-<p>在类中实现静态构造函数，那beforefieldinit属性就会被precise属性替换，确保静态成员会在类第一次使用之前的那一刻进行初始化。如果不显式实现，静态成员会在类第一次使用之前的任何时间初始化（由CLR智能决定）。</p>
+<p>　　在类中实现静态构造函数，那beforefieldinit属性就会被precise属性替换，确保静态成员会在类第一次使用之前的那一刻进行初始化。如果不显式实现，静态成员会在类第一次使用之前的任何时间初始化（由CLR智能决定）。</p>
 </blockquote>
 <p>　　比较得出：</p>
+<blockquote>
 <p>　　<strong><em>显式静态构造函数使对象在被调用的时候才初始化，避免了static类型在程序启动的时候就提前初始化的问题。有利于程序的快速启动与内存的控制。</em></strong></p>
+</blockquote>
 <h4 id="2-1-2-简单静态类单例模式实现"><a href="#2-1-2-简单静态类单例模式实现" class="headerlink" title="2.1.2 简单静态类单例模式实现"></a>2.1.2 简单静态类单例模式实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonTest</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> readonly SingletonTest _instance = <span class="keyword">new</span> SingletonTest();</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="title">SingletonTest</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingletonTest</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SingletonTest Instance</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> _instance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li>将构造函数private；</li>
@@ -414,7 +416,7 @@
 <p><img src="/contentimg/1/5.png" alt="Result pic 5" title="2.1.4.2执行情况"></p>
 <p>　　1.父类型字段x初始化–》2.父类型static构造函数执行–》3.子类型static构造函数执行–》4.父类型构造函数执行–》5.子类型构造函数执行<br>　　–》这里父类型和子类型共用同一个字段x，导致字段x的赋值被子类型重写。</p>
 <p><img src="/contentimg/1/6.png" alt="Result pic 6" title="2.1.4.3执行情况"></p>
-<h3 id="2-2-IoDH实现"><a href="#2-2-IoDH实现" class="headerlink" title="2.2 IoDH实现"></a>2.2 IoDH实现</h3><h4 id="2-2-1单例模式实现"><a href="#2-2-1单例模式实现" class="headerlink" title="2.2.1单例模式实现"></a>2.2.1单例模式实现</h4><p>　　推荐单例模式使用该方式。在类内部定义内部类来实现单例模式。</p>
+<h3 id="2-2-IoDH实现"><a href="#2-2-IoDH实现" class="headerlink" title="2.2 IoDH实现"></a>2.2 IoDH实现</h3><h4 id="2-2-1-单例模式实现"><a href="#2-2-1-单例模式实现" class="headerlink" title="2.2.1 单例模式实现"></a>2.2.1 单例模式实现</h4><p>　　推荐单例模式使用该方式。在类内部定义内部类来实现单例模式。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonTest</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerCLass</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="title">InnerCLass</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">        internal <span class="keyword">static</span> SingletonTest instance = <span class="keyword">new</span> SingletonTest();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingletonTest</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SingletonTest Instance</span><br><span class="line">    &#123;</span><br><span class="line">        get &#123; <span class="keyword">return</span> InnerCLass.instance; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="2-2-2-单例模式执行顺序"><a href="#2-2-2-单例模式执行顺序" class="headerlink" title="2.2.2 单例模式执行顺序"></a>2.2.2 单例模式执行顺序</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonTest</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerCLass</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="title">InnerCLass</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            Console.WriteLine(<span class="string">"InnerCLass static"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        internal <span class="keyword">static</span> SingletonTest instance = <span class="keyword">new</span> SingletonTest();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingletonTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"SingletonTest nonstatic"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SingletonTest Instance</span><br><span class="line">    &#123;</span><br><span class="line">        get &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">"Instance"</span>);</span><br><span class="line">            <span class="keyword">return</span> InnerCLass.instance; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> string XX = <span class="string">"aaa"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><img src="/contentimg/1/7.png" alt="Result pic 7" title="2.2.2执行情况"></p>
@@ -480,6 +482,22 @@
       
       
 
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/14/2SortMethon/" rel="prev" title="入门级的8种算法记录">
+                入门级的8种算法记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
 
       
@@ -557,7 +575,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -568,7 +586,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -579,7 +597,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -599,9 +617,9 @@
                   </span>
                 
                   <span class="links-of-author-item">
-                    <a href="https://blog.csdn.net/Yao_2333" target="_blank" title="CSDN">
+                    <a href="/images/wechataddfriend.png" target="_blank" title="WeChat">
                       
-                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                        <i class="fa fa-fw fa-globe"></i>WeChat</a>
                   </span>
                 
             </div>
@@ -628,7 +646,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一.前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-代码记录"><span class="nav-number">2.</span> <span class="nav-text">二.代码记录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-静态构造函数实现单例模式"><span class="nav-number">2.1.</span> <span class="nav-text">2.1  静态构造函数实现单例模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-静态类何时初始化"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1 静态类何时初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-简单静态类单例模式实现"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2 简单静态类单例模式实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-单例模式执行顺序"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1.3 单例模式执行顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-继承问题"><span class="nav-number">2.1.4.</span> <span class="nav-text">2.1.4 继承问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-IoDH实现"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 IoDH实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1单例模式实现"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1单例模式实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-单例模式执行顺序"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 单例模式执行顺序</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-相关参考链接"><span class="nav-number">3.</span> <span class="nav-text">三.相关参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一.前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-代码记录"><span class="nav-number">2.</span> <span class="nav-text">二.代码记录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-静态构造函数实现单例模式"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 静态构造函数实现单例模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-静态类何时初始化"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1 静态类何时初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-简单静态类单例模式实现"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2 简单静态类单例模式实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-单例模式执行顺序"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1.3 单例模式执行顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-继承问题"><span class="nav-number">2.1.4.</span> <span class="nav-text">2.1.4 继承问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-IoDH实现"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 IoDH实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-单例模式实现"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 单例模式实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-单例模式执行顺序"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 单例模式执行顺序</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-相关参考链接"><span class="nav-number">3.</span> <span class="nav-text">三.相关参考链接</span></a></li></ol></div>
             
 
           </div>

@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="C#,Attribute特性,enum特性," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文分享一些代码使用Attribute的高级写法部分，日常使用中应该很少用到，但是是能给代码书写带来很好的优化效果的。">
+<meta name="keywords" content="C#,Attribute特性,enum特性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C# Obsolete、Contional等等一些特性的介绍">
+<meta property="og:url" content="http://yaojx.net/2018/10/15/4fivefeatures/index.html">
+<meta property="og:site_name" content="Yao&#39;s Blog">
+<meta property="og:description" content="本文分享一些代码使用Attribute的高级写法部分，日常使用中应该很少用到，但是是能给代码书写带来很好的优化效果的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/1.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/2.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/3.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/4.1.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/4.2.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/4.3.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/5.1.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/5.2.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/6.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/7.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/8.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/9.1.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/9.2.png">
+<meta property="og:image" content="http://yaojx.net/contentimg/4/9.3.png">
+<meta property="og:updated_time" content="2018-10-15T07:20:53.708Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C# Obsolete、Contional等等一些特性的介绍">
+<meta name="twitter:description" content="本文分享一些代码使用Attribute的高级写法部分，日常使用中应该很少用到，但是是能给代码书写带来很好的优化效果的。">
+<meta name="twitter:image" content="http://yaojx.net/contentimg/4/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yaojx.net/2018/10/15/4fivefeatures/"/>
+
+
+
+
+
+  <title>C# Obsolete、Contional等等一些特性的介绍 | Yao's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Welcome to yao's blog.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yaojx.net/2018/10/15/4fivefeatures/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="姚佳鑫">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/contentimg/headpic.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C# Obsolete、Contional等等一些特性的介绍</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-15T13:49:44+08:00">
+                2018-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程技巧/" itemprop="url" rel="index">
+                    <span itemprop="name">编程技巧</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　本文分享一些代码使用Attribute的高级写法部分，日常使用中应该很少用到，但是是能给代码书写带来很好的优化效果的。<br><a id="more"></a><br>　　这些东西其实和xml解析时定义的class中做的标记、自定义配置文件的class标记、枚举中文标记等等是类似的。都是在上面“[]”+标记。</p>
+<p>　　日常编码中，应该Enum的中文标记是使用最多的，接下来就是xml解析，自定义配置文件应该用的人比较少，毕竟实用性不大，直接定义字段，或者使用系统自带的要容易用一些。接下来分享的几个，应该较少人接触过。</p>
+<h2 id="一-Obsolete"><a href="#一-Obsolete" class="headerlink" title="一.Obsolete"></a>一.Obsolete</h2><p>　　类似tooltip提示，一般写接口的人会用到，用于标记函数是否过时，以及强制让函数无法通过编译。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TestObsolete</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    [Obsolete(<span class="string">"OldMethod,please use NewMethod"</span>, <span class="keyword">false</span>)]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">OldMethod</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"Old Method"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [Obsolete(<span class="string">"Error Method,you can't use this method!"</span>, <span class="keyword">true</span>)]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ErrorMethod</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"Error Method"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">NewMethod</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"New Method"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　实例中的三个方法是一样的操作：调用输出信息。照理说，是能直接调用然后输出的，毕竟没有语法错误，编译器也没提示函数有问题。</p>
+<p>　　但实际使用时是：一个警告，一个直接错误。</p>
+<p><img src="/contentimg/4/1.png" alt="Result pic 1" title="Obsolete"></p>
+<p>　　直接给你一个error，不让编译通过。</p>
+<p><img src="/contentimg/4/2.png" alt="Result pic 2" title="ObsoleteAttribute"></p>
+<p>　　查看定义，该属性是继承Attribute，这样用法就是直接标在函数或者成员上面，并用“[]”包起来。该特性有三种构造函数，第二种常用，就是让函数提示过时，同时里面有message提示信息。用法就是上面第一张图那样，让函数本身“过时”，给了一个警告提，同时鼠标移上去时，会提示message的信息。第三种构造函数，就是加了error，标记是显示成“警告”（可以编译通过），还是“错误”（无法编译通过）。</p>
+<p>　　这个特性，一般写接口的人会使用到，在接口的版本更新后，如果替换了新接口，但是又想老程序能使用时，一般保留老接口的代码。不过这里就有问题了，接下来新使用的程序，应该让他们用新接口而不是用老接口：如果说写在文档里面说明这个情况，但是好多人是连接口文档都不看的，直接dll引用就开始写代码的；如果写在注释里面？那更加不行，一般没报错，是很少有人去看注释的。所以这时候就得用特性了，使用这个特性，写代码的时候就直接编译器提示了，使用者全部都会看到这个提示。（unity经常用这个特性提示每次更新版本后丢弃的老属性，不过现在国内绝大部分公司，都是直接删掉老函数，然后拉分支来处理的，这样导致后期一大堆分支，维护很麻烦）</p>
+<h2 id="二-Conditional"><a href="#二-Conditional" class="headerlink" title="二.Conditional"></a>二.Conditional</h2><p>　　一个好玩的特性，类似于 #if XXXX  #elif  XXXX #else XXX #endif 这种使用：</p>
+<p><img src="/contentimg/4/3.png" alt="Result pic 3" title="预编译条件#if"></p>
+<p>　　使用方式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Diagnostics;</span><br><span class="line"></span><br><span class="line">namespace FeaturesDemo</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestConditional</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        [Conditional(<span class="string">"ConsoleOut"</span>)]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ConsoleOut</span><span class="params">(string message)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            Console.WriteLine(message);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　调用时：发现明明代码写在那里，但是却不执行：</p>
+<p><img src="/contentimg/4/4.1.png" alt="Result pic 4" title="no done?"></p>
+<p>　　因为它的使用前提是你要提示它“要执行”，它才会执行。不然没提示，代码在，但是不执行。</p>
+<p>怎么提示：</p>
+<p>　　方法一：在开头写#define +构造函数中传递的字符串</p>
+<p><img src="/contentimg/4/4.2.png" alt="Result pic 5" title="预编译#define"></p>
+<p>　　方法二：使用“条件编译符号”</p>
+<p><img src="/contentimg/4/4.3.png" alt="Result pic 6" title="条件编译符号"></p>
+<p>这里插播一下怎么运行core程序，因为vs编译生成的是dll：</p>
+<p><img src="/contentimg/4/5.1.png" alt="Result pic 7" title="cmd run core"></p>
+<p>　　cd到vs工程文件所在地方，然后“dotnet build”或者“dotnet run”都行，run是编译后同时运行，然后cd到dll所在地方，“dotnet”+项目名，就能运行。当然目录下要有“项目名.runtimeconfig.json”这个文件（标记目标环境）</p>
+<p><img src="/contentimg/4/5.2.png" alt="Result pic 8" title="项目名.runtimeconfig.json文件"></p>
+<p>　　这里分享几个参考的博文：</p>
+<p><a href="https://www.cnblogs.com/Wddpct/p/5694596.html#3.1.2" target="_blank" rel="noopener">.NET Core全面扫盲贴</a></p>
+<p><a href="https://msdn.microsoft.com/zh-cn/magazine/mt694084#rd" target="_blank" rel="noopener">.NET Core - .NET 使用 .NET Core 跨平台运行</a></p>
+<p><a href="https://www.cnblogs.com/stulzq/p/9074965.html" target="_blank" rel="noopener">.NET Core 跨平台执行命令、脚本</a></p>
+<h2 id="三-CallXXXX特性"><a href="#三-CallXXXX特性" class="headerlink" title="三.CallXXXX特性"></a>三.CallXXXX特性</h2><p>　　这个东西实用性一般般，用于调试排错的时候，就是你找到在哪里出错了，但是看代码又不知道上一层是哪个函数（就是哪里调用这个函数导致出问题），就加这个特性，一层一层排上去，就能找到是哪里出问题了。</p>
+<p><img src="/contentimg/4/6.png" alt="Result pic 9" title="CallXXXX特性"></p>
+<p>　　之前不知道有这个特性的时候，我都是直接用反射，找到哪个函数调用，然后一层一层反射上去。反射的过程超级麻烦，实用性也不好。当然，如果可以，建议直接用vs远程附加调试，打断点就能知道到底怎么出问题了。</p>
+<h2 id="四-DebuggerStepThrough"><a href="#四-DebuggerStepThrough" class="headerlink" title="四.DebuggerStepThrough"></a>四.DebuggerStepThrough</h2><p>　　好吧，这个算凑数的。</p>
+<p>　　这个特性是调试的时候，F10和F11的区别，就是如果函数加了这个特性，执行到这个函数，就算你使用F11（单步，逐语句），它也给你当F10（整个函数直接过，逐过程）。</p>
+<p>　　“[System.Diagnostics.DebuggerStepThrough]”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Runtime.CompilerServices;</span><br><span class="line"></span><br><span class="line">namespace FeaturesDemo</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCall</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        [System.Diagnostics.DebuggerStepThrough]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">CallMethod</span><span class="params">(string message, [CallerFilePath] string filepath = <span class="string">""</span>, [CallerLineNumber]<span class="keyword">int</span> linenumber = <span class="number">0</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">            [CallerMemberName]string membername = <span class="string">""</span>)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            Console.WriteLine(message);</span><br><span class="line">            <span class="keyword">if</span> (!string.IsNullOrEmpty(filepath))</span><br><span class="line">                Console.WriteLine(<span class="string">"filepath:"</span> + filepath);</span><br><span class="line">            <span class="keyword">if</span> (!linenumber.Equals(<span class="number">0</span>))</span><br><span class="line">                Console.WriteLine(<span class="string">"linenumber:"</span> + linenumber);</span><br><span class="line">            <span class="keyword">if</span> (!string.IsNullOrEmpty(membername))</span><br><span class="line">                Console.WriteLine(<span class="string">"membername:"</span> + membername);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="五-枚举中文Description"><a href="#五-枚举中文Description" class="headerlink" title="五.枚举中文Description"></a>五.枚举中文Description</h2><p>　　Description，这个最常用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.ComponentModel;</span><br><span class="line">using System.Reflection;</span><br><span class="line"></span><br><span class="line">namespace FeaturesDemo</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">EnumCN</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> string <span class="title">GetDescription</span><span class="params">(Enum obj)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            FieldInfo fi = obj.GetType().GetField(obj.ToString());</span><br><span class="line">            DescriptionAttribute[] arrDesc = fi.GetCustomAttributes(typeof(DescriptionAttribute), <span class="keyword">false</span>) as DescriptionAttribute[];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (arrDesc != <span class="keyword">null</span> &amp;&amp; arrDesc.Length &gt; <span class="number">0</span>)</span><br><span class="line">                <span class="keyword">return</span> arrDesc[<span class="number">0</span>].Description;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> PersonSex</span><br><span class="line">    &#123;</span><br><span class="line">        [Description(<span class="string">"男人"</span>)]</span><br><span class="line">        Man = <span class="number">0</span>,</span><br><span class="line">        [Description(<span class="string">"女人"</span>)]</span><br><span class="line">        Woman = <span class="number">1</span>,</span><br><span class="line">        [Description(<span class="string">"人妖"</span>)]</span><br><span class="line">        OtherSex = <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　这里就不多解释了。做界面的人建议多用，在一些选项框中，中文对应枚举，比对应源的第几个要好用，也不容易出问题。</p>
+<p><img src="/contentimg/4/7.png" alt="Result pic 10" title="枚举中文Description"></p>
+<p>这里插播一下enum的另一个用法：权限校验</p>
+<p>　　就是把枚举和二进制关联起来，0表示没这个权限，1表示有，然后进行与或非操作就能判断。</p>
+<p>定义枚举：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Flags]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> EnumPower</span><br><span class="line">&#123;</span><br><span class="line">    [Description(<span class="string">"游客"</span>)]</span><br><span class="line">    AllNull = <span class="number">0</span>,             <span class="comment">//0x00 表示全部没有    0000</span></span><br><span class="line">    [Description(<span class="string">"创建"</span>)]</span><br><span class="line">    Create = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,         <span class="comment">//0x01或者1  2的0次方  0001</span></span><br><span class="line">    [Description(<span class="string">"读取"</span>)]</span><br><span class="line">    Read = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,           <span class="comment">//0x02或者2  2的1次方  0010</span></span><br><span class="line">    [Description(<span class="string">"更新"</span>)]</span><br><span class="line">    Update = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,         <span class="comment">//0x04或者4  2的2次方  0100</span></span><br><span class="line">    [Description(<span class="string">"删除"</span>)]</span><br><span class="line">    Delete = <span class="number">1</span> &lt;&lt; <span class="number">3</span>          <span class="comment">//0x08或者8  2的3次方  1000</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　接下来，把权限“与”/“或”操作起来，然后检查是否某位上为1就是有该权限。使用该用法，数据库保存用户权限就容易了，例如有read和delete权限的，直接0010|1000=1010。</p>
+<p>　　判断是否有read权限时：1010&amp;0010 = 0010-&gt;1表示有；当没有时：1000&amp;0010=0000-&gt;0</p>
+<p>　　判断是否有read或者delete其中之一：1010&amp;(0010|1000)=1010-&gt;都有。或者其中一个有0010&amp;(0010|1000)=0010。</p>
+<p>　　可以发现，判断权限时，我们只要&amp;|操作后，检查==0？就可以了。省了一堆if else if语句。</p>
+<p>可以合并成一个函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CheckPower</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/// &lt;summary&gt;</span></span><br><span class="line">    <span class="comment">/// 检查是否有权限，</span></span><br><span class="line">    <span class="comment">/// |操作会合并成一个值，表示满足之一就返回true</span></span><br><span class="line">    <span class="comment">/// 如果有多个值，表示需要满足全部值才返回true</span></span><br><span class="line">    <span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line">    <span class="comment">/// &lt;param name="ower"&gt;用户的权限值&lt;/param&gt;</span></span><br><span class="line">    <span class="comment">/// &lt;param name="powers"&gt;要检查的权限值&lt;/param&gt;</span></span><br><span class="line">    <span class="comment">/// &lt;returns&gt;&lt;/returns&gt;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> bool <span class="title">CheckHasPower</span><span class="params">(EnumPower owner, params EnumPower[] powers)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//没有传权限过来，直接返回false</span></span><br><span class="line">        <span class="keyword">if</span> (powers == <span class="keyword">null</span> || powers.Length &lt; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//只传一个权限(单权限，或者几个权限的|操作)</span></span><br><span class="line">        <span class="keyword">if</span> (powers.Length &lt;= <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//如果是EnumPower.AllNull，直接比较是否和owner一样</span></span><br><span class="line">            <span class="keyword">if</span> (powers[<span class="number">0</span>].Equals(EnumPower.AllNull))</span><br><span class="line">                <span class="keyword">return</span> owner.Equals(powers[<span class="number">0</span>]);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> (owner &amp; powers[<span class="number">0</span>]) != <span class="number">0x00</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//合并要检查的权限值</span></span><br><span class="line">        foreach (var item in powers)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//核对每一项，如果有一项不成立，返回false</span></span><br><span class="line">            <span class="keyword">if</span> ((owner &amp; item) == <span class="number">0x00</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">   EnumPower owner = EnumPower.AllNull;</span><br><span class="line">   owner = EnumPower.Delete | EnumPower.Create;</span><br><span class="line"></span><br><span class="line">   Console.WriteLine(owner);</span><br><span class="line"></span><br><span class="line">   Console.WriteLine(<span class="string">"EnumPower.Delete:"</span> + CheckPower.CheckHasPower(owner, EnumPower.Delete) + System.Environment.NewLine);</span><br><span class="line">   Console.WriteLine(<span class="string">"EnumPower.Read:"</span> + CheckPower.CheckHasPower(owner, EnumPower.Read) + System.Environment.NewLine);</span><br><span class="line">   Console.WriteLine(<span class="string">"EnumPower.AllNull:"</span> + CheckPower.CheckHasPower(owner, EnumPower.AllNull) + System.Environment.NewLine);</span><br><span class="line">   Console.WriteLine(<span class="string">"EnumPower.Delete | EnumPower.Update:"</span> + CheckPower.CheckHasPower(owner, EnumPower.Delete | EnumPower.Update) + System.Environment.NewLine);</span><br><span class="line">   Console.WriteLine(<span class="string">"EnumPower.AllNull | EnumPower.Update:"</span> + CheckPower.CheckHasPower(owner, EnumPower.AllNull | EnumPower.Update) + System.Environment.NewLine);</span><br><span class="line">   Console.WriteLine(<span class="string">"EnumPower.Update | EnumPower.Delete:"</span> + CheckPower.CheckHasPower(owner, EnumPower.Update | EnumPower.Delete) + System.Environment.NewLine);</span><br><span class="line">   Console.WriteLine(<span class="string">"EnumPower.Update &amp;EnumPower.Delete:"</span> + CheckPower.CheckHasPower(owner, EnumPower.Update, EnumPower.Delete) + System.Environment.NewLine);</span><br><span class="line"></span><br><span class="line">   Console.WriteLine(<span class="string">"EnumPower.Read | EnumPower.Update | EnumPower.Create | EnumPower.Delete:"</span> + CheckPower.CheckHasPower(owner, EnumPower.Read | EnumPower.Update | EnumPower.Create | EnumPower.Delete) + System.Environment.NewLine);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">int</span> enumlength = Enum.GetNames(typeof(EnumPower)).Length - <span class="number">1</span>;<span class="comment">//0开始，所以要-1</span></span><br><span class="line">   <span class="comment">//等价于前面全部|的操作</span></span><br><span class="line">   Console.WriteLine(((EnumPower)(<span class="number">1</span> &lt;&lt; enumlength) - <span class="number">1</span>) + <span class="string">":"</span> + CheckPower.CheckHasPower(owner, ((EnumPower)(<span class="number">1</span> &lt;&lt; enumlength) - <span class="number">1</span>)) + System.Environment.NewLine);</span><br><span class="line"></span><br><span class="line">Console.WriteLine(<span class="string">"EnumPower.Read &amp;EnumPower.Update &amp;EnumPower.Create &amp;EnumPower.Delete:"</span> + CheckPower.CheckHasPower(owner, EnumPower.Read, EnumPower.Update, EnumPower.Create, EnumPower.Delete));</span><br></pre></td></tr></table></figure>
+<p><img src="/contentimg/4/8.png" alt="Result pic 11" title="权限校验"></p>
+<p>　　这里比较好玩的是“1&lt;&lt;n”，表示2的n次方。注意“|”和“&amp;”的区别就可以使用了，特别注意&amp;操作，前后顺序，有没有加（），结果是不同的。以及拥有全部权限的另类算法，应该是1111（4个1）,即10000（5位）-1.</p>
+<p>　　当然普遍写法是直接|或者&amp;然后判断==0？，就不会写一个函数来增加多余的部分的。所以上面这个函数显得突兀，只是为了直观理解而写的。</p>
+<h2 id="六-自定义特性"><a href="#六-自定义特性" class="headerlink" title="六.自定义特性"></a>六.自定义特性</h2><p>　　特性类的后缀要以Attribute结尾，需要继承自System.Attribute，一般情况下声明为sealed。</p>
+<p>示例如下：注意使用的时候自动去除Attribute后缀</p>
+<p><img src="/contentimg/4/9.1.png" alt="Result pic 12" title="自定义特性示例"></p>
+<p>　　获取内容的方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TestMyMethod</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GetFromClass</span><span class="params">(TestMyClass t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(t.TestProperty);</span><br><span class="line">        MyAttribute[] arrDesc = Attribute.GetCustomAttributes(t.GetType(), typeof(MyAttribute)) as MyAttribute[];</span><br><span class="line">        <span class="keyword">if</span> (arrDesc != <span class="keyword">null</span>)</span><br><span class="line">            foreach (var item in arrDesc)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(<span class="string">"Description:"</span> + item.Description);</span><br><span class="line">                Console.WriteLine(<span class="string">"LineNumber:"</span> + item.LineNumber);</span><br><span class="line">                Console.WriteLine(<span class="string">"IsClass:"</span> + item.IsClass);</span><br><span class="line">                Console.WriteLine();</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GetFromProperty</span><span class="params">(TestMyProperty t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(t.TestProperty);</span><br><span class="line">        foreach (System.Reflection.PropertyInfo item in t.GetType().GetProperties())</span><br><span class="line">        &#123;</span><br><span class="line">            MyAttribute[] atts = Attribute.GetCustomAttributes(item, typeof(MyAttribute)) as MyAttribute[];</span><br><span class="line">            <span class="keyword">if</span> (atts == <span class="keyword">null</span>) <span class="keyword">continue</span>;</span><br><span class="line">            foreach (var at in atts)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(<span class="string">"Description:"</span> + at.Description);</span><br><span class="line">                Console.WriteLine(<span class="string">"LineNumber:"</span> + at.LineNumber);</span><br><span class="line">                Console.WriteLine(<span class="string">"IsClass:"</span> + at.IsClass);</span><br><span class="line">                Console.WriteLine();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　注意当特性放在不同的地方时获取方式不同，类中的字段是class.GetProperties()下的内容，然后才可以 Attribute.GetCustomAttributes</p>
+<p><img src="/contentimg/4/9.2.png" alt="Result pic 13" title="获取方式不同"></p>
+<p>　　注意当命名不规范的时候，是不会自动裁剪后缀的：</p>
+<p><img src="/contentimg/4/9.3.png" alt="Result pic 14" title="命名不规范"></p>
+<p>　　当然还有C++和其他dll导入时的特性，xml编辑的特性，以及ORM特性等等，由于那些的主题应该是对应的内容，特性只是一个小小的标记，所以那部分的内容到时放在具体项目中分享。</p>
+<p> 本文测试程序工程可以从git直接获取：</p>
+<p> git代码库: <a href="https://github.com/YaojiaxinPC/hexoblog/tree/master/FeaturesDemo" target="_blank" rel="noopener">Codes</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="姚佳鑫 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="姚佳鑫 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C#</a>
+          
+            <a href="/tags/Attribute特性/" rel="tag"># Attribute特性</a>
+          
+            <a href="/tags/enum特性/" rel="tag"># enum特性</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/15/3JsonDeal/" rel="next" title="Json解析C#的四个库">
+                <i class="fa fa-chevron-left"></i> Json解析C#的四个库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/15/5Closure/" rel="prev" title="闭包Closure">
+                闭包Closure <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/contentimg/headpic.jpg"
+                alt="姚佳鑫" />
+            
+              <p class="site-author-name" itemprop="name">姚佳鑫</p>
+              <p class="site-description motion-element" itemprop="description">Record My Coding life.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/YaojiaxinPC" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="/images/wechataddfriend.png" target="_blank" title="WeChat">
+                      
+                        <i class="fa fa-fw fa-globe"></i>WeChat</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-Obsolete"><span class="nav-number">1.</span> <span class="nav-text">一.Obsolete</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-Conditional"><span class="nav-number">2.</span> <span class="nav-text">二.Conditional</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-CallXXXX特性"><span class="nav-number">3.</span> <span class="nav-text">三.CallXXXX特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四-DebuggerStepThrough"><span class="nav-number">4.</span> <span class="nav-text">四.DebuggerStepThrough</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五-枚举中文Description"><span class="nav-number">5.</span> <span class="nav-text">五.枚举中文Description</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六-自定义特性"><span class="nav-number">6.</span> <span class="nav-text">六.自定义特性</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">姚佳鑫</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
