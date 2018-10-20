@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://YaojiaxinPC.github.io/"/>
-  <updated>2018-10-20T13:35:30.441Z</updated>
+  <updated>2018-10-20T17:01:50.083Z</updated>
   <id>https://YaojiaxinPC.github.io/</id>
   
   <author>
@@ -17,35 +17,13 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>百度sitemap和谷歌sitemap同时使用不同的url</title>
-    <link href="https://YaojiaxinPC.github.io/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/20sitemap2url/"/>
-    <id>https://YaojiaxinPC.github.io/源码分析/20sitemap2url/</id>
-    <published>2018-10-19T16:07:59.000Z</published>
-    <updated>2018-10-20T13:35:30.441Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。</p><a id="more"></a><p>　　目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。</p><p>　　真有必要这么麻烦吗？</p><p>　　于是我开始找“node_modules”文件夹里面的源码。</p><p>　　谷歌的sitemap生成源码里：</p><p><img src="/contentimg/20/1.png" alt="Result pic 1" title="hexo-generator-sitemap源码"></p><p>　　是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。</p><p><img src="/contentimg/20/2.png" alt="Result pic 1" title="hexo-generator-baidu-sitemap源码"></p><p><img src="/contentimg/20/3.png" alt="Result pic 1" title="baidusitemap.ejs源码"></p><p>　　有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！</p><p>　　那就好办了，在百度sitemap那里多写一个url就搞定了：</p><p><img src="/contentimg/20/4.png" alt="Result pic 1" title="baidusitemap下多加一个url"></p><p>　　搞定，一次hexo g。两个sitemap的域名是不同的了。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="源码分析" scheme="https://YaojiaxinPC.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    
-    
-      <category term="hexo源码" scheme="https://YaojiaxinPC.github.io/tags/hexo%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
     <title>abowman&#39;s demo</title>
-    <link href="https://YaojiaxinPC.github.io/%E5%89%8D%E7%AB%AF/21swfobjectdemo/"/>
-    <id>https://YaojiaxinPC.github.io/前端/21swfobjectdemo/</id>
+    <link href="https://YaojiaxinPC.github.io/21swfobjectdemo/"/>
+    <id>https://YaojiaxinPC.github.io/21swfobjectdemo/</id>
     <published>2018-10-19T16:07:59.000Z</published>
-    <updated>2018-10-20T16:37:34.080Z</updated>
+    <updated>2018-10-20T17:01:50.083Z</updated>
     
-    <content type="html"><![CDATA[<p>　　本文分享<a href="https://github.com/swfobject/swfobject" target="_blank" rel="noopener">swfobject</a>   插件的简单使用，展示abowman上面的3个小挂饰。</p><a id="more"></a><p>　　swfobject的git代码里面已经包了一个自动生成html的功能，所以实际是去找swf动画，加进去就可以看到效果了。</p><p>　　小鱼挂饰：<a id="download" href="/contentimg/21/fish.swf"><i class="fa fa-download"></i><span> Download fish.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="400" height="400" src="/contentimg/21/fish.html"></iframe></div></p><p>　　宠物鼠挂饰：<a id="download" href="/contentimg/21/hamster.swf"><i class="fa fa-download"></i><span> Download hamster.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="400" height="400" src="/contentimg/21/hamster.html"></iframe></div></p><p>　　企鹅群挂饰：<a id="download" href="/contentimg/21/penguins.swf"><i class="fa fa-download"></i><span> Download penguins.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="400" height="400" src="/contentimg/21/penguins.html"></iframe></div></p><p><img src="/contentimg/21/1.png" alt="Result pic 1" title="html代码自动生成"></p>]]></content>
+    <content type="html"><![CDATA[<p>　　本文分享<a href="https://github.com/swfobject/swfobject" target="_blank" rel="noopener">swfobject</a>   插件的简单使用，展示abowman上面的3个小挂饰。</p><a id="more"></a><p>　　swfobject的git代码里面已经包了一个自动生成html的功能，所以实际是去找swf动画，加进去就可以看到效果了。</p><p>　　小鱼挂饰：<a id="download" href="/contentimg/21/fish.swf" download="fish.swf"><i class="fa fa-download"></i><span> Download fish.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="400" height="400" src="/contentimg/21/fish.html"></iframe></div></p><p>　　宠物鼠挂饰：<a id="download" href="/contentimg/21/hamster.swf" download="hamster.swf"><i class="fa fa-download"></i><span> Download hamster.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="400" height="400" src="/contentimg/21/hamster.html"></iframe></div></p><p>　　企鹅群挂饰：<a id="download" href="/contentimg/21/penguins.swf" download="penguins.swf"><i class="fa fa-download"></i><span> Download penguins.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="400" height="400" src="/contentimg/21/penguins.html"></iframe></div></p><p><img src="/contentimg/21/1.png" alt="Result pic 1" title="html代码自动生成"></p>]]></content>
     
     <summary type="html">
     
@@ -67,9 +45,31 @@
   </entry>
   
   <entry>
+    <title>百度sitemap和谷歌sitemap同时使用不同的url</title>
+    <link href="https://YaojiaxinPC.github.io/20sitemap2url/"/>
+    <id>https://YaojiaxinPC.github.io/20sitemap2url/</id>
+    <published>2018-10-19T16:07:59.000Z</published>
+    <updated>2018-10-20T13:35:30.441Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。</p><a id="more"></a><p>　　目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。</p><p>　　真有必要这么麻烦吗？</p><p>　　于是我开始找“node_modules”文件夹里面的源码。</p><p>　　谷歌的sitemap生成源码里：</p><p><img src="/contentimg/20/1.png" alt="Result pic 1" title="hexo-generator-sitemap源码"></p><p>　　是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。</p><p><img src="/contentimg/20/2.png" alt="Result pic 1" title="hexo-generator-baidu-sitemap源码"></p><p><img src="/contentimg/20/3.png" alt="Result pic 1" title="baidusitemap.ejs源码"></p><p>　　有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！</p><p>　　那就好办了，在百度sitemap那里多写一个url就搞定了：</p><p><img src="/contentimg/20/4.png" alt="Result pic 1" title="baidusitemap下多加一个url"></p><p>　　搞定，一次hexo g。两个sitemap的域名是不同的了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="源码分析" scheme="https://YaojiaxinPC.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    
+    
+      <category term="hexo源码" scheme="https://YaojiaxinPC.github.io/tags/hexo%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
     <title>markdown扩展</title>
-    <link href="https://YaojiaxinPC.github.io/markdown%E6%89%A9%E5%B1%95/19markdownextend/"/>
-    <id>https://YaojiaxinPC.github.io/markdown扩展/19markdownextend/</id>
+    <link href="https://YaojiaxinPC.github.io/19markdownextend/"/>
+    <id>https://YaojiaxinPC.github.io/19markdownextend/</id>
     <published>2018-10-18T16:07:59.000Z</published>
     <updated>2018-10-20T05:29:49.263Z</updated>
     
@@ -90,12 +90,12 @@
   
   <entry>
     <title>office2019破解安装版</title>
-    <link href="https://YaojiaxinPC.github.io/%E8%BD%AF%E4%BB%B6%E7%A0%B4%E8%A7%A3%E5%8C%85/18office2019/"/>
-    <id>https://YaojiaxinPC.github.io/软件破解包/18office2019/</id>
+    <link href="https://YaojiaxinPC.github.io/18office2019/"/>
+    <id>https://YaojiaxinPC.github.io/18office2019/</id>
     <published>2018-10-18T16:06:59.000Z</published>
-    <updated>2018-10-20T05:28:07.053Z</updated>
+    <updated>2018-10-20T17:02:16.156Z</updated>
     
-    <content type="html"><![CDATA[<p>　　本文分享破解吧看到的office2019的破解安装。</p><a id="more"></a><p>　　在这里得感谢破解吧。上面好多破解版软件。在此提醒大家，请用于个人学习，勿用于商业用途。</p><p>　　下面引用破解吧的教程：</p><p><div style="width:100%; height:950px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="850" height="800" src="/contentimg/18/Office-2019.pdf.html"></iframe></div></p><p>　　<a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=781052&amp;tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">原文地址</a> </p><p>　　<a href="https://otp.landian.la/zh-cn/" target="_blank" rel="noopener">OTP地址</a> </p><p>　　<a id="download" href="/contentimg/18/Office-2019.pdf"><i class="fa fa-download"></i><span> Download PDF </span><br></a></p>]]></content>
+    <content type="html"><![CDATA[<p>　　本文分享破解吧看到的office2019的破解安装。</p><a id="more"></a><p>　　在这里得感谢破解吧。上面好多破解版软件。在此提醒大家，请用于个人学习，勿用于商业用途。</p><p>　　下面引用破解吧的教程：</p><p><div style="width:100%; height:950px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="850" height="800" src="/contentimg/18/Office-2019.pdf.html"></iframe></div></p><p>　　<a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=781052&amp;tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">原文地址</a> </p><p>　　<a href="https://otp.landian.la/zh-cn/" target="_blank" rel="noopener">OTP地址</a> </p><p>　　<a id="download" href="/contentimg/18/Office-2019.pdf" download="Office-2019.pdf"><i class="fa fa-download"></i><span> Download PDF </span><br></a></p>]]></content>
     
     <summary type="html">
     
@@ -114,8 +114,8 @@
   
   <entry>
     <title>github security alert 解决之路</title>
-    <link href="https://YaojiaxinPC.github.io/github%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/17git-securityalert/"/>
-    <id>https://YaojiaxinPC.github.io/github疑难杂症/17git-securityalert/</id>
+    <link href="https://YaojiaxinPC.github.io/17git-securityalert/"/>
+    <id>https://YaojiaxinPC.github.io/17git-securityalert/</id>
     <published>2018-10-18T16:05:59.000Z</published>
     <updated>2018-10-19T06:12:54.316Z</updated>
     
@@ -139,8 +139,8 @@
   
   <entry>
     <title>VMWare安装Linux系统和mac系统</title>
-    <link href="https://YaojiaxinPC.github.io/%E8%99%9A%E6%8B%9F%E6%9C%BA/16VM_macandlinux/"/>
-    <id>https://YaojiaxinPC.github.io/虚拟机/16VM_macandlinux/</id>
+    <link href="https://YaojiaxinPC.github.io/16VM_macandlinux/"/>
+    <id>https://YaojiaxinPC.github.io/16VM_macandlinux/</id>
     <published>2018-10-18T16:04:59.000Z</published>
     <updated>2018-10-19T08:42:20.403Z</updated>
     
@@ -165,8 +165,8 @@
   
   <entry>
     <title>可随身携带的windows系统</title>
-    <link href="https://YaojiaxinPC.github.io/windows%E7%B3%BB%E7%BB%9F%E5%A6%99%E7%94%A8/15SSDforwto/"/>
-    <id>https://YaojiaxinPC.github.io/windows系统妙用/15SSDforwto/</id>
+    <link href="https://YaojiaxinPC.github.io/15SSDforwto/"/>
+    <id>https://YaojiaxinPC.github.io/15SSDforwto/</id>
     <published>2018-10-18T16:03:59.000Z</published>
     <updated>2018-10-19T08:02:50.896Z</updated>
     
@@ -189,8 +189,8 @@
   
   <entry>
     <title>编写bat自动备份博客到codingpage</title>
-    <link href="https://YaojiaxinPC.github.io/%E6%89%B9%E5%A4%84%E7%90%86/14batforcodingpage/"/>
-    <id>https://YaojiaxinPC.github.io/批处理/14batforcodingpage/</id>
+    <link href="https://YaojiaxinPC.github.io/14batforcodingpage/"/>
+    <id>https://YaojiaxinPC.github.io/14batforcodingpage/</id>
     <published>2018-10-18T16:02:59.000Z</published>
     <updated>2018-10-20T11:43:56.539Z</updated>
     
@@ -213,8 +213,8 @@
   
   <entry>
     <title>修改蜘蛛网悬浮于顶层</title>
-    <link href="https://YaojiaxinPC.github.io/%E5%89%8D%E7%AB%AF/13jsclickpass/"/>
-    <id>https://YaojiaxinPC.github.io/前端/13jsclickpass/</id>
+    <link href="https://YaojiaxinPC.github.io/13jsclickpass/"/>
+    <id>https://YaojiaxinPC.github.io/13jsclickpass/</id>
     <published>2018-10-18T16:01:59.000Z</published>
     <updated>2018-10-18T09:01:38.675Z</updated>
     
@@ -237,8 +237,8 @@
   
   <entry>
     <title>Markdown内嵌html文件</title>
-    <link href="https://YaojiaxinPC.github.io/%E5%89%8D%E7%AB%AF/12hottoaddhtml/"/>
-    <id>https://YaojiaxinPC.github.io/前端/12hottoaddhtml/</id>
+    <link href="https://YaojiaxinPC.github.io/12hottoaddhtml/"/>
+    <id>https://YaojiaxinPC.github.io/12hottoaddhtml/</id>
     <published>2018-10-18T15:59:58.000Z</published>
     <updated>2018-10-18T07:34:33.160Z</updated>
     
@@ -263,8 +263,8 @@
   
   <entry>
     <title>Markdown内嵌前端代码实例--时钟挂件</title>
-    <link href="https://YaojiaxinPC.github.io/%E5%89%8D%E7%AB%AF/11clock-js/"/>
-    <id>https://YaojiaxinPC.github.io/前端/11clock-js/</id>
+    <link href="https://YaojiaxinPC.github.io/11clock-js/"/>
+    <id>https://YaojiaxinPC.github.io/11clock-js/</id>
     <published>2018-10-18T15:58:58.000Z</published>
     <updated>2018-10-18T07:38:05.225Z</updated>
     
@@ -289,8 +289,8 @@
   
   <entry>
     <title>ffmpeg-简单AES加解密记录</title>
-    <link href="https://YaojiaxinPC.github.io/%E7%BC%96%E7%A8%8B%E4%BA%BA%E7%94%9F/10ffmpeg-aes-1/"/>
-    <id>https://YaojiaxinPC.github.io/编程人生/10ffmpeg-aes-1/</id>
+    <link href="https://YaojiaxinPC.github.io/10ffmpeg-aes-1/"/>
+    <id>https://YaojiaxinPC.github.io/10ffmpeg-aes-1/</id>
     <published>2018-10-18T15:57:58.000Z</published>
     <updated>2018-10-18T08:21:39.014Z</updated>
     
@@ -315,8 +315,8 @@
   
   <entry>
     <title>搭建个人博客心得---配置主题Next</title>
-    <link href="https://YaojiaxinPC.github.io/%E7%BC%96%E7%A8%8B%E4%BA%BA%E7%94%9F/9howtoeditthemes/"/>
-    <id>https://YaojiaxinPC.github.io/编程人生/9howtoeditthemes/</id>
+    <link href="https://YaojiaxinPC.github.io/9howtoeditthemes/"/>
+    <id>https://YaojiaxinPC.github.io/9howtoeditthemes/</id>
     <published>2018-10-18T15:55:58.000Z</published>
     <updated>2018-10-20T12:08:52.774Z</updated>
     
@@ -342,8 +342,8 @@
   
   <entry>
     <title>搭建个人博客心得---个人站点yaojx.net的优化之路</title>
-    <link href="https://YaojiaxinPC.github.io/%E7%BC%96%E7%A8%8B%E4%BA%BA%E7%94%9F/8SupGitPage/"/>
-    <id>https://YaojiaxinPC.github.io/编程人生/8SupGitPage/</id>
+    <link href="https://YaojiaxinPC.github.io/8SupGitPage/"/>
+    <id>https://YaojiaxinPC.github.io/8SupGitPage/</id>
     <published>2018-10-18T14:55:58.000Z</published>
     <updated>2018-10-19T13:53:38.492Z</updated>
     
@@ -366,8 +366,8 @@
   
   <entry>
     <title>搭建个人博客心得---github+Hexo</title>
-    <link href="https://YaojiaxinPC.github.io/%E7%BC%96%E7%A8%8B%E4%BA%BA%E7%94%9F/7CreatGitPage/"/>
-    <id>https://YaojiaxinPC.github.io/编程人生/7CreatGitPage/</id>
+    <link href="https://YaojiaxinPC.github.io/7CreatGitPage/"/>
+    <id>https://YaojiaxinPC.github.io/7CreatGitPage/</id>
     <published>2018-10-16T15:55:58.000Z</published>
     <updated>2018-10-20T07:16:12.511Z</updated>
     
@@ -388,8 +388,8 @@
   
   <entry>
     <title>搭建个人博客心得---godaddy+WordPress</title>
-    <link href="https://YaojiaxinPC.github.io/%E7%BC%96%E7%A8%8B%E4%BA%BA%E7%94%9F/6CreatWordPress/"/>
-    <id>https://YaojiaxinPC.github.io/编程人生/6CreatWordPress/</id>
+    <link href="https://YaojiaxinPC.github.io/6CreatWordPress/"/>
+    <id>https://YaojiaxinPC.github.io/6CreatWordPress/</id>
     <published>2018-10-16T14:55:58.000Z</published>
     <updated>2018-10-18T01:59:01.921Z</updated>
     
@@ -412,8 +412,8 @@
   
   <entry>
     <title>闭包Closure</title>
-    <link href="https://YaojiaxinPC.github.io/%E7%BC%96%E7%A8%8B%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/5Closure/"/>
-    <id>https://YaojiaxinPC.github.io/编程疑难杂症/5Closure/</id>
+    <link href="https://YaojiaxinPC.github.io/5Closure/"/>
+    <id>https://YaojiaxinPC.github.io/5Closure/</id>
     <published>2018-10-15T14:55:58.000Z</published>
     <updated>2018-10-18T01:58:18.521Z</updated>
     
@@ -436,8 +436,8 @@
   
   <entry>
     <title>C# Obsolete、Contional等等一些特性的介绍</title>
-    <link href="https://YaojiaxinPC.github.io/%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7/4fivefeatures/"/>
-    <id>https://YaojiaxinPC.github.io/编程技巧/4fivefeatures/</id>
+    <link href="https://YaojiaxinPC.github.io/4fivefeatures/"/>
+    <id>https://YaojiaxinPC.github.io/4fivefeatures/</id>
     <published>2018-10-15T14:55:58.000Z</published>
     <updated>2018-10-18T01:58:09.738Z</updated>
     
@@ -462,8 +462,8 @@
   
   <entry>
     <title>Json解析C#的四个库</title>
-    <link href="https://YaojiaxinPC.github.io/%E5%BC%80%E6%BA%90%E5%BA%93%E5%88%86%E4%BA%AB/3JsonDeal/"/>
-    <id>https://YaojiaxinPC.github.io/开源库分享/3JsonDeal/</id>
+    <link href="https://YaojiaxinPC.github.io/3JsonDeal/"/>
+    <id>https://YaojiaxinPC.github.io/3JsonDeal/</id>
     <published>2018-10-15T14:55:58.000Z</published>
     <updated>2018-10-18T01:58:00.922Z</updated>
     
@@ -486,8 +486,8 @@
   
   <entry>
     <title>入门级的8种算法记录</title>
-    <link href="https://YaojiaxinPC.github.io/%E7%AE%97%E6%B3%95/2SortMethon/"/>
-    <id>https://YaojiaxinPC.github.io/算法/2SortMethon/</id>
+    <link href="https://YaojiaxinPC.github.io/2SortMethon/"/>
+    <id>https://YaojiaxinPC.github.io/2SortMethon/</id>
     <published>2018-10-14T14:55:58.000Z</published>
     <updated>2018-10-18T02:47:46.207Z</updated>
     
