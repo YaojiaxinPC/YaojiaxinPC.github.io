@@ -1,0 +1,21 @@
+#hexo robots.txt
+User-agent: *
+
+Allow: /
+Allow: /archives/
+Allow: /categories/
+Allow: /tags/
+Allow: /about/
+
+Disallow: /404/
+Disallow: /contentimg/
+Disallow: /css/
+Disallow: /images/
+Disallow: /js/
+Disallow: /lib/
+
+
+
+Sitemap: http://yaojx.net/search.xml
+Sitemap: http://yaojx.net/sitemap.xml
+Sitemap: http://yaojx.net/baidusitemap.xml
