@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yaojx.net/28algorithm_2/</loc>
+    <lastmod>2018-10-24T17:43:27.034Z</lastmod>
+  </url>  <url>
+    <loc>http://yaojx.net/27getweatherapi/</loc>
+    <lastmod>2018-10-24T02:11:54.948Z</lastmod>
+  </url>  <url>
+    <loc>http://yaojx.net/21swfobjectdemo/</loc>
+    <lastmod>2018-10-23T16:48:55.385Z</lastmod>
+  </url>  <url>
     <loc>http://yaojx.net/26UnitySuper_1/</loc>
     <lastmod>2018-10-23T16:27:14.685Z</lastmod>
   </url>  <url>
@@ -21,9 +30,6 @@
   </url>  <url>
     <loc>http://yaojx.net/18office2019/</loc>
     <lastmod>2018-10-20T17:02:16.156Z</lastmod>
-  </url>  <url>
-    <loc>http://yaojx.net/21swfobjectdemo/</loc>
-    <lastmod>2018-10-20T17:01:50.083Z</lastmod>
   </url>  <url>
     <loc>http://yaojx.net/20sitemap2url/</loc>
     <lastmod>2018-10-20T13:35:30.441Z</lastmod>
