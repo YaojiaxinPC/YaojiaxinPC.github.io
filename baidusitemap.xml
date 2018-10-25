@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yaojx.net/22Roguelike/</loc>
+    <lastmod>2018-10-25T07:52:16.275Z</lastmod>
+  </url>  <url>
+    <loc>http://yaojx.net/29Unity_error_1/</loc>
+    <lastmod>2018-10-25T07:01:26.931Z</lastmod>
+  </url>  <url>
     <loc>http://yaojx.net/28algorithm_2/</loc>
     <lastmod>2018-10-24T17:43:27.034Z</lastmod>
   </url>  <url>
@@ -18,9 +24,6 @@
   </url>  <url>
     <loc>http://yaojx.net/24algorithm_1/</loc>
     <lastmod>2018-10-23T04:04:53.674Z</lastmod>
-  </url>  <url>
-    <loc>http://yaojx.net/22Roguelike/</loc>
-    <lastmod>2018-10-22T16:18:20.023Z</lastmod>
   </url>  <url>
     <loc>http://yaojx.net/23unitywebgl360error/</loc>
     <lastmod>2018-10-22T16:00:27.728Z</lastmod>
