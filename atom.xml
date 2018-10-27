@@ -255,9 +255,9 @@
     <link href="https://YaojiaxinPC.github.io/21swfobjectdemo/"/>
     <id>https://YaojiaxinPC.github.io/21swfobjectdemo/</id>
     <published>2018-10-19T16:07:59.000Z</published>
-    <updated>2018-10-23T16:48:55.385Z</updated>
+    <updated>2018-10-27T11:54:45.406Z</updated>
     
-    <content type="html"><![CDATA[<p>　　本文分享<a href="https://github.com/swfobject/swfobject" rel="external nofollow noopener noreferrer" target="_blank">swfobject</a>   插件的简单使用，展示abowman上面的3个小挂饰。</p><a id="more"></a><p>　　swfobject的git代码里面已经包了一个自动生成html的功能，所以实际是去找swf动画，加进去就可以看到效果了。</p><p>　　小鱼挂饰：<a id="download" href="/unitydemo/1/fish.swf" download="fish.swf"><i class="fa fa-download"></i><span> Download fish.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="400" height="400" src="/unitydemo/1/fish.html"></iframe></div></p><p>　　宠物鼠挂饰：<a id="download" href="/unitydemo/1/hamster.swf" download="hamster.swf"><i class="fa fa-download"></i><span> Download hamster.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="400" height="400" src="/unitydemo/1/hamster.html"></iframe></div></p><p>　　企鹅群挂饰：<a id="download" href="/unitydemo/1/penguins.swf" download="penguins.swf"><i class="fa fa-download"></i><span> Download penguins.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="400" height="400" src="/unitydemo/1/penguins.html"></iframe></div></p><p><img src="/contentimg/21/1.png" alt="Result pic 1" title="html代码自动生成"></p>]]></content>
+    <content type="html"><![CDATA[<p>　　本文分享<a href="https://github.com/swfobject/swfobject" rel="external nofollow noopener noreferrer" target="_blank">swfobject</a>   插件的简单使用，展示abowman上面的3个小挂饰。</p><a id="more"></a><p>　　swfobject的git代码里面已经包了一个自动生成html的功能，所以实际是去找swf动画，加进去就可以看到效果了。</p><p>　　小鱼挂饰：<a id="download" href="/unitydemo/1/fish.swf" download="fish.swf"><i class="fa fa-download"></i><span> Download fish.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="100%" height="400" src="/unitydemo/1/fish.html"></iframe></div></p><p>　　宠物鼠挂饰：<a id="download" href="/unitydemo/1/hamster.swf" download="hamster.swf"><i class="fa fa-download"></i><span> Download hamster.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="100%" height="400" src="/unitydemo/1/hamster.html"></iframe></div></p><p>　　企鹅群挂饰：<a id="download" href="/unitydemo/1/penguins.swf" download="penguins.swf"><i class="fa fa-download"></i><span> Download penguins.swf </span><br></a></p><p><div style="width:100%; height:450px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="100%" height="400" src="/unitydemo/1/penguins.html"></iframe></div></p><p><img src="/contentimg/21/1.png" alt="Result pic 1" title="html代码自动生成"></p>]]></content>
     
     <summary type="html">
     
@@ -500,9 +500,9 @@
     <link href="https://YaojiaxinPC.github.io/11clock-js/"/>
     <id>https://YaojiaxinPC.github.io/11clock-js/</id>
     <published>2018-10-18T15:58:58.000Z</published>
-    <updated>2018-10-18T07:38:05.225Z</updated>
+    <updated>2018-10-27T11:54:16.232Z</updated>
     
-    <content type="html"><![CDATA[<p>　　本文分享一个时钟挂件实例。该部分代码是网上搜索复制来的，非本人版权，请勿用于商业用途。</p><a id="more"></a>  <p><div style="width:100%; height:350px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="300" height="300" src="/contentimg/11/click.html"></iframe></div></p><p>　　这里利用iframe引用外部html，同时设置</p><blockquote><p>allowtransparency=”yes” frameborder=”0”</p></blockquote><p>　　让iframe的背景透明，边框消失。</p><blockquote><p>div style=”width:100%; height:350px;border:none;text-align:center”</p></blockquote><p>　　但是此时的iframe是靠左上的。我想居中，就需要利用div来实现。</p>]]></content>
+    <content type="html"><![CDATA[<p>　　本文分享一个时钟挂件实例。该部分代码是网上搜索复制来的，非本人版权，请勿用于商业用途。</p><a id="more"></a>  <p><div style="width:100%; height:350px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="100%" height="300" src="/contentimg/11/click.html"></iframe></div></p><p>　　这里利用iframe引用外部html，同时设置</p><blockquote><p>allowtransparency=”yes” frameborder=”0”</p></blockquote><p>　　让iframe的背景透明，边框消失。</p><blockquote><p>div style=”width:100%; height:350px;border:none;text-align:center”</p></blockquote><p>　　但是此时的iframe是靠左上的。我想居中，就需要利用div来实现。</p>]]></content>
     
     <summary type="html">
     
