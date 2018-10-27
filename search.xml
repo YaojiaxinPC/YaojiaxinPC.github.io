@@ -107,6 +107,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[百度sitemap和谷歌sitemap同时使用不同的url]]></title>
+    <url>%2F20sitemap2url%2F</url>
+    <content type="text"><![CDATA[本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。 目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。 真有必要这么麻烦吗？ 于是我开始找“node_modules”文件夹里面的源码。 谷歌的sitemap生成源码里： 是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。 有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！ 那就好办了，在百度sitemap那里多写一个url就搞定了： 搞定，一次hexo g。两个sitemap的域名是不同的了。]]></content>
+      <categories>
+        <category>源码分析</category>
+      </categories>
+      <tags>
+        <tag>hexo源码</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[abowman's demo]]></title>
     <url>%2F21swfobjectdemo%2F</url>
     <content type="text"><![CDATA[本文分享swfobject 插件的简单使用，展示abowman上面的3个小挂饰。 swfobject的git代码里面已经包了一个自动生成html的功能，所以实际是去找swf动画，加进去就可以看到效果了。 小鱼挂饰： Download fish.swf 宠物鼠挂饰： Download hamster.swf 企鹅群挂饰： Download penguins.swf]]></content>
@@ -121,20 +132,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[百度sitemap和谷歌sitemap同时使用不同的url]]></title>
-    <url>%2F20sitemap2url%2F</url>
-    <content type="text"><![CDATA[本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。 目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。 真有必要这么麻烦吗？ 于是我开始找“node_modules”文件夹里面的源码。 谷歌的sitemap生成源码里： 是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。 有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！ 那就好办了，在百度sitemap那里多写一个url就搞定了： 搞定，一次hexo g。两个sitemap的域名是不同的了。]]></content>
-      <categories>
-        <category>源码分析</category>
-      </categories>
-      <tags>
-        <tag>hexo源码</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[markdown扩展]]></title>
     <url>%2F19markdownextend%2F</url>
-    <content type="text"><![CDATA[本文分享markdown的妙用：插入本地文件。 前一篇博客，我插入了一个pdf文件。 实际上是这样写的： 还能这样写（使用html，并加入图标）： 12&lt;a id=&quot;download&quot; href=&quot;/contentimg/18/Office-2019.pdf&quot;&gt;&lt;i class=&quot;fa fa-download&quot;&gt;&lt;/i&gt;&lt;span&gt; Download PDF &lt;/span&gt;&lt;/a&gt; 这里也放一下pdf转html的一个网站吧，速度蛮快的： 迅捷PDF在线转换器 转化完下载下来是一个压缩包，解压放到工程中，然后到主配置文件修改： 提醒hexo忽略编译该文件夹。然后清理整个工程：hexo clean。再生成和发布，就可以使用了。]]></content>
+    <content type="text"><![CDATA[本文分享markdown的妙用：插入本地文件。 前一篇博客，我插入了一个pdf文件。 实际上是这样写的： 还能这样写（使用html，并加入图标）： 12&lt;a id=&quot;download&quot; href=&quot;/contentimg/18/Office-2019.pdf&quot;&gt;&lt;i class=&quot;fa fa-download&quot;&gt;&lt;/i&gt;&lt;span&gt; Download PDF &lt;/span&gt;&lt;/a&gt; 这里也放一下pdf转html的一个网站吧，速度蛮快的： 迅捷PDF在线转换器 转化完下载下来是一个压缩包，解压放到工程中，然后到主配置文件修改： 提醒hexo忽略编译该文件夹。然后清理整个工程：hexo clean。再生成和发布，就可以使用了。 优化版 目前这个在移动端无法适配大小。而且如果每个pdf都拿去转html，效率一般般。如果只需要完成电脑端的查看，可以直接 1&lt;p&gt;&lt;div style="width:100%; height:950px;border:none;text-align:center"&gt;&lt;iframe allowtransparency="yes" frameborder="0" width="100%" height="800" src="filepath.pdf"/&gt;&lt;/div&gt;&lt;/p&gt; 这种做法，实际hexo有个插件已经集成自动转化这种代码。但是不推荐这种做法！理由是iframe+pdf原文件，在手机端打开，不是提示下载，就是提示不支持。 但是日常生活中，我们看到那些做得好的网站，是能在线浏览pdf的？都是后台转html？不是，这里有个开源插件：pdf.js下载 源码120+m，有兴趣的前端工程师可以去github下载来看。这个链接是已经build的。拿到手后，修改一些参数后就可以使用了。 要改的地方只有一个：找到示例中的pdf文件，删掉，同时在viewer.js脚本中找到这个文件的指向，删掉。 然后到配置文件设置不编译这个目录，重新生成，就可以启用了。使用方法是在src中，先定位到该viewer.html，然后传你要显示的pdf给它。这样在电脑端或者移动端，都是可以实时预览，而且下次引用也方便。只需要指定新的pdf目录即可。]]></content>
       <categories>
         <category>markdown扩展</category>
       </categories>
