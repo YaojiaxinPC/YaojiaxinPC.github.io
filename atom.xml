@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://YaojiaxinPC.github.io/"/>
-  <updated>2018-10-27T05:29:14.427Z</updated>
+  <updated>2018-10-28T15:38:00.481Z</updated>
   <id>https://YaojiaxinPC.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WallBall小游戏介绍</title>
+    <link href="https://YaojiaxinPC.github.io/31WallBallDemo/"/>
+    <id>https://YaojiaxinPC.github.io/31WallBallDemo/</id>
+    <published>2018-10-28T13:07:59.000Z</published>
+    <updated>2018-10-28T15:38:00.481Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　本文介绍Unity商店的一款小游戏<a href="https://assetstore.unity.com/packages/templates/packs/wall-ball-49573" rel="external nofollow noopener noreferrer" target="_blank">Wall Ball</a>  。   </p><a id="more"></a><p><img src="/contentimg/31/1.jpg" alt="Result pic 1" title="Wall Ball"></p><h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>　　该小游戏是3D类型，主角是一个小球，通过在独木桥地板上滚动逃亡生存，地板会下沉掉落，所以小球得一直向前滚动。</p><p>　　玩家通过点击屏幕，指导小球左右2个方向的变换，帮助它安全踏上地板逃亡，同时一路收集小星星攒积分。伴随着逃亡之路的还有场景光线的变换，会有日夜更替，所以玩家要小心晚上会看不清道路而失足掉落。</p><h2 id="游戏体验"><a href="#游戏体验" class="headerlink" title="游戏体验"></a>游戏体验</h2>  <p><div style="width:100%; height:600px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="100%" height="600" src="/unitydemo/4/index.html"></iframe></div></p><h2 id="游戏制作"><a href="#游戏制作" class="headerlink" title="游戏制作"></a>游戏制作</h2><p>　　只有一些UI的图标，还有小球的数字8贴图。其他东西都可以在unity内部创建。</p><h3 id="1-游戏规则细化"><a href="#1-游戏规则细化" class="headerlink" title="1.游戏规则细化"></a>1.游戏规则细化</h3><p>　　写代码前，需要先了解这个游戏怎么玩：</p><p>　　这是一个逃亡游戏，主角所待的地板会不断往下掉，所以只能不停的往前跑。为了增强游戏感，特地设置了独木桥类型的前路，主角只要跑错方向就会掉下无尽深渊。为了加大难度，增加了昼夜替换，晚上的时候光线变暗。同时为了防止逃亡久了后的精神麻痹现象，增加了建筑材料的颜色变幻的设定。</p><p>　　玩家可以通过点击屏幕，操作小球前面的方向是向左还是向右。同时路上会有小星星，收集能增加积分。积分用来记录玩家挑战最佳值。</p><p>所以规划如下：</p><ol><li>地板在小球滚过后会下落消失；同时在尽头会随机在左边或者右边生成新地板，并且一次只能生成紧凑的一块。 </li><li>设定时间间隔，控制环境灯光的变化，分白天的正常亮度+晚上的黑暗情况。</li><li>增加地板颜色的变化设定。</li><li>地板上有小星星，碰到就加积分。游戏结束要保存积分，最后统计玩家积分，汇总出挑战最高分。</li><li>小球受向下的力，踩不到地板就掉下去，游戏结束。</li><li>玩家点击屏幕，控制变换小球向左或者向右。</li></ol><h3 id="2-代码"><a href="#2-代码" class="headerlink" title="2.代码"></a>2.代码</h3><p>　　这个游戏代码架构不是很好，由于游戏简单，所以使用的是最简单的直接写代码的方式，直接高效。一个脚本对应一个功能，同时有一个管理全局的总脚本。在生成地板的地方有bug，不是按照数量来生成，而是固定间隔生成，会导致出现数量只增不减的情况—》当小球不滚动时，这时不会有地板消失，但是地板生成是照旧的。所以本文不对代码进行详解。</p><h4 id="PlayerPrefs"><a href="#PlayerPrefs" class="headerlink" title="PlayerPrefs"></a>PlayerPrefs</h4><p>　　在电脑上，是直接保存到注册表，在浏览器上，保存成cookies。原本以为发布成webgl得修改，写js来完成这个操作，没想到能正常执行。</p><p><img src="/contentimg/31/2.png" alt="Result pic 1" title="playerprefs"></p><h4 id="Rigidbody-velocity"><a href="#Rigidbody-velocity" class="headerlink" title="Rigidbody.velocity"></a>Rigidbody.velocity</h4><p><img src="/contentimg/31/3.png" alt="Result pic 1" title="Rigidbody.velocity"></p><p>　　这里控制小球滚动，不是通过position++。而是给小球施加一个力。注意，x/y/z ==》右/上/前，这里x=》右，z=》前。向下就是对应y，所以这里给小球y轴一个向下的重力Physics.gravity.y。</p><p>　　游戏中的向左向右，就单独在x或者z轴上施加。通过一个bool值来判断应该加那个方向上的力就行。</p><p>　　另外要注意，施加力，必须在FixedUpdate上进行。不能在Update等其他地方。不然会出现抖动跳跃的现象。</p><h3 id="3-开始制作游戏"><a href="#3-开始制作游戏" class="headerlink" title="3.开始制作游戏"></a>3.开始制作游戏</h3><p>　　工程中，素材比较不规则，作者是通过Unity的Packing系统打包图集。鉴于这个游戏可以记录的东西少，这里就分享一下怎么使用工具打包图集吧。</p><h4 id="TexturePackerGUI"><a href="#TexturePackerGUI" class="headerlink" title="TexturePackerGUI"></a>TexturePackerGUI</h4><p>　　惯例，排序一下图片，排除掉特殊的图片。</p><p><img src="/contentimg/31/4.png" alt="Result pic 1" title="图片排序"></p><p><img src="/contentimg/31/5.png" alt="Result pic 1" title="特殊图片"></p><p>　　很明显，“8.jpg”必须搞出来。</p><p><img src="/contentimg/31/6.png" alt="Result pic 1" title="排除特殊图片"></p><p>　　但是这里还有一张不太适合，放进去后导致右边大量的留白。可以通过直接在图集中选中，来知道是哪一张。</p><p><img src="/contentimg/31/7.png" alt="Result pic 1" title="找到不合适的图"></p><p>　　去掉不合适的后，剩下的就可以打包成一个图了。不过，实际使用中的打包，是将一起用的图打包成一个图集，体积权重较低。</p><p><img src="/contentimg/31/8.png" alt="Result pic 1" title="操作流程"></p><p><img src="/contentimg/31/9.png" alt="Result pic 1" title="data format"></p><p><img src="/contentimg/31/10.png" alt="Result pic 1" title="发布"></p><p>　　发布出来是两个，一个png（带透明通道）+一个“.tpsheet”后缀的文件，用记事本格式打开，是记录每张照片的位置信息。</p><p><img src="/contentimg/31/11.png" alt="Result pic 1" title="tpsheet内容"></p><p>　　将这两个文件直接导入unity。然后回到unity，添加插件<a href="https://assetstore.unity.com/packages/tools/sprite-management/texturepacker-importer-16641" rel="external nofollow noopener noreferrer" target="_blank">TexturePackerImporter</a> 。这时候你会发现，前面导入的图集，unity自动切好了。</p><p><img src="/contentimg/31/12.png" alt="Result pic 1" title="使用情况"></p><p>　　上面是直接拖到面板使用的。但是如果想代码里面使用呢。平时是Resources.Load(path)；但是会发现这时候不知道path是哪个才对。</p><p>　　但是这时候是用Resources.LoadAll(path)！</p><p><img src="/contentimg/31/13.png" alt="Result pic 1" title="代码读取图片"></p><p>　　load这个图集，返回的不是集合，也无法使用。必须loadall后才能获取到，然后再来找到对应名字的。</p><h4 id="制作预制体"><a href="#制作预制体" class="headerlink" title="制作预制体"></a>制作预制体</h4><p>略</p><h4 id="整合Scene"><a href="#整合Scene" class="headerlink" title="整合Scene"></a>整合Scene</h4><p>略</p><h3 id="压缩优化发布"><a href="#压缩优化发布" class="headerlink" title="压缩优化发布"></a>压缩优化发布</h3><p>略</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　本文介绍Unity商店的一款小游戏&lt;a href=&quot;https://assetstore.unity.com/packages/templates/packs/wall-ball-49573&quot; rel=&quot;external nofollow noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Wall Ball&lt;/a&gt;  。   &lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Unity3D" scheme="https://YaojiaxinPC.github.io/categories/Unity3D/"/>
+    
+    
+      <category term="游戏开发" scheme="https://YaojiaxinPC.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="2D" scheme="https://YaojiaxinPC.github.io/tags/2D/"/>
+    
+      <category term="入门级" scheme="https://YaojiaxinPC.github.io/tags/%E5%85%A5%E9%97%A8%E7%BA%A7/"/>
+    
+      <category term="小游戏" scheme="https://YaojiaxinPC.github.io/tags/%E5%B0%8F%E6%B8%B8%E6%88%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>Live2D插件介绍</title>
@@ -229,9 +257,9 @@
     <link href="https://YaojiaxinPC.github.io/22Roguelike/"/>
     <id>https://YaojiaxinPC.github.io/22Roguelike/</id>
     <published>2018-10-20T16:07:59.000Z</published>
-    <updated>2018-10-25T10:24:38.298Z</updated>
+    <updated>2018-10-28T15:16:26.684Z</updated>
     
-    <content type="html"><![CDATA[<p>　　介绍一下接触到的好的Unity官方作品：<a href="https://assetstore.unity.com/packages/essentials/tutorial-projects/2d-roguelike-29825" rel="external nofollow noopener noreferrer" target="_blank">2D Roguelike</a>   。</p><a id="more"></a><p><img src="/contentimg/22/1.jpg" alt="Result pic 1" title="2D Roguelike"></p><h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>　　该小游戏是2D类型，操作只有上下左右4个方向的移动，每动一下消耗1点能量，能量通过吃到食物补充；场景中有墙阻挡，需要撞4下墙才能销毁该障碍，同时还有怪物追击，被攻击到会大量消耗能量；但是怪物移动速度缓慢。</p><p>　　由于场景中的食物是固定的，吃了就没了，所以就设置了一个刷新点：“exit出口”，每到达一次，就能刷新一下全图场景，同时作为天数记录+1天；相应的，存活天数越多，怪物也会越多！</p><p>　　目前游戏以天数为关卡记录。</p><h2 id="游戏体验"><a href="#游戏体验" class="headerlink" title="游戏体验"></a>游戏体验</h2>  <p><div style="width:100%; height:500px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="500" height="500" src="/unitydemo/2/index.html"></iframe></div></p><h2 id="游戏制作"><a href="#游戏制作" class="headerlink" title="游戏制作"></a>游戏制作</h2><p>　　原材料真的很少，才一张图集。里面打包集合了全部墙和地板、人物的贴图。然后就是一些背景音乐了。</p><h3 id="1-游戏规则细化"><a href="#1-游戏规则细化" class="headerlink" title="1.游戏规则细化"></a>1.游戏规则细化</h3><p>　　写代码前，需要先了解要做什么功能。</p><p>　　这是一个逃亡游戏，为了限制逃亡，需要加上“移动能量消耗”这个限制；竟然是逃亡，那就有怪物，先用最简单的，降低怪物移动速度（玩家移动两次，怪物才移动一次），怪物接触玩家，玩家损失能量；接下来，场景中需要有障碍物，但是这些障碍物是可以通过消耗能量来击穿，防止堵死。</p><p>　　剩下就是全游戏最重要的能量了，设置两种食物，拾取到就增加能量。能量归零，游戏结束。</p><p>　　为了简化游戏，把全部对象设置了统一单位移动。全部材料统一单位。全场景10x10单位，减掉外围的一层墙，内部是8x8单位的地板，随机布置障碍物、食物和怪物。</p><p>　　增加存活天数为关卡难度设置，天数越多，难度越大；难度以怪物数量来体现。</p><h3 id="2-代码"><a href="#2-代码" class="headerlink" title="2.代码"></a>2.代码</h3><p>　　这个代码架构很不错。使用抽象层，由于怪物和玩家都是一样的移动，一样的碰撞，该部分能通过泛型T抽象出来处理。而碰撞，玩家的碰撞和怪物的碰撞又是一样的逻辑，又可以抽象处理。</p><p><img src="/contentimg/22/1.png" alt="Result pic 1" title="两个抽象层函数"></p><p>　　细节的代码逻辑这里就不提了。这里简单讲讲里面一些知识点吧。</p><h4 id="RuntimeInitializeOnLoadMethod"><a href="#RuntimeInitializeOnLoadMethod" class="headerlink" title="RuntimeInitializeOnLoadMethod"></a>RuntimeInitializeOnLoadMethod</h4><p>　　该特性，实际是让函数在物体在OnLoad的时候自己执行该函数。这里有篇文章<a href="https://www.cnblogs.com/meteoric_cry/p/7602122.html" rel="external nofollow noopener noreferrer" target="_blank">Unity的RuntimeInitializeOnLoadMethod属性初探</a>  简单讲。</p><h4 id="Input-GetAxisRaw"><a href="#Input-GetAxisRaw" class="headerlink" title="Input.GetAxisRaw"></a>Input.GetAxisRaw</h4><p>　　Raw不经过处理的，会直接返回-1，0，1。</p><p>　　Input.GetAxis则是-1~+1的范围缓慢变化。两者有区别。由于我们限制了单位移动，所以用raw的才适合。</p><h4 id="float-Epsilon"><a href="#float-Epsilon" class="headerlink" title="float.Epsilon"></a>float.Epsilon</h4><p><img src="/contentimg/22/2.png" alt="Result pic 1" title="移动动画"></p><p>　　这里使用StartCoroutine来处理，防止while卡死线程。注意StartCoroutine和多线程不是同样的概念。但是可以简单理解成另外开一个线程去处理这个一帧一帧移动的动画。判断是否移动到目的的时候，不是用==，而是用float.Epsilon，避免了一些数据溢出的bug。注意,实际上会出现 double 1.0!= 1.0，所以只能会一个很小的范围来判断是否 double 1.0 ≈ 1.0。</p><h4 id="Physics2D-Linecast"><a href="#Physics2D-Linecast" class="headerlink" title="Physics2D.Linecast"></a>Physics2D.Linecast</h4><p><img src="/contentimg/22/3.png" alt="Result pic 1" title="射线检测碰撞"></p><p>　　游戏中使用的是碰撞器，所以移动前可以事先检查目的单位是否存在碰撞器。但是需要注意，物体自身的碰撞器会先被射线检测到，所以需要提前屏蔽自身的碰撞器，检测后才启用。</p><h4 id="输入检测"><a href="#输入检测" class="headerlink" title="输入检测"></a>输入检测</h4><p><img src="/contentimg/22/4.png" alt="Result pic 1" title="输入检测判断"></p><p>　　这里我修改了原来的代码。原来是通过平台处理，移动端使用滑动手势。我觉得不好用，还是统一成单点判断处理。通过判断点击的部位在人物的相对位置来处理。</p><h4 id="鼠标点击转化为相对坐标"><a href="#鼠标点击转化为相对坐标" class="headerlink" title="鼠标点击转化为相对坐标"></a>鼠标点击转化为相对坐标</h4><blockquote><p> touchEnd = Camera.main.ScreenToWorldPoint(Input.mousePosition);</p></blockquote><p>　　这里，其实整个游戏的坐标，是通过相机上的单位来换算统一成单位坐标的。所以可以直接使用相机的相对坐标来处理。</p><h4 id="代码小缺陷处理"><a href="#代码小缺陷处理" class="headerlink" title="代码小缺陷处理"></a>代码小缺陷处理</h4><p>　　我发现，当你剩下最后1能量，刚好移动到Exit就为0时，是能加载到下一关，然后就全部不动了。因为这里缺少了判断。</p><p>　　由于我使用了游戏结束后重新开始，我改的是下面这里。</p><p><img src="/contentimg/22/5.png" alt="Result pic 1" title="场景重载时检查playerFoodPoints"></p><h3 id="3-开始制作游戏"><a href="#3-开始制作游戏" class="headerlink" title="3.开始制作游戏"></a>3.开始制作游戏</h3><p>　　这里比较简单，把图集拆开，制作预制体。两个步骤而已。</p><h4 id="拆图集"><a href="#拆图集" class="headerlink" title="拆图集"></a>拆图集</h4><p>　　拆图集，这里需要了解一个概念：Pixels Per Unit</p><p><img src="/contentimg/22/6.png" alt="Result pic 1" title="Pixels Per Unit"></p><p>　　这里我为什么设置成32？</p><p>　　首先，我们看原文件大小：</p><p><img src="/contentimg/22/7.png" alt="Result pic 1" title="256 x 224"></p><p>　　是指位深度？不是这样算。我们数一下图集里面的单元，共7 x 8 。</p><p>　　对应：256==》8 &amp; 224 ==》 7</p><p>　　刚好整除，得到32像素就是一个图片的单位，也刚好图片都是正方形大小。所以这里的Pixels Per Unit，就是指多少像素一个Unit。</p><p>　　这里也有个文章介绍这个 <a href="http://gad.qq.com/article/detail/21059" rel="external nofollow noopener noreferrer" target="_blank">Unity UGUI 原理篇(二)：Canvas Scaler 縮放核心</a> </p><p>　　其他优化部分就不记录。因为有另外分开文章记录发布优化。</p><h4 id="制作预制体"><a href="#制作预制体" class="headerlink" title="制作预制体"></a>制作预制体</h4><p>　　该部分简单，就是拖拖图片而已。注意里面碰撞器是和图片岔开的，偏移一半。</p><p><img src="/contentimg/22/8.png" alt="Result pic 1" title="碰撞器岔开原单位"></p><p>　　为什么要岔开，因为初始状态下，射线检测的出发点，是在左上角。这样一开始就碰到左边的物体了。所以需要岔开。增加一半单位的距离。</p><h4 id="整合Scene"><a href="#整合Scene" class="headerlink" title="整合Scene"></a>整合Scene</h4><p><img src="/contentimg/22/9.png" alt="Result pic 1" title="摄像头的Size"></p><p>　　这里有疑问的，就是这个Size的值，应该设多少？</p><p>　　这个Size的意义，是显示界面高度的一半，共多少个单位。这里5，得到显示界面的高度是10个单位，正好对应游戏中10x10的比例。</p><p>　　为什么不是宽度？这个就得去问官方了。本问不纠结这个问题。</p><p>　　为什么开头演示那里是正方形的大小，但是默认工程是长方形的？</p><p>　　这个是发布时的设置。</p><p><img src="/contentimg/22/10.png" alt="Result pic 1" title="发布显示大小"></p><p>　　当然，该游戏实际上不用碰撞器也行，因为单位长度都是1，实际可以用数组集合来记录处理。有点像扫雷游戏那样。具体后面分享到扫雷游戏再提这种写法。</p>]]></content>
+    <content type="html"><![CDATA[<p>　　介绍一下接触到的好的Unity官方作品：<a href="https://assetstore.unity.com/packages/essentials/tutorial-projects/2d-roguelike-29825" rel="external nofollow noopener noreferrer" target="_blank">2D Roguelike</a>   。</p><a id="more"></a><p><img src="/contentimg/22/1.jpg" alt="Result pic 1" title="2D Roguelike"></p><h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>　　该小游戏是2D类型，操作只有上下左右4个方向的移动，每动一下消耗1点能量，能量通过吃到食物补充；场景中有墙阻挡，需要撞4下墙才能销毁该障碍，同时还有怪物追击，被攻击到会大量消耗能量；但是怪物移动速度缓慢。</p><p>　　由于场景中的食物是固定的，吃了就没了，所以就设置了一个刷新点：“exit出口”，每到达一次，就能刷新一下全图场景，同时作为天数记录+1天；相应的，存活天数越多，怪物也会越多！</p><p>　　目前游戏以天数为关卡记录。</p><h2 id="游戏体验"><a href="#游戏体验" class="headerlink" title="游戏体验"></a>游戏体验</h2>  <p><div style="width:100%; height:500px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="100%" height="500" src="/unitydemo/2/index.html"></iframe></div></p><h2 id="游戏制作"><a href="#游戏制作" class="headerlink" title="游戏制作"></a>游戏制作</h2><p>　　原材料真的很少，才一张图集。里面打包集合了全部墙和地板、人物的贴图。然后就是一些背景音乐了。</p><h3 id="1-游戏规则细化"><a href="#1-游戏规则细化" class="headerlink" title="1.游戏规则细化"></a>1.游戏规则细化</h3><p>　　写代码前，需要先了解要做什么功能。</p><p>　　这是一个逃亡游戏，为了限制逃亡，需要加上“移动能量消耗”这个限制；竟然是逃亡，那就有怪物，先用最简单的，降低怪物移动速度（玩家移动两次，怪物才移动一次），怪物接触玩家，玩家损失能量；接下来，场景中需要有障碍物，但是这些障碍物是可以通过消耗能量来击穿，防止堵死。</p><p>　　剩下就是全游戏最重要的能量了，设置两种食物，拾取到就增加能量。能量归零，游戏结束。</p><p>　　为了简化游戏，把全部对象设置了统一单位移动。全部材料统一单位。全场景10x10单位，减掉外围的一层墙，内部是8x8单位的地板，随机布置障碍物、食物和怪物。</p><p>　　增加存活天数为关卡难度设置，天数越多，难度越大；难度以怪物数量来体现。</p><h3 id="2-代码"><a href="#2-代码" class="headerlink" title="2.代码"></a>2.代码</h3><p>　　这个代码架构很不错。使用抽象层，由于怪物和玩家都是一样的移动，一样的碰撞，该部分能通过泛型T抽象出来处理。而碰撞，玩家的碰撞和怪物的碰撞又是一样的逻辑，又可以抽象处理。</p><p><img src="/contentimg/22/1.png" alt="Result pic 1" title="两个抽象层函数"></p><p>　　细节的代码逻辑这里就不提了。这里简单讲讲里面一些知识点吧。</p><h4 id="RuntimeInitializeOnLoadMethod"><a href="#RuntimeInitializeOnLoadMethod" class="headerlink" title="RuntimeInitializeOnLoadMethod"></a>RuntimeInitializeOnLoadMethod</h4><p>　　该特性，实际是让函数在物体在OnLoad的时候自己执行该函数。这里有篇文章<a href="https://www.cnblogs.com/meteoric_cry/p/7602122.html" rel="external nofollow noopener noreferrer" target="_blank">Unity的RuntimeInitializeOnLoadMethod属性初探</a>  简单讲。</p><h4 id="Input-GetAxisRaw"><a href="#Input-GetAxisRaw" class="headerlink" title="Input.GetAxisRaw"></a>Input.GetAxisRaw</h4><p>　　Raw不经过处理的，会直接返回-1，0，1。</p><p>　　Input.GetAxis则是-1~+1的范围缓慢变化。两者有区别。由于我们限制了单位移动，所以用raw的才适合。</p><h4 id="float-Epsilon"><a href="#float-Epsilon" class="headerlink" title="float.Epsilon"></a>float.Epsilon</h4><p><img src="/contentimg/22/2.png" alt="Result pic 1" title="移动动画"></p><p>　　这里使用StartCoroutine来处理，防止while卡死线程。注意StartCoroutine和多线程不是同样的概念。但是可以简单理解成另外开一个线程去处理这个一帧一帧移动的动画。判断是否移动到目的的时候，不是用==，而是用float.Epsilon，避免了一些数据溢出的bug。注意,实际上会出现 double 1.0!= 1.0，所以只能会一个很小的范围来判断是否 double 1.0 ≈ 1.0。</p><h4 id="Physics2D-Linecast"><a href="#Physics2D-Linecast" class="headerlink" title="Physics2D.Linecast"></a>Physics2D.Linecast</h4><p><img src="/contentimg/22/3.png" alt="Result pic 1" title="射线检测碰撞"></p><p>　　游戏中使用的是碰撞器，所以移动前可以事先检查目的单位是否存在碰撞器。但是需要注意，物体自身的碰撞器会先被射线检测到，所以需要提前屏蔽自身的碰撞器，检测后才启用。</p><h4 id="输入检测"><a href="#输入检测" class="headerlink" title="输入检测"></a>输入检测</h4><p><img src="/contentimg/22/4.png" alt="Result pic 1" title="输入检测判断"></p><p>　　这里我修改了原来的代码。原来是通过平台处理，移动端使用滑动手势。我觉得不好用，还是统一成单点判断处理。通过判断点击的部位在人物的相对位置来处理。</p><h4 id="鼠标点击转化为相对坐标"><a href="#鼠标点击转化为相对坐标" class="headerlink" title="鼠标点击转化为相对坐标"></a>鼠标点击转化为相对坐标</h4><blockquote><p> touchEnd = Camera.main.ScreenToWorldPoint(Input.mousePosition);</p></blockquote><p>　　这里，其实整个游戏的坐标，是通过相机上的单位来换算统一成单位坐标的。所以可以直接使用相机的相对坐标来处理。</p><h4 id="代码小缺陷处理"><a href="#代码小缺陷处理" class="headerlink" title="代码小缺陷处理"></a>代码小缺陷处理</h4><p>　　我发现，当你剩下最后1能量，刚好移动到Exit就为0时，是能加载到下一关，然后就全部不动了。因为这里缺少了判断。</p><p>　　由于我使用了游戏结束后重新开始，我改的是下面这里。</p><p><img src="/contentimg/22/5.png" alt="Result pic 1" title="场景重载时检查playerFoodPoints"></p><h3 id="3-开始制作游戏"><a href="#3-开始制作游戏" class="headerlink" title="3.开始制作游戏"></a>3.开始制作游戏</h3><p>　　这里比较简单，把图集拆开，制作预制体。两个步骤而已。</p><h4 id="拆图集"><a href="#拆图集" class="headerlink" title="拆图集"></a>拆图集</h4><p>　　拆图集，这里需要了解一个概念：Pixels Per Unit</p><p><img src="/contentimg/22/6.png" alt="Result pic 1" title="Pixels Per Unit"></p><p>　　这里我为什么设置成32？</p><p>　　首先，我们看原文件大小：</p><p><img src="/contentimg/22/7.png" alt="Result pic 1" title="256 x 224"></p><p>　　是指位深度？不是这样算。我们数一下图集里面的单元，共7 x 8 。</p><p>　　对应：256==》8 &amp; 224 ==》 7</p><p>　　刚好整除，得到32像素就是一个图片的单位，也刚好图片都是正方形大小。所以这里的Pixels Per Unit，就是指多少像素一个Unit。</p><p>　　这里也有个文章介绍这个 <a href="http://gad.qq.com/article/detail/21059" rel="external nofollow noopener noreferrer" target="_blank">Unity UGUI 原理篇(二)：Canvas Scaler 縮放核心</a> </p><p>　　其他优化部分就不记录。因为有另外分开文章记录发布优化。</p><h4 id="制作预制体"><a href="#制作预制体" class="headerlink" title="制作预制体"></a>制作预制体</h4><p>　　该部分简单，就是拖拖图片而已。注意里面碰撞器是和图片岔开的，偏移一半。</p><p><img src="/contentimg/22/8.png" alt="Result pic 1" title="碰撞器岔开原单位"></p><p>　　为什么要岔开，因为初始状态下，射线检测的出发点，是在左上角。这样一开始就碰到左边的物体了。所以需要岔开。增加一半单位的距离。</p><h4 id="整合Scene"><a href="#整合Scene" class="headerlink" title="整合Scene"></a>整合Scene</h4><p><img src="/contentimg/22/9.png" alt="Result pic 1" title="摄像头的Size"></p><p>　　这里有疑问的，就是这个Size的值，应该设多少？</p><p>　　这个Size的意义，是显示界面高度的一半，共多少个单位。这里5，得到显示界面的高度是10个单位，正好对应游戏中10x10的比例。</p><p>　　为什么不是宽度？这个就得去问官方了。本问不纠结这个问题。</p><p>　　为什么开头演示那里是正方形的大小，但是默认工程是长方形的？</p><p>　　这个是发布时的设置。</p><p><img src="/contentimg/22/10.png" alt="Result pic 1" title="发布显示大小"></p><p>　　当然，该游戏实际上不用碰撞器也行，因为单位长度都是1，实际可以用数组集合来记录处理。有点像扫雷游戏那样。具体后面分享到扫雷游戏再提这种写法。</p>]]></content>
     
     <summary type="html">
     
@@ -247,6 +275,28 @@
       <category term="2D" scheme="https://YaojiaxinPC.github.io/tags/2D/"/>
     
       <category term="入门级" scheme="https://YaojiaxinPC.github.io/tags/%E5%85%A5%E9%97%A8%E7%BA%A7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>百度sitemap和谷歌sitemap同时使用不同的url</title>
+    <link href="https://YaojiaxinPC.github.io/20sitemap2url/"/>
+    <id>https://YaojiaxinPC.github.io/20sitemap2url/</id>
+    <published>2018-10-19T16:07:59.000Z</published>
+    <updated>2018-10-20T13:35:30.441Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。</p><a id="more"></a><p>　　目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。</p><p>　　真有必要这么麻烦吗？</p><p>　　于是我开始找“node_modules”文件夹里面的源码。</p><p>　　谷歌的sitemap生成源码里：</p><p><img src="/contentimg/20/1.png" alt="Result pic 1" title="hexo-generator-sitemap源码"></p><p>　　是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。</p><p><img src="/contentimg/20/2.png" alt="Result pic 1" title="hexo-generator-baidu-sitemap源码"></p><p><img src="/contentimg/20/3.png" alt="Result pic 1" title="baidusitemap.ejs源码"></p><p>　　有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！</p><p>　　那就好办了，在百度sitemap那里多写一个url就搞定了：</p><p><img src="/contentimg/20/4.png" alt="Result pic 1" title="baidusitemap下多加一个url"></p><p>　　搞定，一次hexo g。两个sitemap的域名是不同的了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="源码分析" scheme="https://YaojiaxinPC.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    
+    
+      <category term="hexo源码" scheme="https://YaojiaxinPC.github.io/tags/hexo%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
@@ -275,28 +325,6 @@
       <category term="flash" scheme="https://YaojiaxinPC.github.io/tags/flash/"/>
     
       <category term="swfobject" scheme="https://YaojiaxinPC.github.io/tags/swfobject/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>百度sitemap和谷歌sitemap同时使用不同的url</title>
-    <link href="https://YaojiaxinPC.github.io/20sitemap2url/"/>
-    <id>https://YaojiaxinPC.github.io/20sitemap2url/</id>
-    <published>2018-10-19T16:07:59.000Z</published>
-    <updated>2018-10-20T13:35:30.441Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。</p><a id="more"></a><p>　　目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。</p><p>　　真有必要这么麻烦吗？</p><p>　　于是我开始找“node_modules”文件夹里面的源码。</p><p>　　谷歌的sitemap生成源码里：</p><p><img src="/contentimg/20/1.png" alt="Result pic 1" title="hexo-generator-sitemap源码"></p><p>　　是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。</p><p><img src="/contentimg/20/2.png" alt="Result pic 1" title="hexo-generator-baidu-sitemap源码"></p><p><img src="/contentimg/20/3.png" alt="Result pic 1" title="baidusitemap.ejs源码"></p><p>　　有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！</p><p>　　那就好办了，在百度sitemap那里多写一个url就搞定了：</p><p><img src="/contentimg/20/4.png" alt="Result pic 1" title="baidusitemap下多加一个url"></p><p>　　搞定，一次hexo g。两个sitemap的域名是不同的了。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="源码分析" scheme="https://YaojiaxinPC.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    
-    
-      <category term="hexo源码" scheme="https://YaojiaxinPC.github.io/tags/hexo%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
@@ -492,32 +520,6 @@
       <category term="skip_render" scheme="https://YaojiaxinPC.github.io/tags/skip-render/"/>
     
       <category term="Markdown内嵌html" scheme="https://YaojiaxinPC.github.io/tags/Markdown%E5%86%85%E5%B5%8Chtml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Markdown内嵌前端代码实例--时钟挂件</title>
-    <link href="https://YaojiaxinPC.github.io/11clock-js/"/>
-    <id>https://YaojiaxinPC.github.io/11clock-js/</id>
-    <published>2018-10-18T15:58:58.000Z</published>
-    <updated>2018-10-27T11:54:16.232Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　本文分享一个时钟挂件实例。该部分代码是网上搜索复制来的，非本人版权，请勿用于商业用途。</p><a id="more"></a>  <p><div style="width:100%; height:350px;border:none;text-align:center"><iframe allowtransparency="yes" frameborder="0" width="100%" height="300" src="/contentimg/11/click.html"></iframe></div></p><p>　　这里利用iframe引用外部html，同时设置</p><blockquote><p>allowtransparency=”yes” frameborder=”0”</p></blockquote><p>　　让iframe的背景透明，边框消失。</p><blockquote><p>div style=”width:100%; height:350px;border:none;text-align:center”</p></blockquote><p>　　但是此时的iframe是靠左上的。我想居中，就需要利用div来实现。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　本文分享一个时钟挂件实例。该部分代码是网上搜索复制来的，非本人版权，请勿用于商业用途。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="前端" scheme="https://YaojiaxinPC.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
-    
-    
-      <category term="js" scheme="https://YaojiaxinPC.github.io/tags/js/"/>
-    
-      <category term="时钟挂件" scheme="https://YaojiaxinPC.github.io/tags/%E6%97%B6%E9%92%9F%E6%8C%82%E4%BB%B6/"/>
-    
-      <category term="Markdown内嵌前端代码" scheme="https://YaojiaxinPC.github.io/tags/Markdown%E5%86%85%E5%B5%8C%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81/"/>
     
   </entry>
   
