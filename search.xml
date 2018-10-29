@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[WallBall小游戏介绍]]></title>
     <url>%2F31WallBallDemo%2F</url>
-    <content type="text"><![CDATA[本文介绍Unity商店的一款小游戏Wall Ball 。 游戏简介 该小游戏是3D类型，主角是一个小球，通过在独木桥地板上滚动逃亡生存，地板会下沉掉落，所以小球得一直向前滚动。 玩家通过点击屏幕，指导小球左右2个方向的变换，帮助它安全踏上地板逃亡，同时一路收集小星星攒积分。伴随着逃亡之路的还有场景光线的变换，会有日夜更替，所以玩家要小心晚上会看不清道路而失足掉落。 游戏体验 游戏制作 只有一些UI的图标，还有小球的数字8贴图。其他东西都可以在unity内部创建。 1.游戏规则细化 写代码前，需要先了解这个游戏怎么玩： 这是一个逃亡游戏，主角所待的地板会不断往下掉，所以只能不停的往前跑。为了增强游戏感，特地设置了独木桥类型的前路，主角只要跑错方向就会掉下无尽深渊。为了加大难度，增加了昼夜替换，晚上的时候光线变暗。同时为了防止逃亡久了后的精神麻痹现象，增加了建筑材料的颜色变幻的设定。 玩家可以通过点击屏幕，操作小球前面的方向是向左还是向右。同时路上会有小星星，收集能增加积分。积分用来记录玩家挑战最佳值。 所以规划如下： 地板在小球滚过后会下落消失；同时在尽头会随机在左边或者右边生成新地板，并且一次只能生成紧凑的一块。 设定时间间隔，控制环境灯光的变化，分白天的正常亮度+晚上的黑暗情况。 增加地板颜色的变化设定。 地板上有小星星，碰到就加积分。游戏结束要保存积分，最后统计玩家积分，汇总出挑战最高分。 小球受向下的力，踩不到地板就掉下去，游戏结束。 玩家点击屏幕，控制变换小球向左或者向右。 2.代码 这个游戏代码架构不是很好，由于游戏简单，所以使用的是最简单的直接写代码的方式，直接高效。一个脚本对应一个功能，同时有一个管理全局的总脚本。在生成地板的地方有bug，不是按照数量来生成，而是固定间隔生成，会导致出现数量只增不减的情况—》当小球不滚动时，这时不会有地板消失，但是地板生成是照旧的。所以本文不对代码进行详解。 PlayerPrefs 在电脑上，是直接保存到注册表，在浏览器上，保存成cookies。原本以为发布成webgl得修改，写js来完成这个操作，没想到能正常执行。 Rigidbody.velocity 这里控制小球滚动，不是通过position++。而是给小球施加一个力。注意，x/y/z ==》右/上/前，这里x=》右，z=》前。向下就是对应y，所以这里给小球y轴一个向下的重力Physics.gravity.y。 游戏中的向左向右，就单独在x或者z轴上施加。通过一个bool值来判断应该加那个方向上的力就行。 另外要注意，施加力，必须在FixedUpdate上进行。不能在Update等其他地方。不然会出现抖动跳跃的现象。 3.开始制作游戏 工程中，素材比较不规则，作者是通过Unity的Packing系统打包图集。鉴于这个游戏可以记录的东西少，这里就分享一下怎么使用工具打包图集吧。 TexturePackerGUI 惯例，排序一下图片，排除掉特殊的图片。 很明显，“8.jpg”必须搞出来。 但是这里还有一张不太适合，放进去后导致右边大量的留白。可以通过直接在图集中选中，来知道是哪一张。 去掉不合适的后，剩下的就可以打包成一个图了。不过，实际使用中的打包，是将一起用的图打包成一个图集，体积权重较低。 发布出来是两个，一个png（带透明通道）+一个“.tpsheet”后缀的文件，用记事本格式打开，是记录每张照片的位置信息。 将这两个文件直接导入unity。然后回到unity，添加插件TexturePackerImporter 。这时候你会发现，前面导入的图集，unity自动切好了。 上面是直接拖到面板使用的。但是如果想代码里面使用呢。平时是Resources.Load(path)；但是会发现这时候不知道path是哪个才对。 但是这时候是用Resources.LoadAll(path)！ load这个图集，返回的不是集合，也无法使用。必须loadall后才能获取到，然后再来找到对应名字的。 制作预制体略 整合Scene略 压缩优化发布略]]></content>
+    <content type="text"><![CDATA[本文介绍Unity商店的一款小游戏Wall Ball 。 游戏简介 该小游戏是3D类型，主角是一个小球，通过在独木桥地板上滚动逃亡生存，地板会下沉掉落，所以小球得一直向前滚动。 玩家通过点击屏幕，指导小球左右2个方向的变换，帮助它安全踏上地板逃亡，同时一路收集小星星攒积分。伴随着逃亡之路的还有场景光线的变换，会有日夜更替，所以玩家要小心晚上会看不清道路而失足掉落。 游戏体验 体验demo ，请用Chrome或者手机浏览器打开。 游戏制作 只有一些UI的图标，还有小球的数字8贴图。其他东西都可以在unity内部创建。 1.游戏规则细化 写代码前，需要先了解这个游戏怎么玩： 这是一个逃亡游戏，主角所待的地板会不断往下掉，所以只能不停的往前跑。为了增强游戏感，特地设置了独木桥类型的前路，主角只要跑错方向就会掉下无尽深渊。为了加大难度，增加了昼夜替换，晚上的时候光线变暗。同时为了防止逃亡久了后的精神麻痹现象，增加了建筑材料的颜色变幻的设定。 玩家可以通过点击屏幕，操作小球前面的方向是向左还是向右。同时路上会有小星星，收集能增加积分。积分用来记录玩家挑战最佳值。 所以规划如下： 地板在小球滚过后会下落消失；同时在尽头会随机在左边或者右边生成新地板，并且一次只能生成紧凑的一块。 设定时间间隔，控制环境灯光的变化，分白天的正常亮度+晚上的黑暗情况。 增加地板颜色的变化设定。 地板上有小星星，碰到就加积分。游戏结束要保存积分，最后统计玩家积分，汇总出挑战最高分。 小球受向下的力，踩不到地板就掉下去，游戏结束。 玩家点击屏幕，控制变换小球向左或者向右。 2.代码 这个游戏代码架构不是很好，由于游戏简单，所以使用的是最简单的直接写代码的方式，直接高效。一个脚本对应一个功能，同时有一个管理全局的总脚本。在生成地板的地方有bug，不是按照数量来生成，而是固定间隔生成，会导致出现数量只增不减的情况—》当小球不滚动时，这时不会有地板消失，但是地板生成是照旧的。所以本文不对代码进行详解。 PlayerPrefs 在电脑上，是直接保存到注册表，在浏览器上，保存成cookies。原本以为发布成webgl得修改，写js来完成这个操作，没想到能正常执行。 Rigidbody.velocity 这里控制小球滚动，不是通过position++。而是给小球施加一个力。注意，x/y/z ==》右/上/前，这里x=》右，z=》前。向下就是对应y，所以这里给小球y轴一个向下的重力Physics.gravity.y。 游戏中的向左向右，就单独在x或者z轴上施加。通过一个bool值来判断应该加那个方向上的力就行。 另外要注意，施加力，必须在FixedUpdate上进行。不能在Update等其他地方。不然会出现抖动跳跃的现象。 3.开始制作游戏 工程中，素材比较不规则，作者是通过Unity的Packing系统打包图集。鉴于这个游戏可以记录的东西少，这里就分享一下怎么使用工具打包图集吧。 TexturePackerGUI 惯例，排序一下图片，排除掉特殊的图片。 很明显，“8.jpg”必须搞出来。 但是这里还有一张不太适合，放进去后导致右边大量的留白。可以通过直接在图集中选中，来知道是哪一张。 去掉不合适的后，剩下的就可以打包成一个图了。不过，实际使用中的打包，是将一起用的图打包成一个图集，体积权重较低。 发布出来是两个，一个png（带透明通道）+一个“.tpsheet”后缀的文件，用记事本格式打开，是记录每张照片的位置信息。 将这两个文件直接导入unity。然后回到unity，添加插件TexturePackerImporter 。这时候你会发现，前面导入的图集，unity自动切好了。 上面是直接拖到面板使用的。但是如果想代码里面使用呢。平时是Resources.Load(path)；但是会发现这时候不知道path是哪个才对。 但是这时候是用Resources.LoadAll(path)！ load这个图集，返回的不是集合，也无法使用。必须loadall后才能获取到，然后再来找到对应名字的。 制作预制体略 整合Scene略 压缩优化发布略 追加 在电脑上跑的时候没注意，发布上去后，在手机点开，结果浏览器奔溃了？？？ 推测fps值太高了，卡掉浏览器。 设置FPS 就一条代码： Application.targetFrameRate = 50; 同时要去修改这里。设置为Don’t Sync。不然上面的代码就不起作用了。 但是没效果，还是闪退。而且设置后，反而报错 rendering without using requestAnimationFrame for the main loop 搜了一下论坛 。禁用代码设置fps，就不会报这个错了。 原因 想到当前页面有浮动蜘蛛网脚本，该脚本耗cpu。应该是抢占了。所以独立跳转出去。 同时修改代码。原来的是不断instantiate，这样会消耗大量cpu，换成数组来保存，然后SetActive来控制显示与消失。 问题解决。不会奔溃了。也不用设置fps。]]></content>
       <categories>
         <category>Unity3D</category>
       </categories>
@@ -121,17 +121,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[百度sitemap和谷歌sitemap同时使用不同的url]]></title>
-    <url>%2F20sitemap2url%2F</url>
-    <content type="text"><![CDATA[本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。 目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。 真有必要这么麻烦吗？ 于是我开始找“node_modules”文件夹里面的源码。 谷歌的sitemap生成源码里： 是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。 有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！ 那就好办了，在百度sitemap那里多写一个url就搞定了： 搞定，一次hexo g。两个sitemap的域名是不同的了。]]></content>
-      <categories>
-        <category>源码分析</category>
-      </categories>
-      <tags>
-        <tag>hexo源码</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[abowman's demo]]></title>
     <url>%2F21swfobjectdemo%2F</url>
     <content type="text"><![CDATA[本文分享swfobject 插件的简单使用，展示abowman上面的3个小挂饰。 swfobject的git代码里面已经包了一个自动生成html的功能，所以实际是去找swf动画，加进去就可以看到效果了。 小鱼挂饰： Download fish.swf 宠物鼠挂饰： Download hamster.swf 企鹅群挂饰： Download penguins.swf]]></content>
@@ -143,6 +132,17 @@
         <tag>swf</tag>
         <tag>flash</tag>
         <tag>swfobject</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[百度sitemap和谷歌sitemap同时使用不同的url]]></title>
+    <url>%2F20sitemap2url%2F</url>
+    <content type="text"><![CDATA[本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。 目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。 真有必要这么麻烦吗？ 于是我开始找“node_modules”文件夹里面的源码。 谷歌的sitemap生成源码里： 是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。 有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！ 那就好办了，在百度sitemap那里多写一个url就搞定了： 搞定，一次hexo g。两个sitemap的域名是不同的了。]]></content>
+      <categories>
+        <category>源码分析</category>
+      </categories>
+      <tags>
+        <tag>hexo源码</tag>
       </tags>
   </entry>
   <entry>
@@ -289,8 +289,8 @@
         <category>编程人生</category>
       </categories>
       <tags>
-        <tag>域名</tag>
         <tag>个人博客</tag>
+        <tag>域名</tag>
       </tags>
   </entry>
   <entry>
@@ -312,20 +312,8 @@
         <category>编程人生</category>
       </categories>
       <tags>
-        <tag>域名</tag>
         <tag>个人博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[闭包Closure]]></title>
-    <url>%2F5Closure%2F</url>
-    <content type="text"><![CDATA[本文记录在编程中遇到的一个疑难杂症，for循环中的异步赋值结果和理想情况对不上：全部赋值成同一个值。 先贴代码： 1234567for (int i = 0; i &lt; 10; i++)&#123; System.Threading.ThreadPool.QueueUserWorkItem((o) =&gt; &#123; Console.WriteLine(i); &#125;);&#125; 上面这段代码，照理是进行异步处理，开了线程池来打印。理想输出是0~10这样。 但结果： 这里就是闭包现象。 闭包： 内层的函数可以引用包含在它外层的函数的变量，即使外层函数的执行已经终止。但该变量提供的值并非变量创建时的值，而是在父函数范围内的最终值。 这里有篇博文也介绍这个，上面的概念 是复制该博文过来的。 这里简单理解，就是变量i，在lamdb表达式的时候，传的是地址，而实际上，这个地址上的值已经执行完for变成10了（理想情况下，传的应该是值0~9）。 照这样理解，可以搞一个中间缓冲值（即每次传的都不是同一个地址）来处理：（输出没按照顺序，是因为多核处理问题，这里不进行讨论） 明显已经没有重复值了，但是记住，地址！就是说tmp的声明必须在for内，如果放到外面（或者放在线程池里面）： 神秘现象，直接是9，不是10了？？？好吧，不小心给自己挖了个坑，接下来开始填坑吧。分析为什么是9，不是10： 循环中确实是0~9，但是最后i++变成10，进行i&lt;10的判断后false，不进入循环了，所以i最后结果为10，tmp=9. 坑解决。 但这里又有新坑，按前面的理解，不是全部应该“in :9___10”，怎么还出现”in :6___6”的？ 其实是因为console占用了时间，导致线程池的在for还未执行完的时候就开始了（线程池创建后还得等待分配资源才能启动，所以有延迟），所以就可以看到，前面数字很乱（for还在执行，所以数字还在变），到后面才变成全部9（for执行完毕）。 这里有多线程的知识，这里暂时不讨论，简单讲，如string类型的，因为是每个线程会复制一份到自己环境中操作，修改完毕后才通知回主地址，如果这时出现A、B线程同时拷贝了数据去操作，又同时通知回来，就导致脏数据产生（互相覆盖），所以就得用多线程锁（实质是内存片段锁的处理，锁住主地址的访问，不允许拷贝处理，只能排队，变成类似单线程操作）来处理。 下面贴一下内存地址部分测试的demo，证明用的是同一个地址： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758public class test&#123; //地址不变 public int num; //string的内容变时，实际是重新占用内存，然后存入新值，所以只要内容发生变化，内存肯定变 public string str; public void MethodA() &#123; for (int i = 0; i &lt; 10; i++) &#123; System.Threading.ThreadPool.QueueUserWorkItem((o) =&gt; &#123; num = i; str = i.ToString(); GetAddr(); &#125;); &#125; &#125; public void MethodB() &#123; for (int i = 0; i &lt; 10; i++) &#123; //System.Threading.ThreadPool.QueueUserWorkItem((o) =&gt; //&#123; num = i; str = i.ToString(); GetAddr(); //&#125;); &#125; &#125; unsafe void GetAddr() &#123; //这个是类对象，放在堆里面 fixed (int* p = &amp;num) &#123; Console.WriteLine("&#123;0&#125;__:Address of numbe:0x&#123;1:x&#125;", num, (int)p); &#125; //fixed(char* p= str) //&#123; // Console.WriteLine("&#123;0&#125;__:Address of char:0x&#123;1:x&#125;", str, (int)p); //&#125; //GetAddrZ(num); &#125; ////弄成函数传值的话，地址是变化的，因为是一份拷贝 //unsafe void GetAddrZ(int n) //&#123; // //获取栈上变量的地址 // int* p = &amp;n; // Console.WriteLine("&#123;0&#125;__:Address of n:0x&#123;1:x&#125;\n", num, (int)p); //&#125;&#125; 先使用int： 接下来是string： 这里的main函数是： 12345678910static void Main(string[] args)&#123; test t = new test(); t.MethodA(); Console.WriteLine(); Console.WriteLine(); t.MethodB(); Console.ReadLine();&#125; 当然这里也会出现这种情况： 发现这里上面本应该一致的地址，也会出现不同。 重复多次执行经常出现这种情况。 这里就是引用类型在多线程情况下的问题。 这里简单提及“原子操作volatile”： 原子操作 volatile。通知编译器，不允许拷贝，全部访问都是去主地址拿。算是最简单的多线程处理操作，实质这里没使用到加锁，还是会出现问题的： 这里放一下简单的加锁操作： 12345678910111213private object lockstr = new object();private volatile string _str = "";public string Str&#123; get &#123; return _str; &#125; set &#123; lock (lockstr) &#123; _str = value; &#125; &#125;&#125; 多线程内容超级多，等我整理好后再发专门的主题。这里只提初级的加锁方式lock(obj)。 本文测试程序工程可以从git直接获取： git代码库: Codes]]></content>
-      <categories>
-        <category>编程疑难杂症</category>
-      </categories>
-      <tags>
-        <tag>C#</tag>
-        <tag>闭包</tag>
+        <tag>域名</tag>
       </tags>
   </entry>
   <entry>
@@ -339,6 +327,18 @@
         <tag>C#</tag>
         <tag>Attribute特性</tag>
         <tag>enum特性</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[闭包Closure]]></title>
+    <url>%2F5Closure%2F</url>
+    <content type="text"><![CDATA[本文记录在编程中遇到的一个疑难杂症，for循环中的异步赋值结果和理想情况对不上：全部赋值成同一个值。 先贴代码： 1234567for (int i = 0; i &lt; 10; i++)&#123; System.Threading.ThreadPool.QueueUserWorkItem((o) =&gt; &#123; Console.WriteLine(i); &#125;);&#125; 上面这段代码，照理是进行异步处理，开了线程池来打印。理想输出是0~10这样。 但结果： 这里就是闭包现象。 闭包： 内层的函数可以引用包含在它外层的函数的变量，即使外层函数的执行已经终止。但该变量提供的值并非变量创建时的值，而是在父函数范围内的最终值。 这里有篇博文也介绍这个，上面的概念 是复制该博文过来的。 这里简单理解，就是变量i，在lamdb表达式的时候，传的是地址，而实际上，这个地址上的值已经执行完for变成10了（理想情况下，传的应该是值0~9）。 照这样理解，可以搞一个中间缓冲值（即每次传的都不是同一个地址）来处理：（输出没按照顺序，是因为多核处理问题，这里不进行讨论） 明显已经没有重复值了，但是记住，地址！就是说tmp的声明必须在for内，如果放到外面（或者放在线程池里面）： 神秘现象，直接是9，不是10了？？？好吧，不小心给自己挖了个坑，接下来开始填坑吧。分析为什么是9，不是10： 循环中确实是0~9，但是最后i++变成10，进行i&lt;10的判断后false，不进入循环了，所以i最后结果为10，tmp=9. 坑解决。 但这里又有新坑，按前面的理解，不是全部应该“in :9___10”，怎么还出现”in :6___6”的？ 其实是因为console占用了时间，导致线程池的在for还未执行完的时候就开始了（线程池创建后还得等待分配资源才能启动，所以有延迟），所以就可以看到，前面数字很乱（for还在执行，所以数字还在变），到后面才变成全部9（for执行完毕）。 这里有多线程的知识，这里暂时不讨论，简单讲，如string类型的，因为是每个线程会复制一份到自己环境中操作，修改完毕后才通知回主地址，如果这时出现A、B线程同时拷贝了数据去操作，又同时通知回来，就导致脏数据产生（互相覆盖），所以就得用多线程锁（实质是内存片段锁的处理，锁住主地址的访问，不允许拷贝处理，只能排队，变成类似单线程操作）来处理。 下面贴一下内存地址部分测试的demo，证明用的是同一个地址： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758public class test&#123; //地址不变 public int num; //string的内容变时，实际是重新占用内存，然后存入新值，所以只要内容发生变化，内存肯定变 public string str; public void MethodA() &#123; for (int i = 0; i &lt; 10; i++) &#123; System.Threading.ThreadPool.QueueUserWorkItem((o) =&gt; &#123; num = i; str = i.ToString(); GetAddr(); &#125;); &#125; &#125; public void MethodB() &#123; for (int i = 0; i &lt; 10; i++) &#123; //System.Threading.ThreadPool.QueueUserWorkItem((o) =&gt; //&#123; num = i; str = i.ToString(); GetAddr(); //&#125;); &#125; &#125; unsafe void GetAddr() &#123; //这个是类对象，放在堆里面 fixed (int* p = &amp;num) &#123; Console.WriteLine("&#123;0&#125;__:Address of numbe:0x&#123;1:x&#125;", num, (int)p); &#125; //fixed(char* p= str) //&#123; // Console.WriteLine("&#123;0&#125;__:Address of char:0x&#123;1:x&#125;", str, (int)p); //&#125; //GetAddrZ(num); &#125; ////弄成函数传值的话，地址是变化的，因为是一份拷贝 //unsafe void GetAddrZ(int n) //&#123; // //获取栈上变量的地址 // int* p = &amp;n; // Console.WriteLine("&#123;0&#125;__:Address of n:0x&#123;1:x&#125;\n", num, (int)p); //&#125;&#125; 先使用int： 接下来是string： 这里的main函数是： 12345678910static void Main(string[] args)&#123; test t = new test(); t.MethodA(); Console.WriteLine(); Console.WriteLine(); t.MethodB(); Console.ReadLine();&#125; 当然这里也会出现这种情况： 发现这里上面本应该一致的地址，也会出现不同。 重复多次执行经常出现这种情况。 这里就是引用类型在多线程情况下的问题。 这里简单提及“原子操作volatile”： 原子操作 volatile。通知编译器，不允许拷贝，全部访问都是去主地址拿。算是最简单的多线程处理操作，实质这里没使用到加锁，还是会出现问题的： 这里放一下简单的加锁操作： 12345678910111213private object lockstr = new object();private volatile string _str = "";public string Str&#123; get &#123; return _str; &#125; set &#123; lock (lockstr) &#123; _str = value; &#125; &#125;&#125; 多线程内容超级多，等我整理好后再发专门的主题。这里只提初级的加锁方式lock(obj)。 本文测试程序工程可以从git直接获取： git代码库: Codes]]></content>
+      <categories>
+        <category>编程疑难杂症</category>
+      </categories>
+      <tags>
+        <tag>C#</tag>
+        <tag>闭包</tag>
       </tags>
   </entry>
   <entry>
