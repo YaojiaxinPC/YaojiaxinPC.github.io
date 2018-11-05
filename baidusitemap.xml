@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yaojx.net/33HitGhostDemo/</loc>
+    <lastmod>2018-11-05T19:46:38.375Z</lastmod>
+  </url>  <url>
+    <loc>http://yaojx.net/18office2019/</loc>
+    <lastmod>2018-11-05T16:55:40.690Z</lastmod>
+  </url>  <url>
+    <loc>http://yaojx.net/32AssetBundle_1/</loc>
+    <lastmod>2018-11-05T02:26:19.585Z</lastmod>
+  </url>  <url>
     <loc>http://yaojx.net/31WallBallDemo/</loc>
-    <lastmod>2018-10-29T06:44:30.950Z</lastmod>
+    <lastmod>2018-10-29T07:17:42.397Z</lastmod>
   </url>  <url>
     <loc>http://yaojx.net/22Roguelike/</loc>
     <lastmod>2018-10-29T04:28:14.925Z</lastmod>
@@ -18,9 +27,6 @@
   </url>  <url>
     <loc>http://yaojx.net/19markdownextend/</loc>
     <lastmod>2018-10-27T11:20:43.537Z</lastmod>
-  </url>  <url>
-    <loc>http://yaojx.net/18office2019/</loc>
-    <lastmod>2018-10-27T11:06:27.515Z</lastmod>
   </url>  <url>
     <loc>http://yaojx.net/30Lived2d_for_unity/</loc>
     <lastmod>2018-10-27T05:29:14.427Z</lastmod>
