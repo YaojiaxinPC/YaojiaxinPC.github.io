@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://YaojiaxinPC.github.io/"/>
-  <updated>2018-11-08T08:41:01.532Z</updated>
+  <updated>2018-11-08T09:01:57.516Z</updated>
   <id>https://YaojiaxinPC.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://YaojiaxinPC.github.io/35FMS/"/>
     <id>https://YaojiaxinPC.github.io/35FMS/</id>
     <published>2018-11-06T12:02:59.000Z</published>
-    <updated>2018-11-08T08:41:01.532Z</updated>
+    <updated>2018-11-08T09:01:57.516Z</updated>
     
-    <content type="html"><![CDATA[<p>　　 本文介绍有限状态机。一种使用于状态切换的设计模式。</p><a id="more"></a><p>　　 有限状态机，是在有状态切换的场景下使用。能减低系统耦合度，也有利于新状态的加入。</p><h2 id="场景举例"><a href="#场景举例" class="headerlink" title="场景举例"></a>场景举例</h2><p>　　 键盘上的“A”、“D”、“W”和“S”，通常意义上，是表示左右上下。</p><p>　　 普通写法，是在函数中进行switch判断。但是这样后面新加按键，这个switch就会越来越长。</p><p>　　如果我不想用switch呢，那用广播模式？让按键处理类订阅这里的按键输入，如果是自己想处理的按键，就进行处理。那就是弄一个全局委托，新的按键处理类都+=该委托，然后在回调函数中if输入==自己要处理的键，就处理，否则return。</p><p>　　当然这里可以优化一下，并不需要广播，增加主题订阅就行，也就是<a href="https://wiki.unity3d.com/index.php/CSharpMessenger_Extended" rel="external nofollow noopener noreferrer" target="_blank">CSharpMessenger Extended</a> ，国内无法访问的话，我这里把网页搞下来了一份<a href="/contentimg/35/CSharpMessenger_Extended.html">原网站复制</a>  。</p><p>　　就是用一个字典，保存主题和对应的全局委托。使用者订阅某个主题的委托回调，发送者就是根据特定主题来广播。利用广播模式，能避免类间相互耦合交错。</p><h2 id="场景升级"><a href="#场景升级" class="headerlink" title="场景升级"></a>场景升级</h2><p>　　广播模式适用的场景确实超级多。但是也有它不适合的。</p><p>　　假如这个场景中，移动的时候，需要播放转身的动画：假设一开始是朝向W的正前方方向，我按下“D”，准备向左移动，这里需要预先播放一个顺时针转90°的动画，然后才能向左移动一步。</p><p>　　这样，播放动画这里，需要“前一个状态”+“下一个状态”，两个状态的记录。虽然在广播模式中可以使用传递两个参数的做法。但是其实还有更好的模式–FMS，有限状态机。</p><p>　　这东西github搜了一下，好几个。</p><ol><li><a href="https://github.com/thefuntastic/Unity3d-Finite-State-Machine" rel="external nofollow noopener noreferrer" target="_blank">Unity3d-Finite-State-Machine</a>  670个星</li><li><a href="https://github.com/xanathar/FSMsharp" rel="external nofollow noopener noreferrer" target="_blank">FSMsharp</a>  67个星</li><li><a href="https://github.com/MhmmdAb/TinyStateMachine" rel="external nofollow noopener noreferrer" target="_blank">TinyStateMachine</a>  22个星</li><li><a href="https://github.com/MarcoMig/Finite-State-Machine-FSM" rel="external nofollow noopener noreferrer" target="_blank">Finite-State-Machine-FSM</a>  9个星 </li></ol><p>　　都是写得蛮不错的。可以参考，不过建议了解一下wiki上的<a href="https://wiki.unity3d.com/index.php/Finite_State_Machine" rel="external nofollow noopener noreferrer" target="_blank">Finite State Machine</a>  ，这里我也把它load下来了<a href="/contentimg/35/Finite_State_Machine.html">原网站复制</a> 。</p><p>　　讲的是设一个类，保存当前状态，以及下一个可以切换的状态；进行状态切换时，需要执行退出当前状态时需要执行的函数，然后切换为下一个状态，并执行进入该状态需要执行的函数；当然还有惯例执行的函数。例子中是巡逻和追击两个状态切换：正常状态下是巡逻，当距离靠近时促发追击，而被拉长距离后应该丢失跟踪，并恢复巡逻。</p><p>　　这里的状态切换，可以通过第三方管理类来操作，也可以在内部惯例执行函数中进行操作。例子中是第三方管理类开放接口，然后在惯例执行函数中进行判断是否需要切换状态。</p><p>　　回到开头提的场景，转身动画。</p><p>　　这里利用FMS，定义：</p><ol><li>AddTransition(Transition.W,StateID.WD)-旋转90°</li><li>AddTransition(Transition.W,StateID.WS)-旋转180°</li><li>AddTransition(Transition.W,StateID.WA)-旋转270°</li><li>AddTransition(Transition.W,StateID.WW)-旋转0°。</li></ol><p>　　对应设置4x4共16种情况，每种情况中，状态切换前，播放上一个状态退出的动画，这里没有动作；然后状态切换，最后执行新状态进入的动画，就是播放旋转动画。</p><p>　　一般状态退出函数，是放一些归位操作，或者是一些释放操作，避免本状态的一些因素影响到新状态。</p><p>　　当然这里算过度设计，一下搞了16个新类+枚举。实际场景中，FMS是使用在复杂状态间的切换。像这里的旋转动画，简单搞两个变量，通过4个方向来判断就可以了。</p><p>　　实际使用中，像“走”的时候，下一个状态可以是“跑”/“跳”/“蹲”/“停”；但是“跳”的时候，规定要等动作做完后自动转到“停”的状态，也就是必须执行完“跳”到落地的流程，转到“停”的状态，才能切换其他状态，所以“跳”只对应“停”。这样排完全部状态切换后，写逻辑处理时，就不担心写出来多余的状态切换了，因为不存在那种切换，不用额外去写函数处理判断。</p><p>　　本文单单理论这样讲不是很好，后面结合吃豆人案例来详细分析该模式的使用吧。</p><p>　　结尾也安利一篇博文：<a href="https://blog.csdn.net/poem_qianmo/article/details/52824776" rel="external nofollow noopener noreferrer" target="_blank">【游戏设计模式】之三 状态模式、有限状态机 &amp; Unity版本实现</a> </p>]]></content>
+    <content type="html"><![CDATA[<p>　　 本文介绍有限状态机。一种使用于状态切换的设计模式。</p><a id="more"></a><p>　　 有限状态机，是在有状态切换的场景下使用。能减低系统耦合度，也有利于新状态的加入。</p><h2 id="场景举例"><a href="#场景举例" class="headerlink" title="场景举例"></a>场景举例</h2><p>　　 键盘上的“A”、“D”、“W”和“S”，通常意义上，是表示左右上下。</p><p>　　 普通写法，是在函数中进行switch判断。但是这样后面新加按键，这个switch就会越来越长。</p><p>　　如果我不想用switch呢，那用广播模式？让按键处理类订阅这里的按键输入，如果是自己想处理的按键，就进行处理。那就是弄一个全局委托，新的按键处理类都+=该委托，然后在回调函数中if输入==自己要处理的键，就处理，否则return。</p><p>　　当然这里可以优化一下，并不需要广播，增加主题订阅就行，也就是<a href="https://wiki.unity3d.com/index.php/CSharpMessenger_Extended" rel="external nofollow noopener noreferrer" target="_blank">CSharpMessenger Extended</a> ，国内无法访问的话，我这里把网页搞下来了一份<a href="/contentimg/35/CSharpMessenger_Extended.html">原网站复制</a>  。</p><p>　　就是用一个字典，保存主题和对应的全局委托。使用者订阅某个主题的委托回调，发送者就是根据特定主题来广播。利用广播模式，能避免类间相互耦合交错。</p><h2 id="场景升级"><a href="#场景升级" class="headerlink" title="场景升级"></a>场景升级</h2><p>　　广播模式适用的场景确实超级多。但是也有它不适合的。</p><p>　　假如这个场景中，移动的时候，需要播放转身的动画：假设一开始是朝向W的正前方方向，我按下“D”，准备向左移动，这里需要预先播放一个顺时针转90°的动画，然后才能向左移动一步。</p><p>　　这样，播放动画这里，需要“前一个状态”+“下一个状态”，两个状态的记录。虽然在广播模式中可以使用传递两个参数的做法。但是其实还有更好的模式–FMS，有限状态机。</p><p>　　这东西github搜了一下，好几个。</p><ol><li><a href="https://github.com/thefuntastic/Unity3d-Finite-State-Machine" rel="external nofollow noopener noreferrer" target="_blank">Unity3d-Finite-State-Machine</a>  670个星</li><li><a href="https://github.com/xanathar/FSMsharp" rel="external nofollow noopener noreferrer" target="_blank">FSMsharp</a>  67个星</li><li><a href="https://github.com/MhmmdAb/TinyStateMachine" rel="external nofollow noopener noreferrer" target="_blank">TinyStateMachine</a>  22个星</li><li><a href="https://github.com/MarcoMig/Finite-State-Machine-FSM" rel="external nofollow noopener noreferrer" target="_blank">Finite-State-Machine-FSM</a>  9个星 </li></ol><p>　　都是写得蛮不错的。可以参考，不过建议了解一下wiki上的<a href="https://wiki.unity3d.com/index.php/Finite_State_Machine" rel="external nofollow noopener noreferrer" target="_blank">Finite State Machine</a>  ，这里我也把它load下来了<a href="/contentimg/35/Finite_State_Machine.html">原网站复制</a> 。</p><p>　　讲的是设一个类，保存当前状态，以及下一个可以切换的状态；进行状态切换时，需要执行退出当前状态时需要执行的函数，然后切换为下一个状态，并执行进入该状态需要执行的函数；当然还有惯例执行的函数。例子中是巡逻和追击两个状态切换：正常状态下是巡逻，当距离靠近时促发追击，而被拉长距离后应该丢失跟踪，并恢复巡逻。</p><p>　　这里的状态切换，可以通过第三方管理类来操作，也可以在内部惯例执行函数中进行操作。例子中是第三方管理类开放接口，然后在惯例执行函数中进行判断是否需要切换状态。</p><p>　　回到开头提的场景，转身动画。</p><p>　　这里利用FMS，定义：</p><ol><li>AddTransition(Transition.W,StateID.WD)-旋转90°</li><li>AddTransition(Transition.W,StateID.WS)-旋转180°</li><li>AddTransition(Transition.W,StateID.WA)-旋转270°</li></ol><p>　　对应设置4x3共12种情况，每种情况中，状态切换前，播放上一个状态退出的动画，这里没有动作；然后状态切换，最后执行新状态进入的动画，就是播放旋转动画；在惯例执行函数中判断是否仍然触发同一个方向的操作，就不转动，直接前进。</p><p>　　一般状态退出函数，是放一些归位操作，或者是一些释放操作，避免本状态的一些因素影响到新状态。</p><p>　　当然这里算过度设计，一下搞了12个新类+枚举，存在大量重复代码。实际场景中，FMS是使用在复杂状态间的切换。像这里的旋转动画，简单搞两个变量，通过4个角度来判断就可以了。</p><p>　　实际使用中，像“走”的时候，下一个状态可以是“跑”/“跳”/“蹲”/“停”；但是“跳”的时候，规定要等动作做完后自动转到“停”的状态，也就是必须执行完“跳”到落地的流程，转到“停”的状态，才能切换其他状态，所以“跳”只对应“停”。这样排完全部状态切换后，写逻辑处理时，就不担心写出来多余的状态切换了，因为不存在那种切换，不用额外去写函数处理判断。</p><p>　　本文单单理论这样讲不是很好，后面结合吃豆人案例来详细分析该模式的使用吧。</p><p>　　结尾也安利一篇博文：<a href="https://blog.csdn.net/poem_qianmo/article/details/52824776" rel="external nofollow noopener noreferrer" target="_blank">【游戏设计模式】之三 状态模式、有限状态机 &amp; Unity版本实现</a> </p>]]></content>
     
     <summary type="html">
     
@@ -379,6 +379,28 @@
   </entry>
   
   <entry>
+    <title>百度sitemap和谷歌sitemap同时使用不同的url</title>
+    <link href="https://YaojiaxinPC.github.io/20sitemap2url/"/>
+    <id>https://YaojiaxinPC.github.io/20sitemap2url/</id>
+    <published>2018-10-19T16:07:59.000Z</published>
+    <updated>2018-10-20T13:35:30.441Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。</p><a id="more"></a><p>　　目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。</p><p>　　真有必要这么麻烦吗？</p><p>　　于是我开始找“node_modules”文件夹里面的源码。</p><p>　　谷歌的sitemap生成源码里：</p><p><img src="/contentimg/20/1.png" alt="Result pic 1" title="hexo-generator-sitemap源码"></p><p>　　是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。</p><p><img src="/contentimg/20/2.png" alt="Result pic 1" title="hexo-generator-baidu-sitemap源码"></p><p><img src="/contentimg/20/3.png" alt="Result pic 1" title="baidusitemap.ejs源码"></p><p>　　有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！</p><p>　　那就好办了，在百度sitemap那里多写一个url就搞定了：</p><p><img src="/contentimg/20/4.png" alt="Result pic 1" title="baidusitemap下多加一个url"></p><p>　　搞定，一次hexo g。两个sitemap的域名是不同的了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="源码分析" scheme="https://YaojiaxinPC.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    
+    
+      <category term="hexo源码" scheme="https://YaojiaxinPC.github.io/tags/hexo%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
     <title>abowman&#39;s demo</title>
     <link href="https://YaojiaxinPC.github.io/21swfobjectdemo/"/>
     <id>https://YaojiaxinPC.github.io/21swfobjectdemo/</id>
@@ -403,28 +425,6 @@
       <category term="flash" scheme="https://YaojiaxinPC.github.io/tags/flash/"/>
     
       <category term="swfobject" scheme="https://YaojiaxinPC.github.io/tags/swfobject/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>百度sitemap和谷歌sitemap同时使用不同的url</title>
-    <link href="https://YaojiaxinPC.github.io/20sitemap2url/"/>
-    <id>https://YaojiaxinPC.github.io/20sitemap2url/</id>
-    <published>2018-10-19T16:07:59.000Z</published>
-    <updated>2018-10-20T13:35:30.441Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。</p><a id="more"></a><p>　　目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。</p><p>　　真有必要这么麻烦吗？</p><p>　　于是我开始找“node_modules”文件夹里面的源码。</p><p>　　谷歌的sitemap生成源码里：</p><p><img src="/contentimg/20/1.png" alt="Result pic 1" title="hexo-generator-sitemap源码"></p><p>　　是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。</p><p><img src="/contentimg/20/2.png" alt="Result pic 1" title="hexo-generator-baidu-sitemap源码"></p><p><img src="/contentimg/20/3.png" alt="Result pic 1" title="baidusitemap.ejs源码"></p><p>　　有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！</p><p>　　那就好办了，在百度sitemap那里多写一个url就搞定了：</p><p><img src="/contentimg/20/4.png" alt="Result pic 1" title="baidusitemap下多加一个url"></p><p>　　搞定，一次hexo g。两个sitemap的域名是不同的了。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="源码分析" scheme="https://YaojiaxinPC.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    
-    
-      <category term="hexo源码" scheme="https://YaojiaxinPC.github.io/tags/hexo%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
