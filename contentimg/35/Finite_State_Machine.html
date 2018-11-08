@@ -1,0 +1,431 @@
+<!DOCTYPE html><html lang="en" dir="ltr" class="client-nojs"><head><title>Finite State Machine - Unify Community Wiki</title><meta charset="UTF-8"><meta name="generator" content="MediaWiki 1.19.1"><link rel="shortcut icon" href="/favicon.ico"><link rel="search" type="application/opensearchdescription+xml" href="/opensearch_desc.php" title="Unify Community Wiki (en)"><link rel="EditURI" type="application/rsd+xml" href="http://wiki.unity3d.com/api.php?action=rsd"><link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/"><link rel="alternate" type="application/atom+xml" title="Unify Community Wiki Atom feed" href="/index.php?title=Special:RecentChanges&amp;feed=atom"><link rel="stylesheet" href="http://wiki.unity3d.com/load.php?debug=false&amp;lang=en&amp;modules=mediawiki.legacy.commonPrint%2Cshared%7Cskins.vector&amp;only=styles&amp;skin=vector&amp;*"><meta name="ResourceLoaderDynamicStyles" content=""><link rel="stylesheet" href="http://wiki.unity3d.com/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=vector&amp;*"><style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}#quickbar a.new,a.new{color:#ba0000}</style><script src="http://wiki.unity3d.com/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector&amp;*"></script><script>window.mw&&mw.config.set({wgCanonicalNamespace:"",wgCanonicalSpecialPageName:!1,wgNamespaceNumber:0,wgPageName:"Finite_State_Machine",wgTitle:"Finite State Machine",wgCurRevisionId:12952,wgArticleId:2762,wgIsArticle:!0,wgAction:"view",wgUserName:null,wgUserGroups:["*"],wgCategories:[],wgBreakFrames:!1,wgPageContentLanguage:"en",wgSeparatorTransformTable:["",""],wgDigitTransformTable:["",""],wgRelevantPageName:"Finite_State_Machine",wgRestrictionEdit:[],wgRestrictionMove:[]})</script><script>window.mw&&(mw.loader.implement("user.options",function(e){mw.user.options.set({ccmeonemails:0,cols:80,date:"default",diffonly:0,disablemail:0,disablesuggest:0,editfont:"default",editondblclick:0,editsection:1,editsectiononrightclick:0,enotifminoredits:0,enotifrevealaddr:0,enotifusertalkpages:1,enotifwatchlistpages:0,extendwatchlist:0,externaldiff:0,externaleditor:0,fancysig:0,forceeditsummary:0,gender:"unknown",hideminor:0,hidepatrolled:0,highlightbroken:1,imagesize:2,justify:0,math:1,minordefault:0,newpageshidepatrolled:0,nocache:0,noconvertlink:0,norollbackdiff:0,numberheadings:0,previewonfirst:0,previewontop:1,quickbar:5,rcdays:7,rclimit:50,rememberpassword:0,rows:25,searchlimit:20,showhiddencats:0,showjumplinks:1,shownumberswatching:1,showtoc:1,showtoolbar:1,skin:"vector",stubthreshold:0,thumbsize:2,underline:2,uselivepreview:0,usenewrc:0,watchcreations:0,watchdefault:0,watchdeletion:0,watchlistdays:3,watchlisthideanons:0,watchlisthidebots:0,watchlisthideliu:0,watchlisthideminor:0,watchlisthideown:0,watchlisthidepatrolled:0,watchmoves:0,wllimit:250,variant:"en",language:"en",searchNs0:!0,searchNs1:!1,searchNs2:!1,searchNs3:!1,searchNs4:!1,searchNs5:!1,searchNs6:!1,searchNs7:!1,searchNs8:!1,searchNs9:!1,searchNs10:!1,searchNs11:!1,searchNs12:!1,searchNs13:!1,searchNs14:!1,searchNs15:!1})},{},{}),mw.loader.implement("user.tokens",function(e){mw.user.tokens.set({editToken:"+\\",watchToken:!1})},{},{}))</script><script>window.mw&&mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"])</script><style type="text/css">.source-csharp{line-height:normal}.source-csharp li,.source-csharp pre{line-height:normal;border:0 none #fff}.csharp.source-csharp .de1,.csharp.source-csharp .de2{font:normal normal 1em/1.2em monospace;margin:0;padding:0;background:0 0;vertical-align:top}.csharp.source-csharp{font-family:monospace}.csharp.source-csharp .imp{font-weight:700;color:red}.csharp.source-csharp .li1,.csharp.source-csharp li{font-weight:400;vertical-align:top}.csharp.source-csharp .ln{width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top}.csharp.source-csharp .li2{font-weight:700;vertical-align:top}.csharp.source-csharp .kw1{color:#0600ff;font-weight:700}.csharp.source-csharp .kw2{color:#ff8000;font-weight:700}.csharp.source-csharp .kw3{color:green}.csharp.source-csharp .kw4{color:#66c;font-weight:700}.csharp.source-csharp .kw5{color:#000}.csharp.source-csharp .co1{color:teal;font-style:italic}.csharp.source-csharp .co2{color:teal}.csharp.source-csharp .co3{color:teal}.csharp.source-csharp .coMULTI{color:teal;font-style:italic}.csharp.source-csharp .es0{color:teal;font-weight:700}.csharp.source-csharp .es_h{color:teal;font-weight:700}.csharp.source-csharp .br0{color:green}.csharp.source-csharp .sy0{color:green}.csharp.source-csharp .st0{color:#666}.csharp.source-csharp .st_h{color:#666}.csharp.source-csharp .nu0{color:red}.csharp.source-csharp .me1{color:#00f}.csharp.source-csharp .me2{color:#00f}.csharp.source-csharp .ln-xtra,.csharp.source-csharp div.ln-xtra,.csharp.source-csharp li.ln-xtra{background-color:#ffc}.csharp.source-csharp span.xtra{display:block}</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/skins/vector/csshover.min.htc")}</style><![endif]--></head><body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Finite_State_Machine skin-vector action-view"><div id="mw-page-base" class="noprint"></div><div id="mw-head-base" class="noprint"></div><div id="content" class="mw-body"><a id="top"></a><div id="mw-js-message" style="display:none"></div><h1 id="firstHeading" class="firstHeading"> <span dir="auto">Finite State Machine</span></h1><div id="bodyContent"><div id="siteSub">From Unify Community Wiki</div><div id="contentSub"></div><div id="jump-to-nav" class="mw-jump"> Jump to: <a href="#mw-head">navigation</a>, <a href="#p-search">search</a></div><div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><table id="toc" class="toc"><tr><td><div id="toctitle"><h2>Contents</h2></div><ul><li class="toclevel-1 tocsection-1"><a href="#Description"><span class="tocnumber">1</span> <span class="toctext">Description</span></a></li><li class="toclevel-1 tocsection-2"><a href="#Components"><span class="tocnumber">2</span> <span class="toctext">Components</span></a></li><li class="toclevel-1 tocsection-3"><a href="#C.23_-_FSMSystem.cs"><span class="tocnumber">3</span> <span class="toctext">C# - FSMSystem.cs</span></a></li><li class="toclevel-1 tocsection-4"><a href="#Example"><span class="tocnumber">4</span> <span class="toctext">Example</span></a></li></ul></td></tr></table><h2> <span class="mw-headline" id="Description">Description</span></h2><p>This is a Deterministic Finite State Machine framework based on chapter 3.1 of Game Programming Gems 1 by Eric Dybsend. Therea are two classes and two enums. Include them in your project and follow the explanations to get the FSM working properly. There's also a complete example script at the end of this page.</p><h2> <span class="mw-headline" id="Components">Components</span></h2><ul><li> <b>Transition enum</b>: This enum contains the labels to the transitions that can be fired by the system. Don't change the first label, NullTransition, as the FSMSystem class uses it.</li></ul><ul><li> <b>StateID enum</b>: This is the ID of the states the game may have. You could use references to the real States' classes but using enums makes the system less susceptible to have code having access to objects it is not supposed to. All the states' ids should be placed here. Don't change the first label, NullStateID, as the FSMSystem class uses it.</li></ul><ul><li> <b>FSMState class</b>: This class has a Dictionary with pairs (Transition-StateID) indicating which new state S2 the FSM should go to when a transition T is fired and the current state is S1. It has methods to add and delete pairs (Transition-StateID), a method to check which state to go to if a transition is passed to it. Two methods are used in the example given to check which transition should be fired (Reason()) and which action(s) (Act()) the GameObject that has the FSMState attached should do. You don't have to use this schema, but some kind of transition-action code must be used in your game.</li></ul><ul><li> <b>FSMSystem</b>: This is the Finite State Machine class that each NPC or GameObject in your game must have in order to use the framework. It stores the NPC's States in a List, has methods to add and delete a state and a method to change the current state based on a transition passed to it (PerformTransition()). You can call this method anywhere within your code, as in a collision test, or within Update() or FixedUpdate().</li></ul><h2> <span class="mw-headline" id="C.23_-_FSMSystem.cs">C# - FSMSystem.cs</span></h2><div dir="ltr" class="mw-geshi mw-content-ltr"><div class="csharp source-csharp"><pre class="de1"><span class="kw1">using</span> <span class="co3">System</span><span class="sy0">;</span>
+<span class="kw1">using</span> <span class="co3">System.Collections</span><span class="sy0">;</span>
+<span class="kw1">using</span> <span class="co3">System.Collections.Generic</span><span class="sy0">;</span>
+<span class="kw1">using</span> <span class="co3">UnityEngine</span><span class="sy0">;</span>
+&#160;
+<span class="coMULTI">/**
+A Finite State Machine System based on Chapter 3.1 of Game Programming Gems 1 by Eric Dybsand
+&#160;
+Written by Roberto Cezar Bianchini, July 2010
+&#160;
+&#160;
+How to use:
+	1. Place the labels for the transitions and the states of the Finite State System
+	    in the corresponding enums.
+&#160;
+	2. Write new class(es) inheriting from FSMState and fill each one with pairs (transition-state).
+	    These pairs represent the state S2 the FSMSystem should be if while being on state S1, a
+	    transition T is fired and state S1 has a transition from it to S2. Remember this is a Deterministic FSM. 
+	    You can't have one transition leading to two different states.
+&#160;
+	   Method Reason is used to determine which transition should be fired.
+	   You can write the code to fire transitions in another place, and leave this method empty if you
+	   feel it's more appropriate to your project.
+&#160;
+	   Method Act has the code to perform the actions the NPC is supposed do if it's on this state.
+	   You can write the code for the actions in another place, and leave this method empty if you
+	   feel it's more appropriate to your project.
+&#160;
+	3. Create an instance of FSMSystem class and add the states to it.
+&#160;
+	4. Call Reason and Act (or whichever methods you have for firing transitions and making the NPCs
+	     behave in your game) from your Update or FixedUpdate methods.
+&#160;
+	Asynchronous transitions from Unity Engine, like OnTriggerEnter, SendMessage, can also be used, 
+	just call the Method PerformTransition from your FSMSystem instance with the correct Transition 
+	when the event occurs.
+&#160;
+&#160;
+&#160;
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE 
+AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/</span>
+&#160;
+&#160;
+<span class="co1">/// &lt;summary&gt;</span>
+<span class="co1">/// Place the labels for the Transitions in this enum.</span>
+<span class="co1">/// Don't change the first label, NullTransition as FSMSystem class uses it.</span>
+<span class="co1">/// &lt;/summary&gt;</span>
+<span class="kw1">public</span> <span class="kw4">enum</span> Transition
+<span class="br0">&#123;</span>
+    NullTransition <span class="sy0">=</span> <span class="nu0">0</span>, <span class="co1">// Use this transition to represent a non-existing transition in your system</span>
+<span class="br0">&#125;</span>
+&#160;
+<span class="co1">/// &lt;summary&gt;</span>
+<span class="co1">/// Place the labels for the States in this enum.</span>
+<span class="co1">/// Don't change the first label, NullTransition as FSMSystem class uses it.</span>
+<span class="co1">/// &lt;/summary&gt;</span>
+<span class="kw1">public</span> <span class="kw4">enum</span> StateID
+<span class="br0">&#123;</span>
+    NullStateID <span class="sy0">=</span> <span class="nu0">0</span>, <span class="co1">// Use this ID to represent a non-existing State in your system	</span>
+<span class="br0">&#125;</span>
+&#160;
+<span class="co1">/// &lt;summary&gt;</span>
+<span class="co1">/// This class represents the States in the Finite State System.</span>
+<span class="co1">/// Each state has a Dictionary with pairs (transition-state) showing</span>
+<span class="co1">/// which state the FSM should be if a transition is fired while this state</span>
+<span class="co1">/// is the current state.</span>
+<span class="co1">/// Method Reason is used to determine which transition should be fired .</span>
+<span class="co1">/// Method Act has the code to perform the actions the NPC is supposed do if it's on this state.</span>
+<span class="co1">/// &lt;/summary&gt;</span>
+<span class="kw1">public</span> abstract <span class="kw4">class</span> FSMState
+<span class="br0">&#123;</span>
+    <span class="kw1">protected</span> Dictionary<span class="sy0">&lt;</span>Transition, StateID<span class="sy0">&gt;</span> map <span class="sy0">=</span> <span class="kw3">new</span> Dictionary<span class="sy0">&lt;</span>Transition, StateID<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">protected</span> StateID stateID<span class="sy0">;</span>
+    <span class="kw1">public</span> StateID ID <span class="br0">&#123;</span> get <span class="br0">&#123;</span> <span class="kw1">return</span> stateID<span class="sy0">;</span> <span class="br0">&#125;</span> <span class="br0">&#125;</span>
+&#160;
+    <span class="kw1">public</span> <span class="kw4">void</span> AddTransition<span class="br0">&#40;</span>Transition trans, StateID id<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// Check if anyone of the args is invalid</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>trans <span class="sy0">==</span> Transition<span class="sy0">.</span><span class="me1">NullTransition</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSMState ERROR: NullTransition is not allowed for a real transition&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&#160;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>id <span class="sy0">==</span> StateID<span class="sy0">.</span><span class="me1">NullStateID</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSMState ERROR: NullStateID is not allowed for a real ID&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&#160;
+        <span class="co1">// Since this is a Deterministic FSM,</span>
+        <span class="co1">//   check if the current transition was already inside the map</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>map<span class="sy0">.</span><span class="me1">ContainsKey</span><span class="br0">&#40;</span>trans<span class="br0">&#41;</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSMState ERROR: State &quot;</span> <span class="sy0">+</span> stateID<span class="sy0">.</span><span class="me1">ToString</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">+</span> <span class="st0">&quot; already has transition &quot;</span> <span class="sy0">+</span> trans<span class="sy0">.</span><span class="me1">ToString</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">+</span> 
+                           <span class="st0">&quot;Impossible to assign to another state&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&#160;
+        map<span class="sy0">.</span><span class="me1">Add</span><span class="br0">&#40;</span>trans, id<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="co1">/// &lt;summary&gt;</span>
+    <span class="co1">/// This method deletes a pair transition-state from this state's map.</span>
+    <span class="co1">/// If the transition was not inside the state's map, an ERROR message is printed.</span>
+    <span class="co1">/// &lt;/summary&gt;</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> DeleteTransition<span class="br0">&#40;</span>Transition trans<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// Check for NullTransition</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>trans <span class="sy0">==</span> Transition<span class="sy0">.</span><span class="me1">NullTransition</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSMState ERROR: NullTransition is not allowed&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&#160;
+        <span class="co1">// Check if the pair is inside the map before deleting</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>map<span class="sy0">.</span><span class="me1">ContainsKey</span><span class="br0">&#40;</span>trans<span class="br0">&#41;</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            map<span class="sy0">.</span><span class="me1">Remove</span><span class="br0">&#40;</span>trans<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSMState ERROR: Transition &quot;</span> <span class="sy0">+</span> trans<span class="sy0">.</span><span class="me1">ToString</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">+</span> <span class="st0">&quot; passed to &quot;</span> <span class="sy0">+</span> stateID<span class="sy0">.</span><span class="me1">ToString</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">+</span> 
+                       <span class="st0">&quot; was not on the state's transition list&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="co1">/// &lt;summary&gt;</span>
+    <span class="co1">/// This method returns the new state the FSM should be if</span>
+    <span class="co1">///    this state receives a transition and </span>
+    <span class="co1">/// &lt;/summary&gt;</span>
+    <span class="kw1">public</span> StateID GetOutputState<span class="br0">&#40;</span>Transition trans<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// Check if the map has this transition</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>map<span class="sy0">.</span><span class="me1">ContainsKey</span><span class="br0">&#40;</span>trans<span class="br0">&#41;</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            <span class="kw1">return</span> map<span class="br0">&#91;</span>trans<span class="br0">&#93;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">return</span> StateID<span class="sy0">.</span><span class="me1">NullStateID</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="co1">/// &lt;summary&gt;</span>
+    <span class="co1">/// This method is used to set up the State condition before entering it.</span>
+    <span class="co1">/// It is called automatically by the FSMSystem class before assigning it</span>
+    <span class="co1">/// to the current state.</span>
+    <span class="co1">/// &lt;/summary&gt;</span>
+    <span class="kw1">public</span> <span class="kw1">virtual</span> <span class="kw4">void</span> DoBeforeEntering<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="br0">&#125;</span>
+&#160;
+    <span class="co1">/// &lt;summary&gt;</span>
+    <span class="co1">/// This method is used to make anything necessary, as reseting variables</span>
+    <span class="co1">/// before the FSMSystem changes to another one. It is called automatically</span>
+    <span class="co1">/// by the FSMSystem before changing to a new state.</span>
+    <span class="co1">/// &lt;/summary&gt;</span>
+    <span class="kw1">public</span> <span class="kw1">virtual</span> <span class="kw4">void</span> DoBeforeLeaving<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="br0">&#125;</span> 
+&#160;
+    <span class="co1">/// &lt;summary&gt;</span>
+    <span class="co1">/// This method decides if the state should transition to another on its list</span>
+    <span class="co1">/// NPC is a reference to the object that is controlled by this class</span>
+    <span class="co1">/// &lt;/summary&gt;</span>
+    <span class="kw1">public</span> abstract <span class="kw4">void</span> Reason<span class="br0">&#40;</span>GameObject player, GameObject npc<span class="br0">&#41;</span><span class="sy0">;</span>
+&#160;
+    <span class="co1">/// &lt;summary&gt;</span>
+    <span class="co1">/// This method controls the behavior of the NPC in the game World.</span>
+    <span class="co1">/// Every action, movement or communication the NPC does should be placed here</span>
+    <span class="co1">/// NPC is a reference to the object that is controlled by this class</span>
+    <span class="co1">/// &lt;/summary&gt;</span>
+    <span class="kw1">public</span> abstract <span class="kw4">void</span> Act<span class="br0">&#40;</span>GameObject player, GameObject npc<span class="br0">&#41;</span><span class="sy0">;</span>
+&#160;
+<span class="br0">&#125;</span> <span class="co1">// class FSMState</span>
+&#160;
+&#160;
+<span class="co1">/// &lt;summary&gt;</span>
+<span class="co1">/// FSMSystem class represents the Finite State Machine class.</span>
+<span class="co1">///  It has a List with the States the NPC has and methods to add,</span>
+<span class="co1">///  delete a state, and to change the current state the Machine is on.</span>
+<span class="co1">/// &lt;/summary&gt;</span>
+<span class="kw1">public</span> <span class="kw4">class</span> FSMSystem
+<span class="br0">&#123;</span>
+    <span class="kw1">private</span> List<span class="sy0">&lt;</span>FSMState<span class="sy0">&gt;</span> states<span class="sy0">;</span>
+&#160;
+    <span class="co1">// The only way one can change the state of the FSM is by performing a transition</span>
+    <span class="co1">// Don't change the CurrentState directly</span>
+    <span class="kw1">private</span> StateID currentStateID<span class="sy0">;</span>
+    <span class="kw1">public</span> StateID CurrentStateID <span class="br0">&#123;</span> get <span class="br0">&#123;</span> <span class="kw1">return</span> currentStateID<span class="sy0">;</span> <span class="br0">&#125;</span> <span class="br0">&#125;</span>
+    <span class="kw1">private</span> FSMState currentState<span class="sy0">;</span>
+    <span class="kw1">public</span> FSMState CurrentState <span class="br0">&#123;</span> get <span class="br0">&#123;</span> <span class="kw1">return</span> currentState<span class="sy0">;</span> <span class="br0">&#125;</span> <span class="br0">&#125;</span>
+&#160;
+    <span class="kw1">public</span> FSMSystem<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        states <span class="sy0">=</span> <span class="kw3">new</span> List<span class="sy0">&lt;</span>FSMState<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="co1">/// &lt;summary&gt;</span>
+    <span class="co1">/// This method places new states inside the FSM,</span>
+    <span class="co1">/// or prints an ERROR message if the state was already inside the List.</span>
+    <span class="co1">/// First state added is also the initial state.</span>
+    <span class="co1">/// &lt;/summary&gt;</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> AddState<span class="br0">&#40;</span>FSMState s<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// Check for Null reference before deleting</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>s <span class="sy0">==</span> <span class="kw1">null</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSM ERROR: Null reference is not allowed&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&#160;
+        <span class="co1">// First State inserted is also the Initial state,</span>
+        <span class="co1">//   the state the machine is in when the simulation begins</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>states<span class="sy0">.</span><span class="me1">Count</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            states<span class="sy0">.</span><span class="me1">Add</span><span class="br0">&#40;</span>s<span class="br0">&#41;</span><span class="sy0">;</span>
+            currentState <span class="sy0">=</span> s<span class="sy0">;</span>
+            currentStateID <span class="sy0">=</span> s<span class="sy0">.</span><span class="me1">ID</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&#160;
+        <span class="co1">// Add the state to the List if it's not inside it</span>
+        <span class="kw1">foreach</span> <span class="br0">&#40;</span>FSMState state <span class="kw1">in</span> states<span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>state<span class="sy0">.</span><span class="me1">ID</span> <span class="sy0">==</span> s<span class="sy0">.</span><span class="me1">ID</span><span class="br0">&#41;</span>
+            <span class="br0">&#123;</span>
+                Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSM ERROR: Impossible to add state &quot;</span> <span class="sy0">+</span> s<span class="sy0">.</span><span class="me1">ID</span><span class="sy0">.</span><span class="me1">ToString</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">+</span> 
+                               <span class="st0">&quot; because state has already been added&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">return</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        states<span class="sy0">.</span><span class="me1">Add</span><span class="br0">&#40;</span>s<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="co1">/// &lt;summary&gt;</span>
+    <span class="co1">/// This method delete a state from the FSM List if it exists, </span>
+    <span class="co1">///   or prints an ERROR message if the state was not on the List.</span>
+    <span class="co1">/// &lt;/summary&gt;</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> DeleteState<span class="br0">&#40;</span>StateID id<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// Check for NullState before deleting</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>id <span class="sy0">==</span> StateID<span class="sy0">.</span><span class="me1">NullStateID</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSM ERROR: NullStateID is not allowed for a real state&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&#160;
+        <span class="co1">// Search the List and delete the state if it's inside it</span>
+        <span class="kw1">foreach</span> <span class="br0">&#40;</span>FSMState state <span class="kw1">in</span> states<span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>state<span class="sy0">.</span><span class="me1">ID</span> <span class="sy0">==</span> id<span class="br0">&#41;</span>
+            <span class="br0">&#123;</span>
+                states<span class="sy0">.</span><span class="me1">Remove</span><span class="br0">&#40;</span>state<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">return</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSM ERROR: Impossible to delete state &quot;</span> <span class="sy0">+</span> id<span class="sy0">.</span><span class="me1">ToString</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">+</span> 
+                       <span class="st0">&quot;. It was not on the list of states&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="co1">/// &lt;summary&gt;</span>
+    <span class="co1">/// This method tries to change the state the FSM is in based on</span>
+    <span class="co1">/// the current state and the transition passed. If current state</span>
+    <span class="co1">///  doesn't have a target state for the transition passed, </span>
+    <span class="co1">/// an ERROR message is printed.</span>
+    <span class="co1">/// &lt;/summary&gt;</span>
+    <span class="kw1">public</span> <span class="kw4">void</span> PerformTransition<span class="br0">&#40;</span>Transition trans<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// Check for NullTransition before changing the current state</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>trans <span class="sy0">==</span> Transition<span class="sy0">.</span><span class="me1">NullTransition</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSM ERROR: NullTransition is not allowed for a real transition&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&#160;
+        <span class="co1">// Check if the currentState has the transition passed as argument</span>
+        StateID id <span class="sy0">=</span> currentState<span class="sy0">.</span><span class="me1">GetOutputState</span><span class="br0">&#40;</span>trans<span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>id <span class="sy0">==</span> StateID<span class="sy0">.</span><span class="me1">NullStateID</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            Debug<span class="sy0">.</span><span class="me1">LogError</span><span class="br0">&#40;</span><span class="st0">&quot;FSM ERROR: State &quot;</span> <span class="sy0">+</span> currentStateID<span class="sy0">.</span><span class="me1">ToString</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">+</span>  <span class="st0">&quot; does not have a target state &quot;</span> <span class="sy0">+</span> 
+                           <span class="st0">&quot; for transition &quot;</span> <span class="sy0">+</span> trans<span class="sy0">.</span><span class="me1">ToString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&#160;
+        <span class="co1">// Update the currentStateID and currentState		</span>
+        currentStateID <span class="sy0">=</span> id<span class="sy0">;</span>
+        <span class="kw1">foreach</span> <span class="br0">&#40;</span>FSMState state <span class="kw1">in</span> states<span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>state<span class="sy0">.</span><span class="me1">ID</span> <span class="sy0">==</span> currentStateID<span class="br0">&#41;</span>
+            <span class="br0">&#123;</span>
+                <span class="co1">// Do the post processing of the state before setting the new one</span>
+                currentState<span class="sy0">.</span><span class="me1">DoBeforeLeaving</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&#160;
+                currentState <span class="sy0">=</span> state<span class="sy0">;</span>
+&#160;
+                <span class="co1">// Reset the state to its desired condition before it can reason or act</span>
+                currentState<span class="sy0">.</span><span class="me1">DoBeforeEntering</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="kw1">break</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&#160;
+    <span class="br0">&#125;</span> <span class="co1">// PerformTransition()</span>
+&#160;
+<span class="br0">&#125;</span> <span class="co1">//class FSMSystem</span></pre></div></div><h2> <span class="mw-headline" id="Example">Example</span></h2><p>Here's an example that implements the above framework. The GameObject with this script follows a path of waypoints and starts chasing a target if it comes within a certain distance from it. Attach this class to your NPC. Besides the framework transition and stateid enums, you also have to setup a reference to the waypoints and to the target (player). I used FixedUpdate() in the MonoBehaviour because the NPC reasoning schema doesn't need to be called every frame, but you can change that and use Update().</p><div dir="ltr" class="mw-geshi mw-content-ltr"><div class="csharp source-csharp"><pre class="de1"><span class="kw1">using</span> <span class="co3">System</span><span class="sy0">;</span>
+<span class="kw1">using</span> <span class="co3">System.Collections.Generic</span><span class="sy0">;</span>
+<span class="kw1">using</span> <span class="co3">System.Text</span><span class="sy0">;</span>
+<span class="kw1">using</span> <span class="co3">UnityEngine</span><span class="sy0">;</span>
+&#160;
+<span class="br0">&#91;</span>RequireComponent<span class="br0">&#40;</span><span class="kw3">typeof</span><span class="br0">&#40;</span>Rigidbody<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#93;</span>
+<span class="kw1">public</span> <span class="kw4">class</span> NPCControl <span class="sy0">:</span> MonoBehaviour
+<span class="br0">&#123;</span>
+    <span class="kw1">public</span> GameObject player<span class="sy0">;</span>
+    <span class="kw1">public</span> Transform<span class="br0">&#91;</span><span class="br0">&#93;</span> path<span class="sy0">;</span>
+    <span class="kw1">private</span> FSMSystem fsm<span class="sy0">;</span>
+&#160;
+    <span class="kw1">public</span> <span class="kw4">void</span> SetTransition<span class="br0">&#40;</span>Transition t<span class="br0">&#41;</span> <span class="br0">&#123;</span> fsm<span class="sy0">.</span><span class="me1">PerformTransition</span><span class="br0">&#40;</span>t<span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#125;</span>
+&#160;
+    <span class="kw1">public</span> <span class="kw4">void</span> Start<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        MakeFSM<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="kw1">public</span> <span class="kw4">void</span> FixedUpdate<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        fsm<span class="sy0">.</span><span class="me1">CurrentState</span><span class="sy0">.</span><span class="me1">Reason</span><span class="br0">&#40;</span>player, gameObject<span class="br0">&#41;</span><span class="sy0">;</span>
+        fsm<span class="sy0">.</span><span class="me1">CurrentState</span><span class="sy0">.</span><span class="me1">Act</span><span class="br0">&#40;</span>player, gameObject<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+	<span class="co1">// The NPC has two states: FollowPath and ChasePlayer</span>
+	<span class="co1">// If it's on the first state and SawPlayer transition is fired, it changes to ChasePlayer</span>
+	<span class="co1">// If it's on ChasePlayerState and LostPlayer transition is fired, it returns to FollowPath</span>
+    <span class="kw1">private</span> <span class="kw4">void</span> MakeFSM<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        FollowPathState follow <span class="sy0">=</span> <span class="kw3">new</span> FollowPathState<span class="br0">&#40;</span>path<span class="br0">&#41;</span><span class="sy0">;</span>
+        follow<span class="sy0">.</span><span class="me1">AddTransition</span><span class="br0">&#40;</span>Transition<span class="sy0">.</span><span class="me1">SawPlayer</span>, StateID<span class="sy0">.</span><span class="me1">ChasingPlayer</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&#160;
+        ChasePlayerState chase <span class="sy0">=</span> <span class="kw3">new</span> ChasePlayerState<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        chase<span class="sy0">.</span><span class="me1">AddTransition</span><span class="br0">&#40;</span>Transition<span class="sy0">.</span><span class="me1">LostPlayer</span>, StateID<span class="sy0">.</span><span class="me1">FollowingPath</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&#160;
+        fsm <span class="sy0">=</span> <span class="kw3">new</span> FSMSystem<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        fsm<span class="sy0">.</span><span class="me1">AddState</span><span class="br0">&#40;</span>follow<span class="br0">&#41;</span><span class="sy0">;</span>
+        fsm<span class="sy0">.</span><span class="me1">AddState</span><span class="br0">&#40;</span>chase<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&#160;
+<span class="kw1">public</span> <span class="kw4">class</span> FollowPathState <span class="sy0">:</span> FSMState
+<span class="br0">&#123;</span>
+    <span class="kw1">private</span> <span class="kw4">int</span> currentWayPoint<span class="sy0">;</span>
+    <span class="kw1">private</span> Transform<span class="br0">&#91;</span><span class="br0">&#93;</span> waypoints<span class="sy0">;</span>
+&#160;
+    <span class="kw1">public</span> FollowPathState<span class="br0">&#40;</span>Transform<span class="br0">&#91;</span><span class="br0">&#93;</span> wp<span class="br0">&#41;</span> 
+    <span class="br0">&#123;</span> 
+        waypoints <span class="sy0">=</span> wp<span class="sy0">;</span>
+        currentWayPoint <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+        stateID <span class="sy0">=</span> StateID<span class="sy0">.</span><span class="me1">FollowingPath</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="kw1">public</span> <span class="kw1">override</span> <span class="kw4">void</span> Reason<span class="br0">&#40;</span>GameObject player, GameObject npc<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// If the Player passes less than 15 meters away in front of the NPC</span>
+        RaycastHit hit<span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>Physics<span class="sy0">.</span><span class="me1">Raycast</span><span class="br0">&#40;</span>npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">position</span>, npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">forward</span>, <span class="kw1">out</span> hit, 15F<span class="br0">&#41;</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>hit<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">gameObject</span><span class="sy0">.</span><span class="me1">tag</span> <span class="sy0">==</span> <span class="st0">&quot;Player&quot;</span><span class="br0">&#41;</span>
+                npc<span class="sy0">.</span><span class="me1">GetComponent</span><span class="sy0">&lt;</span>NPCControl<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="me1">SetTransition</span><span class="br0">&#40;</span>Transition<span class="sy0">.</span><span class="me1">SawPlayer</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="kw1">public</span> <span class="kw1">override</span> <span class="kw4">void</span> Act<span class="br0">&#40;</span>GameObject player, GameObject npc<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// Follow the path of waypoints</span>
+		<span class="co1">// Find the direction of the current way point </span>
+        Vector3 vel <span class="sy0">=</span> npc<span class="sy0">.</span><span class="me1">rigidbody</span><span class="sy0">.</span><span class="me1">velocity</span><span class="sy0">;</span>
+        Vector3 moveDir <span class="sy0">=</span> waypoints<span class="br0">&#91;</span>currentWayPoint<span class="br0">&#93;</span><span class="sy0">.</span><span class="me1">position</span> <span class="sy0">-</span> npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">position</span><span class="sy0">;</span>
+&#160;
+        <span class="kw1">if</span> <span class="br0">&#40;</span>moveDir<span class="sy0">.</span><span class="me1">magnitude</span> <span class="sy0">&lt;</span> <span class="nu0">1</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            currentWayPoint<span class="sy0">++;</span>
+            <span class="kw1">if</span> <span class="br0">&#40;</span>currentWayPoint <span class="sy0">&gt;=</span> waypoints<span class="sy0">.</span><span class="me1">Length</span><span class="br0">&#41;</span>
+            <span class="br0">&#123;</span>
+                currentWayPoint <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">else</span>
+        <span class="br0">&#123;</span>
+            vel <span class="sy0">=</span> moveDir<span class="sy0">.</span><span class="me1">normalized</span> <span class="sy0">*</span> <span class="nu0">10</span><span class="sy0">;</span>
+&#160;
+            <span class="co1">// Rotate towards the waypoint</span>
+            npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">rotation</span> <span class="sy0">=</span> Quaternion<span class="sy0">.</span><span class="me1">Slerp</span><span class="br0">&#40;</span>npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">rotation</span>,
+                                                      Quaternion<span class="sy0">.</span><span class="me1">LookRotation</span><span class="br0">&#40;</span>moveDir<span class="br0">&#41;</span>,
+                                                      <span class="nu0">5</span> <span class="sy0">*</span> Time<span class="sy0">.</span><span class="me1">deltaTime</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">eulerAngles</span> <span class="sy0">=</span> <span class="kw3">new</span> Vector3<span class="br0">&#40;</span><span class="nu0">0</span>, npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">eulerAngles</span><span class="sy0">.</span><span class="me1">y</span>, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&#160;
+        <span class="br0">&#125;</span>
+&#160;
+        <span class="co1">// Apply the Velocity</span>
+        npc<span class="sy0">.</span><span class="me1">rigidbody</span><span class="sy0">.</span><span class="me1">velocity</span> <span class="sy0">=</span> vel<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+<span class="br0">&#125;</span> <span class="co1">// FollowPathState</span>
+&#160;
+<span class="kw1">public</span> <span class="kw4">class</span> ChasePlayerState <span class="sy0">:</span> FSMState
+<span class="br0">&#123;</span>
+    <span class="kw1">public</span> ChasePlayerState<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        stateID <span class="sy0">=</span> StateID<span class="sy0">.</span><span class="me1">ChasingPlayer</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="kw1">public</span> <span class="kw1">override</span> <span class="kw4">void</span> Reason<span class="br0">&#40;</span>GameObject player, GameObject npc<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// If the player has gone 30 meters away from the NPC, fire LostPlayer transition</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span>Vector3<span class="sy0">.</span><span class="me1">Distance</span><span class="br0">&#40;</span>npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">position</span>, player<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">position</span><span class="br0">&#41;</span> <span class="sy0">&gt;=</span> <span class="nu0">30</span><span class="br0">&#41;</span>
+            npc<span class="sy0">.</span><span class="me1">GetComponent</span><span class="sy0">&lt;</span>NPCControl<span class="sy0">&gt;</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="me1">SetTransition</span><span class="br0">&#40;</span>Transition<span class="sy0">.</span><span class="me1">LostPlayer</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+    <span class="kw1">public</span> <span class="kw1">override</span> <span class="kw4">void</span> Act<span class="br0">&#40;</span>GameObject player, GameObject npc<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// Follow the path of waypoints</span>
+		<span class="co1">// Find the direction of the player 		</span>
+        Vector3 vel <span class="sy0">=</span> npc<span class="sy0">.</span><span class="me1">rigidbody</span><span class="sy0">.</span><span class="me1">velocity</span><span class="sy0">;</span>
+        Vector3 moveDir <span class="sy0">=</span> player<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">position</span> <span class="sy0">-</span> npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">position</span><span class="sy0">;</span>
+&#160;
+        <span class="co1">// Rotate towards the waypoint</span>
+        npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">rotation</span> <span class="sy0">=</span> Quaternion<span class="sy0">.</span><span class="me1">Slerp</span><span class="br0">&#40;</span>npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">rotation</span>,
+                                                  Quaternion<span class="sy0">.</span><span class="me1">LookRotation</span><span class="br0">&#40;</span>moveDir<span class="br0">&#41;</span>,
+                                                  <span class="nu0">5</span> <span class="sy0">*</span> Time<span class="sy0">.</span><span class="me1">deltaTime</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">eulerAngles</span> <span class="sy0">=</span> <span class="kw3">new</span> Vector3<span class="br0">&#40;</span><span class="nu0">0</span>, npc<span class="sy0">.</span><span class="me1">transform</span><span class="sy0">.</span><span class="me1">eulerAngles</span><span class="sy0">.</span><span class="me1">y</span>, <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&#160;
+        vel <span class="sy0">=</span> moveDir<span class="sy0">.</span><span class="me1">normalized</span> <span class="sy0">*</span> <span class="nu0">10</span><span class="sy0">;</span>
+&#160;
+        <span class="co1">// Apply the new Velocity</span>
+        npc<span class="sy0">.</span><span class="me1">rigidbody</span><span class="sy0">.</span><span class="me1">velocity</span> <span class="sy0">=</span> vel<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&#160;
+<span class="br0">&#125;</span> <span class="co1">// ChasePlayerState</span></pre></div></div></div><div class="printfooter"> Retrieved from "<a href="http://wiki.unity3d.com/index.php?title=Finite_State_Machine&amp;oldid=12952">http://wiki.unity3d.com/index.php?title=Finite_State_Machine&amp;oldid=12952</a>"</div><div id="catlinks" class="catlinks catlinks-allhidden"></div><div class="visualClear"></div></div></div><div id="mw-head" class="noprint"><div id="p-personal" class=""><h5>Personal tools</h5><ul><li id="pt-login"><a href="/index.php?title=Special:UserLogin&amp;returnto=Finite+State+Machine" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in / create account</a></li></ul></div><div id="left-navigation"><div id="p-namespaces" class="vectorTabs"><h5>Namespaces</h5><ul><li id="ca-nstab-main" class="selected"><span><a href="/index.php/Finite_State_Machine" title="View the content page [c]" accesskey="c">Page</a></span></li><li id="ca-talk"><span><a href="/index.php/Talk:Finite_State_Machine" title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li></ul></div><div id="p-variants" class="vectorMenu emptyPortlet"><h4></h4><h5><span>Variants</span><a href="#"></a></h5><div class="menu"><ul></ul></div></div></div><div id="right-navigation"><div id="p-views" class="vectorTabs"><h5>Views</h5><ul><li id="ca-view" class="selected"><span><a href="/index.php/Finite_State_Machine">Read</a></span></li><li id="ca-viewsource"><span><a href="/index.php?title=Finite_State_Machine&amp;action=edit" title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li><li id="ca-history" class="collapsible"><span><a href="/index.php?title=Finite_State_Machine&amp;action=history" title="Past revisions of this page [h]" accesskey="h">View history</a></span></li></ul></div><div id="p-cactions" class="vectorMenu emptyPortlet"><h5><span>Actions</span><a href="#"></a></h5><div class="menu"><ul></ul></div></div><div id="p-search"><h5><label for="searchInput">Search</label></h5><form action="/index.php" id="searchform"><div> <input type="search" name="search" title="Search Unify Community Wiki [f]" accesskey="f" id="searchInput"> <input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton"> <input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton"> <input type="hidden" name="title" value="Special:Search"></div></form></div></div></div><div id="mw-panel" class="noprint"><div id="p-logo"><a style="background-image:url(/images/wiki.png)" href="/index.php/Main_Page" title="Visit the main page"></a></div><div class="portal" id="p-Navigation"><h5>Navigation</h5><div class="body"><ul><li id="n-mainpage"><a href="/index.php/Main_Page" title="Visit the main page [z]" accesskey="z">Main Page</a></li><li id="n-Extensions"><a href="/index.php/Extensions">Extensions</a></li><li id="n-Particle-Library"><a href="/index.php/Particle_Library">Particle Library</a></li><li id="n-Programming"><a href="/index.php/Programming">Programming</a></li><li id="n-Scripts"><a href="/index.php/Scripts">Scripts</a></li><li id="n-Shaders"><a href="/index.php/Shaders">Shaders</a></li><li id="n-Wizards"><a href="/index.php/Wizards">Wizards</a></li></ul></div></div><div class="portal" id="p-Extras"><h5>Extras</h5><div class="body"><ul><li id="n-Tips.2C-Tricks.2C-Tools"><a href="/index.php/Tips">Tips, Tricks, Tools</a></li><li id="n-Tutorials"><a href="/index.php/Tutorials">Tutorials</a></li><li id="n-Unity-Projects"><a href="/index.php/Unity_Projects">Unity Projects</a></li><li id="n-Contests"><a href="/index.php/Contests">Contests</a></li><li id="n-IRC-Chatroom"><a href="/index.php/IRC">IRC Chatroom</a></li></ul></div></div><div class="portal" id="p-Quick_Links"><h5>Quick Links</h5><div class="body"><ul><li id="n-portal"><a href="/index.php/Unify:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-recentchanges"><a href="/index.php/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-New-Pages"><a href="/index.php/Special:NewPages">New Pages</a></li><li id="n-help"><a href="/index.php/Help:Contents" title="The place to find out">Help</a></li></ul></div></div><div class="portal" id="p-tb"><h5>Toolbox</h5><div class="body"><ul><li id="t-whatlinkshere"><a href="/index.php/Special:WhatLinksHere/Finite_State_Machine" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/index.php/Special:RecentChangesLinked/Finite_State_Machine" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/index.php/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li><a href="/index.php?title=Finite_State_Machine&amp;printable=yes" rel="alternate">Printable version</a></li><li id="t-permalink"><a href="/index.php?title=Finite_State_Machine&amp;oldid=12952" title="Permanent link to this revision of the page">Permanent link</a></li></ul></div></div></div><div id="footer"><ul id="footer-info"><li id="footer-info-lastmod"> This page was last modified on 10 January 2012, at 20:45.</li><li id="footer-info-viewcount">This page has been accessed 153,494 times.</li><li id="footer-info-copyright">Content is available under <a class="external" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution Share Alike</a>.</li></ul><ul id="footer-places"><li id="footer-places-privacy"><a href="/index.php/Unify:Privacy_policy" title="Unify:Privacy policy">Privacy policy</a></li><li id="footer-places-about"><a href="/index.php/Unify:About" title="Unify:About">About Unify Community Wiki</a></li><li id="footer-places-disclaimer"><a href="/index.php/Unify:General_disclaimer" title="Unify:General disclaimer">Disclaimers</a></li></ul><ul id="footer-icons" class="noprint"><li id="footer-copyrightico"> <a href="http://creativecommons.org/licenses/by-sa/3.0/"><img src="/skins/common/images/cc-by-sa.png" alt="Creative Commons Attribution Share Alike" width="88" height="31"></a></li><li id="footer-poweredbyico"> <a href="//www.mediawiki.org/"><img src="/skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"></a></li></ul><div style="clear:both"></div></div><script src="http://wiki.unity3d.com/load.php?debug=false&amp;lang=en&amp;modules=skins.vector&amp;only=scripts&amp;skin=vector&amp;*"></script><script>window.mw&&mw.loader.load(["mediawiki.user","mediawiki.page.ready"],null,!0)</script><script src="http://wiki.unity3d.com/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=vector&amp;*"></script></body></html>
