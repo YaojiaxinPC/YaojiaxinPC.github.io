@@ -1,4 +1,1021 @@
-<!DOCTYPE html><html class="theme-next gemini use-motion" lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#222"><script src="/lib/pace/pace.min.js?v=1.0.2"></script><link href="/lib/pace/pace-theme-center-atom.min.css?v=1.0.2" rel="stylesheet"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css"><link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4"><link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222"><meta name="keywords" content="设计模式,"><link rel="alternate" href="/atom.xml" title="Yao's Blog" type="application/atom+xml"><meta name="description" content="本文介绍为什么有“面向抽象编程”，以及六大原则。"><meta name="keywords" content="设计模式"><meta property="og:type" content="article"><meta property="og:title" content="六大设计模式原则"><meta property="og:url" content="https://YaojiaxinPC.github.io/34DesignPattern/index.html"><meta property="og:site_name" content="Yao&#39;s Blog"><meta property="og:description" content="本文介绍为什么有“面向抽象编程”，以及六大原则。"><meta property="og:locale" content="zh-Hans"><meta property="og:updated_time" content="2018-11-07T16:50:13.714Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="六大设计模式原则"><meta name="twitter:description" content="本文介绍为什么有“面向抽象编程”，以及六大原则。"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Gemini",version:"5.1.4",sidebar:{position:"left",display:"post",offset:12,b2t:!0,scrollpercent:!0,onmobile:!1},fancybox:!0,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},duoshuo:{userId:"0",author:"博主"},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><link rel="canonical" href="https://YaojiaxinPC.github.io/34DesignPattern/"><title>六大设计模式原则 | Yao's Blog</title><script type="text/javascript">var _hmt=_hmt||[];!function(){var e=document.createElement("script");e.src="https://hm.baidu.com/hm.js?59fb881ccdff1a2b18e2b7839f452118";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}()</script></head><body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div> <a href="https://github.com/YaojiaxinPC" class="github-corner" aria-label="View source on GitHub" rel="external nofollow noopener noreferrer" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513;color:#fff;position:absolute;top:0;border:0;right:0" aria-hidden="true"><path d="M0 0 115 115 130 115 142 142 250 250 250 0Z"/><path d="M128.3 109C113.8 99.7 119 89.6 119 89.6 122 82.7 120.5 78.6 120.5 78.6 119.2 72 123.4 76.3 123.4 76.3 127.3 80.9 125.5 87.3 125.5 87.3 122.9 97.6 130.6 101.9 134.4 103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"/><path d="M115 115C114.9 115.1 118.7 116.5 119.8 115.4L133.7 101.6C136.9 99.2 139.9 98.4 142.2 98.6 133.8 88 127.5 74.4 143.8 58 148.5 53.4 154 51.2 159.7 51 160.3 49.4 163.2 43.6 171.4 40.1 171.4 40.1 176.1 42.5 178.8 56.2 183.1 58.6 187.2 61.8 190.9 65.4 194.5 69 197.7 73.2 200.1 77.6 213.8 80.2 216.3 84.9 216.3 84.9 212.7 93.1 206.9 96 205.4 96.6 205.1 102.4 203 107.8 198.3 112.5 181.9 128.9 168.3 122.5 157.7 114.1 157.9 116.9 156.7 120.9 152.7 124.9L141 136.5C139.8 137.7 141.6 141.9 141.8 141.8Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style><header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">Yao's Blog</span><span class="logo-line-after"><i></i></span></a></div><p class="site-subtitle">Welcome to yao's blog.</p></div><div class="site-nav-toggle"> <button><span class="btn-bar"></span><span class="btn-bar"></span><span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br> 首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br> 归档</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i><br> 分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br> 标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br> 关于</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i><br> 公益404</a></li><li class="menu-item menu-item-search"><a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i><br> 搜索</a></li></ul><div class="site-search"><div class="popup search-popup local-search-popup"><div class="local-search-header clearfix"><span class="search-icon"><i class="fa fa-search"></i></span><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span><div class="local-search-input-wrapper"> <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input"></div></div><div id="local-search-result"></div></div></div></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="https://YaojiaxinPC.github.io/34DesignPattern/"><span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person"><meta itemprop="name" content="姚佳鑫"><meta itemprop="description" content=""><meta itemprop="image" content="/contentimg/headpic.jpg"></span><span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization"><meta itemprop="name" content="Yao's Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">六大设计模式原则</h1><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-06T15:02:59+08:00">2018-11-06</time></span> <span class="post-category"><span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-folder-o"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span></span> <span id="/34DesignPattern/" class="leancloud_visitors" data-flag-title="六大设计模式原则"><span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读次数&#58;</span><span class="leancloud-visitors-count"></span></span><div class="post-wordcount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span> <span class="post-meta-item-text">字数统计&#58;</span> <span title="字数统计">3.4k 字</span> <span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-clock-o"></i></span> <span class="post-meta-item-text">阅读时长 &asymp;</span> <span title="阅读时长">11 分钟</span></div></div></header><div class="post-body" itemprop="articleBody"><p>　　本文介绍为什么有“面向抽象编程”，以及六大原则。</p><a id="more"></a><p>　　工作中，为什么新人要用好多时间，而且项目进展还越来越慢，问题越来越多的；而高手却是前面慢，后面项目越来越顺利的？</p><p>　　这里排除技术上的因素外，主要就是编程思想的影响了。下面简单理论分析，暂不提供具体代码。</p><h2 id="为什么需要编程思想"><a href="#为什么需要编程思想" class="headerlink" title="为什么需要编程思想"></a>为什么需要编程思想</h2><h3 id="举例做超市收银系统"><a href="#举例做超市收银系统" class="headerlink" title="举例做超市收银系统"></a>举例做超市收银系统</h3><p>　　一开始卖的是水果。有西瓜、苹果、香蕉等等，每种价格不同，包装方式不同等等好多不同，所以拆成多个水果class+main函数、计费系统&amp;结算系统。</p><h4 id="需求①：给每种水果标价格"><a href="#需求①：给每种水果标价格" class="headerlink" title="需求①：给每种水果标价格"></a>需求①：给每种水果标价格</h4><p>　　增加函数int Sell()获得。在main使用switch选择使用哪种水果。</p><h4 id="需求②：卖相差的水果打折"><a href="#需求②：卖相差的水果打折" class="headerlink" title="需求②：卖相差的水果打折"></a>需求②：卖相差的水果打折</h4><p>　　修改函数Sell，进行选择是否打折。</p><h4 id="需求③：促销，买3个苹果送一个香蕉"><a href="#需求③：促销，买3个苹果送一个香蕉" class="headerlink" title="需求③：促销，买3个苹果送一个香蕉"></a>需求③：促销，买3个苹果送一个香蕉</h4><p>　　main函数中严格按照先苹果后香蕉的顺序收费，先计算多少个苹果，同时跨class，传递该数字给香蕉，香蕉个数减优惠。这里可以使用全局static，为了防止出问题，增加计费前的置零+结算后的置零操作函数；或者在main中传递参数，增加main中判断是否需要传递参数的代码。也要修改Sell函数！</p><p>　　当需求变成买2个西瓜送苹果时，同样方式增加修改函数。现在3个class发生交叉，也出现了重复函数，最重要是main增加了计费顺序判断的大量代码，Sell函数也交错复杂。</p><h4 id="需求④：买10元水果送优惠券，下次消费可以使用"><a href="#需求④：买10元水果送优惠券，下次消费可以使用" class="headerlink" title="需求④：买10元水果送优惠券，下次消费可以使用"></a>需求④：买10元水果送优惠券，下次消费可以使用</h4><p>　　在main函数水果计费后，结算前的位置，第一次插入代码：检查是否有超过10元，并提示是否进行优惠减免。</p><p>….</p><h3 id="项目回顾"><a href="#项目回顾" class="headerlink" title="项目回顾"></a>项目回顾</h3><p>　　在增加N个需求后，回顾项目代码，发现简单几个功能而已，就十几个函数，十几个控制状态参数，甚至class间跨越交互，main函数更加是几千行的判断跳转代码。</p><p>　　随着项目发展，后期加功能越来越难，而且加功能后，还会影响到前期的功能。</p><p>　　而且如果这时候新拿了卖鱼的收银系统，怎么办？全部代码不能重用，得全部重写！</p><p>　　软件真这么差吗？为什么网页在IE能打开，在360也能打开，在手机也能打开，那是他们做了十几套这样的页面来让我们打开吗？事实只有一个html。但是这里怎么都是收银系统，我就得分卖水果，然后卖鱼又得重新做了？</p><h3 id="引入设计模式解决困境"><a href="#引入设计模式解决困境" class="headerlink" title="引入设计模式解决困境"></a>引入设计模式解决困境</h3><p>　　目前该收银系统，是买东西，东西有很多种，有水果，有肉等等，但是收银系统，归根到底就是卖东西，分统计价格，结算两个步骤。</p><p>　　统计价格，这里应该笼统成一个抽象—“顾客买的东西”。可以细分成很多种东西，但是它们只提供int Sell()函数出来。在main中统一调用该函数即可。所以这里创建根抽象类IGoods，提供对外int Sell()函数。然后由具体的物品类来继承重写该类。</p><p>　　但是这样我怎么知道要使用哪个具体类？这就是商品条码的作用了。</p><p>　　计费时，会嘀一下商品条码，这时候我得到了一个标识，这个标识是唯一的，能区分它是哪个具体计费类。所以在抽象类IGoods中增加传递该条码的函数。然后在子类中判断是否该条码对应的是自己，是的话才执行计费，不是就返回。</p><p>　　这样的好处是：</p><ol><li>同前面需求②，水果打折，那我直接增加新的类来处理就行，因为要打折的水果，条码是可以和普通水果不同来区分的。</li><li>需求③呢，一样，新增计费类(appleaddbanana)，内部通过实例化原有水果类来处理，这样对原先存在的那些代码不修改，而这个打折，也可以通过条码不同来区分。</li><li>需求④呢？给优惠券新增计费类，不过int Sell()出来的是负数而已。对原main代码保持不变！当然，这里你可能会说，没传递价格给优惠券，怎么知道要不要给优惠券的，等下被人恶意刷券怎么办？</li></ol><p>　　那就拆分吧，计费系统分成两个抽象：要卖东西+优惠。</p><p>　　这样换卖鱼的系统，两个抽象类、main函数，计费函数和结算函数都不用修改，只需要新增具体计费类就行。如果牛逼一点，把这个“具体计费类”，通过反射、公式计算等等方式，搞成不用写代码就能实现具体类的那种，那更加简单了！拿到卖金条收银系统的项目，这个系统直接带过去，现场问一下有那些计费方式，整个excel，让程序读一下，马上就能运行正常计费收费了！</p><h2 id="编程思想是什么"><a href="#编程思想是什么" class="headerlink" title="编程思想是什么"></a>编程思想是什么</h2><p>　　这个比较复杂，表现形式上，就是能让项目良好运行下去的思想。</p><p>　　像前面的收银系统，抽象出来“卖的东西”+“优惠”，就解决了main函数中几千行switch的问题，甚至跨行业收银都不成问题了。这样的项目才有发展的可能性，才能衍生出卖鱼收银系统，卖金条收银系统等等多种多样的项目。不然，像未优化前那样，来多几个水果，整个系统就跑不动了，项目哪里还进行得下去？更别说思想传承了。</p><p>　　而上面的利用“抽象”，实质就是课本上经常提到的“面向抽象编程”！编程思想很虚很广博，但是归根到底，就是“抽象”两个字。</p><p>　　计算机，就是由1010这样的二进制组成的，在这个基础上，才衍生出了python、Lua、php，甚至中文的易语言等等众多的高级语言，它们表现层完全不一样，能实现的功能也不一样，但是抽象出来，都是同一个二进制。</p><p>　　现在功能丰富的电子产品，功能越来越多，但是剖析下去，再剖析下去，就只是电路板上的1010。</p><p>　　编程思想，实际就是抽象。有了抽象，才能有具体的实现，进而有丰富多彩的实现。</p><p>　　编程思想由“六大原则”组成，是一个基于“抽象”，实现“高内聚，低耦合”目的的思想。</p><h2 id="六大原则"><a href="#六大原则" class="headerlink" title="六大原则"></a>六大原则</h2><h3 id="单一责任原则"><a href="#单一责任原则" class="headerlink" title="单一责任原则"></a>单一责任原则</h3><blockquote><p> 单一责任原则(Single Responsibility Principle, SRP)：一个类/函数只负责一个功能，同时只能有一个因素引起它变化。</p></blockquote><p>　　像上面的收银系统，抽象后，一个类对应一个条码（一个变化因素），只对应一种水果的计费方式（一个功能）。</p><p>　　这里不单单在class定义上，在函数的定义上也是。举例计算机加减乘除。最好的做法，就是把四个运算分为四个函数。这样就是一个变化因素–运算符，来选择应该执行哪个具体运算的函数，这个函数只负责这种运算功能。</p><p>　　概念上很抽象，但是做到后，首先是能精简代码，避免重复的代码。因为抽出来函数后，在重复的地方，就是调用这个抽出来的函数，就避免了重复。</p><p>　　其次，在这个函数里面，它只需要做好这件事就行，就能控制好输入输出，提高系统容错性。 　　</p><h3 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h3><blockquote><p>开闭原则(Open-Closed Principle, OCP)：一个软件实体应当对扩展开放，对修改关闭。即软件实体应尽量在不修改原有代码的情况下进行扩展。</p></blockquote><p>　　同样拿收银系统举例，遵循开闭原则后，就不会去修改Sell函数。如果前期系统经过了测试，后面增加新功能就不用重复测试了，因为前面功能肯定不会被影响，从而节省人力。</p><p>　　增加新功能，应该是加新的类/函数来实现。不应该修改原有的已经确定正确运行的代码。</p><p>　　该原则，提倡避免修改原有的正常代码，尽量增加新代码。因为增加新功能会引入新的不确定性因素，所以需要避免影响到原有正常功能，以减少排错时的复杂度。</p><h3 id="里氏替换原则"><a href="#里氏替换原则" class="headerlink" title="里氏替换原则"></a>里氏替换原则</h3><blockquote><p>里氏替换原则(Liskov Substitution Principle, LSP)：所有引用基类（父类）的地方必须能使用其子类来替换而不报错且正常运行。</p></blockquote><p>　　在收银系统就用到这个，定义根抽象类IGoods，main函数里面调用它的Sell函数。后面具体实现时才用其子类。这样在替换新子类时，不影响系统，正常计费。</p><p>　　这里也是C#的拆箱装箱问题。object能做的事，也能由继承它的子类来做。</p><p>　　假设存入list<object>，这样装箱操作：这里能add(object)，也肯定能add(继承object的int)。</object></p><p>　　这个原则得配合后面提到的原则，才能较好理解。</p><h3 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h3><blockquote><p>依赖倒置原则(Dependency Inversion Principle, DIP)：抽象不应该依赖于细节，细节应当依赖于抽象。换言之，要针对接口编程，而不是针对实现编程。</p></blockquote><p>　　需要结合里氏替换原则理解。</p><p>　　在收银系统中，依靠里氏替换原则，增加新收费物品。从而计费那里，根据这里的依赖倒置原则，它是根据抽象基类IGoods来收费Sell的，不是根据具体类来收费，所以才能正常计算Sell收费。</p><p>　　“依赖倒置原则”和“里氏替换原则”，是成对出现的。同时这里也实现“开闭原则”的目的。</p><h3 id="接口隔离原则"><a href="#接口隔离原则" class="headerlink" title="接口隔离原则"></a>接口隔离原则</h3><blockquote><p>接口隔离原则(Interface Segregation Principle, ISP)：使用多个专门的接口，而不使用单一的总接口，即客户端不应该依赖那些它不需要的接口。</p></blockquote><p>　　例如收银系统里面，收费时分成两个抽象类：东西+优惠。不应该合并起来，因为并不是全部东西都有优惠，这样就避免了多余的无效代码。当然得结合实际情况编程，有的商品是大部分有优惠的，就可以合并了。</p><p>　　这里提到的这个原则，就是避免冗余代码。结合“单一责任原则”一起用。</p><p>　　例如记录存储数据，这里需要储存数据的操作：连接数据库/写本地文件/…，以及获取数据源的操作：http/界面填入/excel分析…。我可以定义成一个基类接口。但是如果遇到获取是数据库，存入却不是数据库的，就得新建子类了。这样总共有N1*N2种情况。</p><p>　　而如果遵循接口隔离原则，分成两个接口，就是N1+N2种情况。两者效率，代码结构差距很大。</p><h3 id="迪米特法则"><a href="#迪米特法则" class="headerlink" title="迪米特法则"></a>迪米特法则</h3><blockquote><p>迪米特法则(Law of Demeter, LoD)：一个软件实体应当尽可能少地与其他实体发生相互作用。</p></blockquote><p>　　又称</p><blockquote><p>最少知识原则(LeastKnowledge Principle, LKP)</p></blockquote><p>　　这是基于“单一责任原则”的，同时避免跨类操作，避免模块与模块间的关联。</p><p>　　这个法则的目的是降低系统耦合度。减少类间的关联。</p><p>　　这实际上是最难的一个原则。</p><p>　　举例：收银系统中，买3个苹果送1个香蕉，这个功能需要苹果类和香蕉类关联起来。如果直接修改原苹果类，肯定不行，违背了开闭原则，而且也没遵循本原则，苹果类和香蕉类关联耦合了。那要怎么避免？只能引入第三方，第三个的责任就是处理3个苹果送1个香蕉问题。</p><p>　　苹果和香蕉的代码没变，但是多了一个内部实例化引用它们两个的第三方类。</p><p>　　同样的，如果买3个苹果和1个西瓜，就送1个香蕉，那就在这个第三方类中处理，当然也可以新建第三方类。</p><p>　　代码上，这个第三方类归在优惠中，结算统计完后，传递统计数据给抽象优惠类，而这个优惠类的具体实现类就是这个第三方类，内部分析应该进行怎样的优惠减免计算。毕竟这个没得扫条码，而且是根据买的东西来算有没有优惠，所以是归优惠类。</p><p>　　工程中常见就是设置一个manager管理类，负责不同模块类间的交互通讯。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　面向抽象编程为第一准则。尽量先定义接口，再写具体函数类。</p><p>　　但是在简单工程，简单功能下，为了防止过度设计，是可以直接写具体类而不抽象的。毕竟设计模式是为了更好发展项目，是建立在项目会发展得越来越复杂前提下的。</p><p>　　结尾贴一篇博文，是写六大设计原则比较好。<a href="https://www.cnblogs.com/dolphin0520/p/3919839.html" rel="external nofollow noopener noreferrer" target="_blank">设计模式之六大原则（转载）</a></p></div><div style="height:85px;line-height:85px;text-align:center;color:#ccc"><hr size="7" color="coral" style="vertical-align:middle;float:left" width="40%"> The End<hr size="7" color="coral" style="vertical-align:middle;float:right" width="40%"><br style="clear:both"></div><div><div id="wechat_subscriber" style="display:block;padding:10px 0;margin:20px auto;width:100%;text-align:center"> <img id="wechat_subscriber_qcode" src="/images/wechataddfriend.png" alt="姚佳鑫 wechat" style="width:200px;max-width:100%"><div>如果您对我的文章感兴趣，可以添加我的微信</div></div></div><div><div style="padding:10px 0;margin:20px auto;width:90%;text-align:center"><div>感谢您的支持</div> <button id="rewardButton" disable="enable" onclick='var qr=document.getElementById("QR");"none"===qr.style.display?qr.style.display="block":qr.style.display="none"'> <span>打赏</span></button><div id="QR" style="display:none"><div id="wechat" style="display:inline-block"> <img id="wechat_qr" src="/images/wechatpay.png" alt="姚佳鑫 微信支付"><p>微信支付</p></div><div id="alipay" style="display:inline-block"> <img id="alipay_qr" src="/images/alipay.png" alt="姚佳鑫 支付宝"><p>支付宝</p></div></div></div></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> 姚佳鑫</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://YaojiaxinPC.github.io/34DesignPattern/" title="六大设计模式原则">https://YaojiaxinPC.github.io/34DesignPattern/</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow noopener noreferrer" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"><a href="/tags/设计模式/" rel="tag"><i class="fa fa-tag"></i> 设计模式</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/33HitGhostDemo/" rel="next" title="打地鼠类小游戏介绍"><i class="fa fa-chevron-left"></i> 打地鼠类小游戏介绍</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"> <a href="/35FMS/" rel="prev" title="有限状态机（FMS）">有限状态机（FMS）<i class="fa fa-chevron-right"></i></a></div></div></footer></div></article><div class="post-spread"></div></div></div><div class="comments" id="comments"></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span><span class="sidebar-toggle-line sidebar-toggle-line-middle"></span><span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap"> 文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap"> 站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" src="/contentimg/headpic.jpg" alt="姚佳鑫"><p class="site-author-name" itemprop="name">姚佳鑫</p><p class="site-description motion-element" itemprop="description">Record My Coding life.</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">35</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/index.html"><span class="site-state-item-count">20</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <a href="/tags/index.html"><span class="site-state-item-count">55</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="feed-link motion-element"><a href="/atom.xml" rel="alternate"><i class="fa fa-rss"></i> RSS</a></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/YaojiaxinPC" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer"><i class="fa fa-fw fa-github"></i> GitHub</a></span><span class="links-of-author-item"><a href="http://wpa.qq.com/msgrd?v=3&uin=659771655&site=qq&menu=yes" target="_blank" title="QQ" rel="external nofollow noopener noreferrer"><i class="fa fa-fw fa-qq"></i> QQ</a></span></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要编程思想"><span class="nav-number">1.</span> <span class="nav-text">为什么需要编程思想</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#举例做超市收银系统"><span class="nav-number">1.1.</span> <span class="nav-text">举例做超市收银系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#需求①：给每种水果标价格"><span class="nav-number">1.1.1.</span> <span class="nav-text">需求①：给每种水果标价格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需求②：卖相差的水果打折"><span class="nav-number">1.1.2.</span> <span class="nav-text">需求②：卖相差的水果打折</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需求③：促销，买3个苹果送一个香蕉"><span class="nav-number">1.1.3.</span> <span class="nav-text">需求③：促销，买3个苹果送一个香蕉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需求④：买10元水果送优惠券，下次消费可以使用"><span class="nav-number">1.1.4.</span> <span class="nav-text">需求④：买10元水果送优惠券，下次消费可以使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目回顾"><span class="nav-number">1.2.</span> <span class="nav-text">项目回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入设计模式解决困境"><span class="nav-number">1.3.</span> <span class="nav-text">引入设计模式解决困境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程思想是什么"><span class="nav-number">2.</span> <span class="nav-text">编程思想是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六大原则"><span class="nav-number">3.</span> <span class="nav-text">六大原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单一责任原则"><span class="nav-number">3.1.</span> <span class="nav-text">单一责任原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开闭原则"><span class="nav-number">3.2.</span> <span class="nav-text">开闭原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#里氏替换原则"><span class="nav-number">3.3.</span> <span class="nav-text">里氏替换原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖倒置原则"><span class="nav-number">3.4.</span> <span class="nav-text">依赖倒置原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口隔离原则"><span class="nav-number">3.5.</span> <span class="nav-text">接口隔离原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迪米特法则"><span class="nav-number">3.6.</span> <span class="nav-text">迪米特法则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div></div></section><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span></div></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2018</span><span class="with-love"><i class="fa fa-user"></i></span> <span class="author" itemprop="copyrightHolder">姚佳鑫</span> <span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-area-chart"></i></span> <span class="post-meta-item-text">Site words total count&#58;</span> <span title="Site words total count">52.9k</span></div><div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div> <span class="post-meta-divider">|</span><div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Gemini</a> v5.1.4</div></div></footer></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script><script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script><script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script><script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script><script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><script type="text/javascript">
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-center-atom.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="设计模式,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Yao's Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="本文介绍为什么有“面向抽象编程”，以及六大原则。">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="六大设计模式原则">
+<meta property="og:url" content="https://YaojiaxinPC.github.io/34DesignPattern/index.html">
+<meta property="og:site_name" content="Yao&#39;s Blog">
+<meta property="og:description" content="本文介绍为什么有“面向抽象编程”，以及六大原则。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-07T16:50:13.714Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="六大设计模式原则">
+<meta name="twitter:description" content="本文介绍为什么有“面向抽象编程”，以及六大原则。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://YaojiaxinPC.github.io/34DesignPattern/">
+
+
+
+
+
+  <title>六大设计模式原则 | Yao's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?59fb881ccdff1a2b18e2b7839f452118";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/YaojiaxinPC" class="github-corner" aria-label="View source on GitHub" rel="external nofollow noopener noreferrer" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+	
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Welcome to yao's blog.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://YaojiaxinPC.github.io/34DesignPattern/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="姚佳鑫">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/contentimg/headpic.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">六大设计模式原则</h1>
+        
+
+        <div class="post-meta">
+		  
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-06T15:02:59+08:00">
+                2018-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/34DesignPattern/" class="leancloud_visitors" data-flag-title="六大设计模式原则">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.4k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　本文介绍为什么有“面向抽象编程”，以及六大原则。   </p>
+<a id="more"></a>
+<p>　　工作中，为什么新人要用好多时间，而且项目进展还越来越慢，问题越来越多的；而高手却是前面慢，后面项目越来越顺利的？</p>
+<p>　　这里排除技术上的因素外，主要就是编程思想的影响了。下面简单理论分析，暂不提供具体代码。</p>
+<h2 id="为什么需要编程思想"><a href="#为什么需要编程思想" class="headerlink" title="为什么需要编程思想"></a>为什么需要编程思想</h2><h3 id="举例做超市收银系统"><a href="#举例做超市收银系统" class="headerlink" title="举例做超市收银系统"></a>举例做超市收银系统</h3><p>　　一开始卖的是水果。有西瓜、苹果、香蕉等等，每种价格不同，包装方式不同等等好多不同，所以拆成多个水果class+main函数、计费系统&amp;结算系统。</p>
+<h4 id="需求①：给每种水果标价格"><a href="#需求①：给每种水果标价格" class="headerlink" title="需求①：给每种水果标价格"></a>需求①：给每种水果标价格</h4><p>　　增加函数int Sell()获得。在main使用switch选择使用哪种水果。</p>
+<h4 id="需求②：卖相差的水果打折"><a href="#需求②：卖相差的水果打折" class="headerlink" title="需求②：卖相差的水果打折"></a>需求②：卖相差的水果打折</h4><p>　　修改函数Sell，进行选择是否打折。</p>
+<h4 id="需求③：促销，买3个苹果送一个香蕉"><a href="#需求③：促销，买3个苹果送一个香蕉" class="headerlink" title="需求③：促销，买3个苹果送一个香蕉"></a>需求③：促销，买3个苹果送一个香蕉</h4><p>　　main函数中严格按照先苹果后香蕉的顺序收费，先计算多少个苹果，同时跨class，传递该数字给香蕉，香蕉个数减优惠。这里可以使用全局static，为了防止出问题，增加计费前的置零+结算后的置零操作函数；或者在main中传递参数，增加main中判断是否需要传递参数的代码。也要修改Sell函数！</p>
+<p>　　当需求变成买2个西瓜送苹果时，同样方式增加修改函数。现在3个class发生交叉，也出现了重复函数，最重要是main增加了计费顺序判断的大量代码，Sell函数也交错复杂。</p>
+<h4 id="需求④：买10元水果送优惠券，下次消费可以使用"><a href="#需求④：买10元水果送优惠券，下次消费可以使用" class="headerlink" title="需求④：买10元水果送优惠券，下次消费可以使用"></a>需求④：买10元水果送优惠券，下次消费可以使用</h4><p>　　在main函数水果计费后，结算前的位置，第一次插入代码：检查是否有超过10元，并提示是否进行优惠减免。</p>
+<p>….</p>
+<h3 id="项目回顾"><a href="#项目回顾" class="headerlink" title="项目回顾"></a>项目回顾</h3><p>　　在增加N个需求后，回顾项目代码，发现简单几个功能而已，就十几个函数，十几个控制状态参数，甚至class间跨越交互，main函数更加是几千行的判断跳转代码。</p>
+<p>　　随着项目发展，后期加功能越来越难，而且加功能后，还会影响到前期的功能。</p>
+<p>　　而且如果这时候新拿了卖鱼的收银系统，怎么办？全部代码不能重用，得全部重写！</p>
+<p>　　软件真这么差吗？为什么网页在IE能打开，在360也能打开，在手机也能打开，那是他们做了十几套这样的页面来让我们打开吗？事实只有一个html。但是这里怎么都是收银系统，我就得分卖水果，然后卖鱼又得重新做了？</p>
+<h3 id="引入设计模式解决困境"><a href="#引入设计模式解决困境" class="headerlink" title="引入设计模式解决困境"></a>引入设计模式解决困境</h3><p>　　目前该收银系统，是买东西，东西有很多种，有水果，有肉等等，但是收银系统，归根到底就是卖东西，分统计价格，结算两个步骤。</p>
+<p>　　统计价格，这里应该笼统成一个抽象—“顾客买的东西”。可以细分成很多种东西，但是它们只提供int Sell()函数出来。在main中统一调用该函数即可。所以这里创建根抽象类IGoods，提供对外int Sell()函数。然后由具体的物品类来继承重写该类。</p>
+<p>　　但是这样我怎么知道要使用哪个具体类？这就是商品条码的作用了。</p>
+<p>　　计费时，会嘀一下商品条码，这时候我得到了一个标识，这个标识是唯一的，能区分它是哪个具体计费类。所以在抽象类IGoods中增加传递该条码的函数。然后在子类中判断是否该条码对应的是自己，是的话才执行计费，不是就返回。</p>
+<p>　　这样的好处是：</p>
+<ol>
+<li>同前面需求②，水果打折，那我直接增加新的类来处理就行，因为要打折的水果，条码是可以和普通水果不同来区分的。</li>
+<li>需求③呢，一样，新增计费类(appleaddbanana)，内部通过实例化原有水果类来处理，这样对原先存在的那些代码不修改，而这个打折，也可以通过条码不同来区分。</li>
+<li>需求④呢？给优惠券新增计费类，不过int Sell()出来的是负数而已。对原main代码保持不变！当然，这里你可能会说，没传递价格给优惠券，怎么知道要不要给优惠券的，等下被人恶意刷券怎么办？</li>
+</ol>
+<p>　　那就拆分吧，计费系统分成两个抽象：要卖东西+优惠。</p>
+<p>　　这样换卖鱼的系统，两个抽象类、main函数，计费函数和结算函数都不用修改，只需要新增具体计费类就行。如果牛逼一点，把这个“具体计费类”，通过反射、公式计算等等方式，搞成不用写代码就能实现具体类的那种，那更加简单了！拿到卖金条收银系统的项目，这个系统直接带过去，现场问一下有那些计费方式，整个excel，让程序读一下，马上就能运行正常计费收费了！</p>
+<h2 id="编程思想是什么"><a href="#编程思想是什么" class="headerlink" title="编程思想是什么"></a>编程思想是什么</h2><p>　　这个比较复杂，表现形式上，就是能让项目良好运行下去的思想。</p>
+<p>　　像前面的收银系统，抽象出来“卖的东西”+“优惠”，就解决了main函数中几千行switch的问题，甚至跨行业收银都不成问题了。这样的项目才有发展的可能性，才能衍生出卖鱼收银系统，卖金条收银系统等等多种多样的项目。不然，像未优化前那样，来多几个水果，整个系统就跑不动了，项目哪里还进行得下去？更别说思想传承了。</p>
+<p>　　而上面的利用“抽象”，实质就是课本上经常提到的“面向抽象编程”！编程思想很虚很广博，但是归根到底，就是“抽象”两个字。</p>
+<p>　　计算机，就是由1010这样的二进制组成的，在这个基础上，才衍生出了python、Lua、php，甚至中文的易语言等等众多的高级语言，它们表现层完全不一样，能实现的功能也不一样，但是抽象出来，都是同一个二进制。</p>
+<p>　　现在功能丰富的电子产品，功能越来越多，但是剖析下去，再剖析下去，就只是电路板上的1010。</p>
+<p>　　编程思想，实际就是抽象。有了抽象，才能有具体的实现，进而有丰富多彩的实现。</p>
+<p>　　编程思想由“六大原则”组成，是一个基于“抽象”，实现“高内聚，低耦合”目的的思想。</p>
+<h2 id="六大原则"><a href="#六大原则" class="headerlink" title="六大原则"></a>六大原则</h2><h3 id="单一责任原则"><a href="#单一责任原则" class="headerlink" title="单一责任原则"></a>单一责任原则</h3><blockquote>
+<p> 单一责任原则(Single Responsibility Principle, SRP)：一个类/函数只负责一个功能，同时只能有一个因素引起它变化。</p>
+</blockquote>
+<p>　　像上面的收银系统，抽象后，一个类对应一个条码（一个变化因素），只对应一种水果的计费方式（一个功能）。</p>
+<p>　　这里不单单在class定义上，在函数的定义上也是。举例计算机加减乘除。最好的做法，就是把四个运算分为四个函数。这样就是一个变化因素–运算符，来选择应该执行哪个具体运算的函数，这个函数只负责这种运算功能。</p>
+<p>　　概念上很抽象，但是做到后，首先是能精简代码，避免重复的代码。因为抽出来函数后，在重复的地方，就是调用这个抽出来的函数，就避免了重复。</p>
+<p>　　其次，在这个函数里面，它只需要做好这件事就行，就能控制好输入输出，提高系统容错性。
+　　</p>
+<h3 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h3><blockquote>
+<p>开闭原则(Open-Closed Principle, OCP)：一个软件实体应当对扩展开放，对修改关闭。即软件实体应尽量在不修改原有代码的情况下进行扩展。</p>
+</blockquote>
+<p>　　同样拿收银系统举例，遵循开闭原则后，就不会去修改Sell函数。如果前期系统经过了测试，后面增加新功能就不用重复测试了，因为前面功能肯定不会被影响，从而节省人力。</p>
+<p>　　增加新功能，应该是加新的类/函数来实现。不应该修改原有的已经确定正确运行的代码。</p>
+<p>　　该原则，提倡避免修改原有的正常代码，尽量增加新代码。因为增加新功能会引入新的不确定性因素，所以需要避免影响到原有正常功能，以减少排错时的复杂度。</p>
+<h3 id="里氏替换原则"><a href="#里氏替换原则" class="headerlink" title="里氏替换原则"></a>里氏替换原则</h3><blockquote>
+<p>里氏替换原则(Liskov Substitution Principle, LSP)：所有引用基类（父类）的地方必须能使用其子类来替换而不报错且正常运行。</p>
+</blockquote>
+<p>　　在收银系统就用到这个，定义根抽象类IGoods，main函数里面调用它的Sell函数。后面具体实现时才用其子类。这样在替换新子类时，不影响系统，正常计费。</p>
+<p>　　这里也是C#的拆箱装箱问题。object能做的事，也能由继承它的子类来做。</p>
+<p>　　假设存入list<object>，这样装箱操作：这里能add(object)，也肯定能add(继承object的int)。</object></p>
+<p>　　这个原则得配合后面提到的原则，才能较好理解。</p>
+<h3 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h3><blockquote>
+<p>依赖倒置原则(Dependency Inversion Principle, DIP)：抽象不应该依赖于细节，细节应当依赖于抽象。换言之，要针对接口编程，而不是针对实现编程。</p>
+</blockquote>
+<p>　　需要结合里氏替换原则理解。</p>
+<p>　　在收银系统中，依靠里氏替换原则，增加新收费物品。从而计费那里，根据这里的依赖倒置原则，它是根据抽象基类IGoods来收费Sell的，不是根据具体类来收费，所以才能正常计算Sell收费。</p>
+<p>　　“依赖倒置原则”和“里氏替换原则”，是成对出现的。同时这里也实现“开闭原则”的目的。</p>
+<h3 id="接口隔离原则"><a href="#接口隔离原则" class="headerlink" title="接口隔离原则"></a>接口隔离原则</h3><blockquote>
+<p>接口隔离原则(Interface Segregation Principle, ISP)：使用多个专门的接口，而不使用单一的总接口，即客户端不应该依赖那些它不需要的接口。</p>
+</blockquote>
+<p>　　例如收银系统里面，收费时分成两个抽象类：东西+优惠。不应该合并起来，因为并不是全部东西都有优惠，这样就避免了多余的无效代码。当然得结合实际情况编程，有的商品是大部分有优惠的，就可以合并了。</p>
+<p>　　这里提到的这个原则，就是避免冗余代码。结合“单一责任原则”一起用。</p>
+<p>　　例如记录存储数据，这里需要储存数据的操作：连接数据库/写本地文件/…，以及获取数据源的操作：http/界面填入/excel分析…。我可以定义成一个基类接口。但是如果遇到获取是数据库，存入却不是数据库的，就得新建子类了。这样总共有N1*N2种情况。</p>
+<p>　　而如果遵循接口隔离原则，分成两个接口，就是N1+N2种情况。两者效率，代码结构差距很大。</p>
+<h3 id="迪米特法则"><a href="#迪米特法则" class="headerlink" title="迪米特法则"></a>迪米特法则</h3><blockquote>
+<p>迪米特法则(Law of Demeter, LoD)：一个软件实体应当尽可能少地与其他实体发生相互作用。</p>
+</blockquote>
+<p>　　又称</p>
+<blockquote>
+<p>最少知识原则(LeastKnowledge Principle, LKP)</p>
+</blockquote>
+<p>　　这是基于“单一责任原则”的，同时避免跨类操作，避免模块与模块间的关联。</p>
+<p>　　这个法则的目的是降低系统耦合度。减少类间的关联。</p>
+<p>　　这实际上是最难的一个原则。</p>
+<p>　　举例：收银系统中，买3个苹果送1个香蕉，这个功能需要苹果类和香蕉类关联起来。如果直接修改原苹果类，肯定不行，违背了开闭原则，而且也没遵循本原则，苹果类和香蕉类关联耦合了。那要怎么避免？只能引入第三方，第三个的责任就是处理3个苹果送1个香蕉问题。</p>
+<p>　　苹果和香蕉的代码没变，但是多了一个内部实例化引用它们两个的第三方类。</p>
+<p>　　同样的，如果买3个苹果和1个西瓜，就送1个香蕉，那就在这个第三方类中处理，当然也可以新建第三方类。</p>
+<p>　　代码上，这个第三方类归在优惠中，结算统计完后，传递统计数据给抽象优惠类，而这个优惠类的具体实现类就是这个第三方类，内部分析应该进行怎样的优惠减免计算。毕竟这个没得扫条码，而且是根据买的东西来算有没有优惠，所以是归优惠类。</p>
+<p>　　工程中常见就是设置一个manager管理类，负责不同模块类间的交互通讯。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　面向抽象编程为第一准则。尽量先定义接口，再写具体函数类。</p>
+<p>　　但是在简单工程，简单功能下，为了防止过度设计，是可以直接写具体类而不抽象的。毕竟设计模式是为了更好发展项目，是建立在项目会发展得越来越复杂前提下的。</p>
+<p>　　结尾贴一篇博文，是写六大设计原则比较好。<a href="https://www.cnblogs.com/dolphin0520/p/3919839.html" rel="external nofollow noopener noreferrer" target="_blank">设计模式之六大原则（转载）</a>  </p>
+
+      
+    </div>
+    
+    
+    
+	
+    
+	<div style="height:85px;line-height:85px;text-align:center;color:#ccc;"><hr size="7" color="coral" style="vertical-align:middle;float:left" width="40%"> The End <hr size="7" color="coral" style="vertical-align:middle;float:right" width="40%"><br style="clear:both"></div>
+	
+	
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechataddfriend.png" alt="姚佳鑫 wechat" style="width: 200px; max-width: 100%;">
+    <div>如果您对我的文章感兴趣，可以添加我的微信</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="姚佳鑫 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="姚佳鑫 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    姚佳鑫
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://YaojiaxinPC.github.io/34DesignPattern/" title="六大设计模式原则">https://YaojiaxinPC.github.io/34DesignPattern/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow noopener noreferrer" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"><i class="fa fa-tag"></i> 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/33HitGhostDemo/" rel="next" title="打地鼠类小游戏介绍">
+                <i class="fa fa-chevron-left"></i> 打地鼠类小游戏介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/35FMS/" rel="prev" title="有限状态机（FMS）">
+                有限状态机（FMS） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/contentimg/headpic.jpg" alt="姚佳鑫">
+            
+              <p class="site-author-name" itemprop="name">姚佳鑫</p>
+              <p class="site-description motion-element" itemprop="description">Record My Coding life.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/YaojiaxinPC" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=659771655&site=qq&menu=yes" target="_blank" title="QQ" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要编程思想"><span class="nav-number">1.</span> <span class="nav-text">为什么需要编程思想</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#举例做超市收银系统"><span class="nav-number">1.1.</span> <span class="nav-text">举例做超市收银系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#需求①：给每种水果标价格"><span class="nav-number">1.1.1.</span> <span class="nav-text">需求①：给每种水果标价格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需求②：卖相差的水果打折"><span class="nav-number">1.1.2.</span> <span class="nav-text">需求②：卖相差的水果打折</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需求③：促销，买3个苹果送一个香蕉"><span class="nav-number">1.1.3.</span> <span class="nav-text">需求③：促销，买3个苹果送一个香蕉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需求④：买10元水果送优惠券，下次消费可以使用"><span class="nav-number">1.1.4.</span> <span class="nav-text">需求④：买10元水果送优惠券，下次消费可以使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目回顾"><span class="nav-number">1.2.</span> <span class="nav-text">项目回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入设计模式解决困境"><span class="nav-number">1.3.</span> <span class="nav-text">引入设计模式解决困境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程思想是什么"><span class="nav-number">2.</span> <span class="nav-text">编程思想是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六大原则"><span class="nav-number">3.</span> <span class="nav-text">六大原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单一责任原则"><span class="nav-number">3.1.</span> <span class="nav-text">单一责任原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开闭原则"><span class="nav-number">3.2.</span> <span class="nav-text">开闭原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#里氏替换原则"><span class="nav-number">3.3.</span> <span class="nav-text">里氏替换原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖倒置原则"><span class="nav-number">3.4.</span> <span class="nav-text">依赖倒置原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口隔离原则"><span class="nav-number">3.5.</span> <span class="nav-text">接口隔离原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迪米特法则"><span class="nav-number">3.6.</span> <span class="nav-text">迪米特法则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">姚佳鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">53k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+  
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
     // Popup Window;
     var isfetched = false;
     var isXml = true;
@@ -313,4 +1330,148 @@
         onPopupClose();
       }
     });
-  </script><script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script><script>AV.initialize("MKSSliaXY1yJfNdREDKmugjN-gzGzoHsz","JXNiobIr2wdnlcGKbKeKAUlP")</script><script>function showTime(e){var t=new AV.Query(e),c=[],u=$(".leancloud_visitors");u.each(function(){c.push($(this).attr("id").trim())}),t.containedIn("url",c),t.find().done(function(e){var t=".leancloud-visitors-count";if(0!==e.length){for(var n=0;n<e.length;n++){var o=e[n],i=o.get("url"),s=o.get("time"),r=document.getElementById(i);$(r).find(t).text(s)}for(n=0;n<c.length;n++){i=c[n],r=document.getElementById(i);var l=$(r).find(t);""==l.text()&&l.text(0)}}else u.find(t).text(0)}).fail(function(e,t){console.log("Error: "+t.code+" "+t.message)})}function addCount(i){var e=$(".leancloud_visitors"),s=e.attr("id").trim(),r=e.attr("data-flag-title").trim(),t=new AV.Query(i);t.equalTo("url",s),t.find({success:function(e){if(0<e.length){var t=e[0];t.fetchWhenSave(!0),t.increment("time"),t.save(null,{success:function(e){$(document.getElementById(s)).find(".leancloud-visitors-count").text(e.get("time"))},error:function(e,t){console.log("Failed to save Visitor num, with error message: "+t.message)}})}else{var n=new i,o=new AV.ACL;o.setPublicReadAccess(!0),o.setPublicWriteAccess(!0),n.setACL(o),n.set("title",r),n.set("url",s),n.set("time",1),n.save(null,{success:function(e){$(document.getElementById(s)).find(".leancloud-visitors-count").text(e.get("time"))},error:function(e,t){console.log("Failed to create")}})}},error:function(e){console.log("Error:"+e.code+" "+e.message)}})}$(function(){var e=AV.Object.extend("Counter");1==$(".leancloud_visitors").length?addCount(e):1<$(".post-title-link").length&&showTime(e)})</script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script></body></html>
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("MKSSliaXY1yJfNdREDKmugjN-gzGzoHsz", "JXNiobIr2wdnlcGKbKeKAUlP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

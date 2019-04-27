@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://YaojiaxinPC.github.io/"/>
-  <updated>2018-11-08T09:01:57.516Z</updated>
+  <updated>2018-11-08T09:25:38.115Z</updated>
   <id>https://YaojiaxinPC.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>A* 寻路</title>
+    <link href="https://YaojiaxinPC.github.io/36Astar/"/>
+    <id>https://YaojiaxinPC.github.io/36Astar/</id>
+    <published>2018-11-08T10:02:59.000Z</published>
+    <updated>2018-11-08T09:25:38.115Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　 本文介绍</p><a id="more"></a><p>　　 有限状态机，是在有状态切换的场景下使用。能减低系统耦合度，也有利于新状态的加入。</p><h2 id="场景举例"><a href="#场景举例" class="headerlink" title="场景举例"></a>场景举例</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　 本文介绍&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="算法" scheme="https://YaojiaxinPC.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="寻路" scheme="https://YaojiaxinPC.github.io/tags/%E5%AF%BB%E8%B7%AF/"/>
+    
+  </entry>
   
   <entry>
     <title>有限状态机（FMS）</title>
@@ -379,28 +401,6 @@
   </entry>
   
   <entry>
-    <title>百度sitemap和谷歌sitemap同时使用不同的url</title>
-    <link href="https://YaojiaxinPC.github.io/20sitemap2url/"/>
-    <id>https://YaojiaxinPC.github.io/20sitemap2url/</id>
-    <published>2018-10-19T16:07:59.000Z</published>
-    <updated>2018-10-20T13:35:30.441Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。</p><a id="more"></a><p>　　目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。</p><p>　　真有必要这么麻烦吗？</p><p>　　于是我开始找“node_modules”文件夹里面的源码。</p><p>　　谷歌的sitemap生成源码里：</p><p><img src="/contentimg/20/1.png" alt="Result pic 1" title="hexo-generator-sitemap源码"></p><p>　　是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。</p><p><img src="/contentimg/20/2.png" alt="Result pic 1" title="hexo-generator-baidu-sitemap源码"></p><p><img src="/contentimg/20/3.png" alt="Result pic 1" title="baidusitemap.ejs源码"></p><p>　　有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！</p><p>　　那就好办了，在百度sitemap那里多写一个url就搞定了：</p><p><img src="/contentimg/20/4.png" alt="Result pic 1" title="baidusitemap下多加一个url"></p><p>　　搞定，一次hexo g。两个sitemap的域名是不同的了。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="源码分析" scheme="https://YaojiaxinPC.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    
-    
-      <category term="hexo源码" scheme="https://YaojiaxinPC.github.io/tags/hexo%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
     <title>abowman&#39;s demo</title>
     <link href="https://YaojiaxinPC.github.io/21swfobjectdemo/"/>
     <id>https://YaojiaxinPC.github.io/21swfobjectdemo/</id>
@@ -425,6 +425,28 @@
       <category term="flash" scheme="https://YaojiaxinPC.github.io/tags/flash/"/>
     
       <category term="swfobject" scheme="https://YaojiaxinPC.github.io/tags/swfobject/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>百度sitemap和谷歌sitemap同时使用不同的url</title>
+    <link href="https://YaojiaxinPC.github.io/20sitemap2url/"/>
+    <id>https://YaojiaxinPC.github.io/20sitemap2url/</id>
+    <published>2018-10-19T16:07:59.000Z</published>
+    <updated>2018-10-20T13:35:30.441Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。</p><a id="more"></a><p>　　目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。</p><p>　　真有必要这么麻烦吗？</p><p>　　于是我开始找“node_modules”文件夹里面的源码。</p><p>　　谷歌的sitemap生成源码里：</p><p><img src="/contentimg/20/1.png" alt="Result pic 1" title="hexo-generator-sitemap源码"></p><p>　　是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。</p><p><img src="/contentimg/20/2.png" alt="Result pic 1" title="hexo-generator-baidu-sitemap源码"></p><p><img src="/contentimg/20/3.png" alt="Result pic 1" title="baidusitemap.ejs源码"></p><p>　　有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！</p><p>　　那就好办了，在百度sitemap那里多写一个url就搞定了：</p><p><img src="/contentimg/20/4.png" alt="Result pic 1" title="baidusitemap下多加一个url"></p><p>　　搞定，一次hexo g。两个sitemap的域名是不同的了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="源码分析" scheme="https://YaojiaxinPC.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    
+    
+      <category term="hexo源码" scheme="https://YaojiaxinPC.github.io/tags/hexo%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
@@ -496,32 +518,6 @@
       <category term="github" scheme="https://YaojiaxinPC.github.io/tags/github/"/>
     
       <category term="security alert" scheme="https://YaojiaxinPC.github.io/tags/security-alert/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>VMWare安装Linux系统和mac系统</title>
-    <link href="https://YaojiaxinPC.github.io/16VM_macandlinux/"/>
-    <id>https://YaojiaxinPC.github.io/16VM_macandlinux/</id>
-    <published>2018-10-18T16:04:59.000Z</published>
-    <updated>2018-10-19T08:42:20.403Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　本文记录如何在VM虚拟机中装Linux系统和Mac系统。全文截图解说，打开会比较慢。</p><a id="more"></a><p>　　开头贴一下下载链接吧，版本有点老了：</p><p><a href="https://pan.baidu.com/s/1a6BF-GQ2Uwd25h8dw1WWKw" rel="external nofollow noopener noreferrer" target="_blank">百度云盘</a>  提取码：y9y9</p><p>　　系统就不提供了，可以去msdn等等地方下载。</p><p>　　下面开始贴图说明安装过程：</p><h2 id="Mac安装"><a href="#Mac安装" class="headerlink" title="Mac安装"></a>Mac安装</h2><p><img src="/contentimg/16/1/1.png" alt="Result pic 1" title="使用unlock打补丁"></p><p><img src="/contentimg/16/1/2.png" alt="Result pic 1" title="VMWare出现mac的选项"></p><p><img src="/contentimg/16/1/3.png" alt="Result pic 1" title="开始安装"></p><p><img src="/contentimg/16/1/4.png" alt="Result pic 1" title="选择语言"></p><p><img src="/contentimg/16/1/5.png" alt="Result pic 1" title="安装初始化界面"></p><p>　　第一次装的时候，由于系统磁盘格式问题，会出问题：</p><p><img src="/contentimg/16/1/6.png" alt="Result pic 1" title="直接选择“重新安装os x”"></p><p><img src="/contentimg/16/1/7.png" alt="Result pic 1" title="没显示磁盘？？？"></p><p>　　所以得返回：（当然一开始就得先搞磁盘，再来安装才对）</p><p><img src="/contentimg/16/1/8.png" alt="Result pic 1" title="左上角退出安装"></p><p><img src="/contentimg/16/1/9.png" alt="Result pic 1" title="选择磁盘工具"><br>　　<br><img src="/contentimg/16/1/10.png" alt="Result pic 1" title="格式化磁盘"></p><p><img src="/contentimg/16/1/11.png" alt="Result pic 1" title="格式化后出现可识别磁盘"></p><p><img src="/contentimg/16/1/12.png" alt="Result pic 1" title="回到安装系统界面"></p><p><img src="/contentimg/16/1/13.png" alt="Result pic 1" title="选择刚才的磁盘开始安装"></p><p><img src="/contentimg/16/1/14.png" alt="Result pic 1" title="安装开始"></p><p><img src="/contentimg/16/1/15.png" alt="Result pic 1" title="完成"></p><p><img src="/contentimg/16/1/16.png" alt="Result pic 1" title="重启，选择语言"></p><p><img src="/contentimg/16/1/17.png" alt="Result pic 1" title="选择时区"></p><p>　　注意中国在右边。</p><p><img src="/contentimg/16/1/18.png" alt="Result pic 1" title="进入系统界面"></p><p><img src="/contentimg/16/1/19.png" alt="Result pic 1" title="安装VMtool"></p><p>　　右下角，把光驱引用的文件定位到打补丁时增加的darwin文件。具体在安装目录下能找到。</p><p><img src="/contentimg/16/1/20.png" alt="Result pic 1" title="重新连接光驱"></p><p><img src="/contentimg/16/1/21.png" alt="Result pic 1" title="选择安装位置"></p><p><img src="/contentimg/16/1/22.png" alt="Result pic 1" title="完成安装"></p><p><img src="/contentimg/16/1/23.png" alt="Result pic 1" title="重启"></p><p><img src="/contentimg/16/1/24.png" alt="Result pic 1" title="开始使用"></p><h2 id="CentOS安装"><a href="#CentOS安装" class="headerlink" title="CentOS安装"></a>CentOS安装</h2><p>　　Linux的安装比较无趣。步骤也简单</p><p><img src="/contentimg/16/2/1.png" alt="Result pic 1" title="VM选择系统"></p><p><img src="/contentimg/16/2/2.png" alt="Result pic 1" title="选择CentOS系统"></p><p><img src="/contentimg/16/2/3.png" alt="Result pic 1" title="开始安装"></p><p><img src="/contentimg/16/2/4.png" alt="Result pic 1" title="磁盘检查"></p><p><img src="/contentimg/16/2/5.png" alt="Result pic 1" title="选择语言"></p><p><img src="/contentimg/16/2/6.png" alt="Result pic 1" title="设置"></p><p>　　这里得选择安装位置，才能下一步。</p><p><img src="/contentimg/16/2/7.png" alt="Result pic 1" title="设置密码"></p><p><img src="/contentimg/16/2/8.png" alt="Result pic 1" title="设置账户"></p><p><img src="/contentimg/16/2/9.png" alt="Result pic 1" title="完成安装"></p><p><img src="/contentimg/16/2/10.png" alt="Result pic 1" title="开始使用"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　本文记录如何在VM虚拟机中装Linux系统和Mac系统。全文截图解说，打开会比较慢。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="虚拟机" scheme="https://YaojiaxinPC.github.io/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
-    
-    
-      <category term="VMWare" scheme="https://YaojiaxinPC.github.io/tags/VMWare/"/>
-    
-      <category term="Linux" scheme="https://YaojiaxinPC.github.io/tags/Linux/"/>
-    
-      <category term="Mac" scheme="https://YaojiaxinPC.github.io/tags/Mac/"/>
     
   </entry>
   

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[A* 寻路]]></title>
+    <url>%2F36Astar%2F</url>
+    <content type="text"><![CDATA[本文介绍 有限状态机，是在有状态切换的场景下使用。能减低系统耦合度，也有利于新状态的加入。 场景举例]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>寻路</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[有限状态机（FMS）]]></title>
     <url>%2F35FMS%2F</url>
     <content type="text"><![CDATA[本文介绍有限状态机。一种使用于状态切换的设计模式。 有限状态机，是在有状态切换的场景下使用。能减低系统耦合度，也有利于新状态的加入。 场景举例 键盘上的“A”、“D”、“W”和“S”，通常意义上，是表示左右上下。 普通写法，是在函数中进行switch判断。但是这样后面新加按键，这个switch就会越来越长。 如果我不想用switch呢，那用广播模式？让按键处理类订阅这里的按键输入，如果是自己想处理的按键，就进行处理。那就是弄一个全局委托，新的按键处理类都+=该委托，然后在回调函数中if输入==自己要处理的键，就处理，否则return。 当然这里可以优化一下，并不需要广播，增加主题订阅就行，也就是CSharpMessenger Extended ，国内无法访问的话，我这里把网页搞下来了一份原网站复制 。 就是用一个字典，保存主题和对应的全局委托。使用者订阅某个主题的委托回调，发送者就是根据特定主题来广播。利用广播模式，能避免类间相互耦合交错。 场景升级 广播模式适用的场景确实超级多。但是也有它不适合的。 假如这个场景中，移动的时候，需要播放转身的动画：假设一开始是朝向W的正前方方向，我按下“D”，准备向左移动，这里需要预先播放一个顺时针转90°的动画，然后才能向左移动一步。 这样，播放动画这里，需要“前一个状态”+“下一个状态”，两个状态的记录。虽然在广播模式中可以使用传递两个参数的做法。但是其实还有更好的模式–FMS，有限状态机。 这东西github搜了一下，好几个。 Unity3d-Finite-State-Machine 670个星 FSMsharp 67个星 TinyStateMachine 22个星 Finite-State-Machine-FSM 9个星 都是写得蛮不错的。可以参考，不过建议了解一下wiki上的Finite State Machine ，这里我也把它load下来了原网站复制 。 讲的是设一个类，保存当前状态，以及下一个可以切换的状态；进行状态切换时，需要执行退出当前状态时需要执行的函数，然后切换为下一个状态，并执行进入该状态需要执行的函数；当然还有惯例执行的函数。例子中是巡逻和追击两个状态切换：正常状态下是巡逻，当距离靠近时促发追击，而被拉长距离后应该丢失跟踪，并恢复巡逻。 这里的状态切换，可以通过第三方管理类来操作，也可以在内部惯例执行函数中进行操作。例子中是第三方管理类开放接口，然后在惯例执行函数中进行判断是否需要切换状态。 回到开头提的场景，转身动画。 这里利用FMS，定义： AddTransition(Transition.W,StateID.WD)-旋转90° AddTransition(Transition.W,StateID.WS)-旋转180° AddTransition(Transition.W,StateID.WA)-旋转270° 对应设置4x3共12种情况，每种情况中，状态切换前，播放上一个状态退出的动画，这里没有动作；然后状态切换，最后执行新状态进入的动画，就是播放旋转动画；在惯例执行函数中判断是否仍然触发同一个方向的操作，就不转动，直接前进。 一般状态退出函数，是放一些归位操作，或者是一些释放操作，避免本状态的一些因素影响到新状态。 当然这里算过度设计，一下搞了12个新类+枚举，存在大量重复代码。实际场景中，FMS是使用在复杂状态间的切换。像这里的旋转动画，简单搞两个变量，通过4个角度来判断就可以了。 实际使用中，像“走”的时候，下一个状态可以是“跑”/“跳”/“蹲”/“停”；但是“跳”的时候，规定要等动作做完后自动转到“停”的状态，也就是必须执行完“跳”到落地的流程，转到“停”的状态，才能切换其他状态，所以“跳”只对应“停”。这样排完全部状态切换后，写逻辑处理时，就不担心写出来多余的状态切换了，因为不存在那种切换，不用额外去写函数处理判断。 本文单单理论这样讲不是很好，后面结合吃豆人案例来详细分析该模式的使用吧。 结尾也安利一篇博文：【游戏设计模式】之三 状态模式、有限状态机 &amp; Unity版本实现]]></content>
@@ -171,6 +182,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[百度sitemap和谷歌sitemap同时使用不同的url]]></title>
+    <url>%2F20sitemap2url%2F</url>
+    <content type="text"><![CDATA[本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。 目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。 真有必要这么麻烦吗？ 于是我开始找“node_modules”文件夹里面的源码。 谷歌的sitemap生成源码里： 是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。 有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！ 那就好办了，在百度sitemap那里多写一个url就搞定了： 搞定，一次hexo g。两个sitemap的域名是不同的了。]]></content>
+      <categories>
+        <category>源码分析</category>
+      </categories>
+      <tags>
+        <tag>hexo源码</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[abowman's demo]]></title>
     <url>%2F21swfobjectdemo%2F</url>
     <content type="text"><![CDATA[本文分享swfobject 插件的简单使用，展示abowman上面的3个小挂饰。 swfobject的git代码里面已经包了一个自动生成html的功能，所以实际是去找swf动画，加进去就可以看到效果了。 小鱼挂饰： Download fish.swf 宠物鼠挂饰： Download hamster.swf 企鹅群挂饰： Download penguins.swf]]></content>
@@ -182,17 +204,6 @@
         <tag>swf</tag>
         <tag>flash</tag>
         <tag>swfobject</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[百度sitemap和谷歌sitemap同时使用不同的url]]></title>
-    <url>%2F20sitemap2url%2F</url>
-    <content type="text"><![CDATA[本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。 目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。 真有必要这么麻烦吗？ 于是我开始找“node_modules”文件夹里面的源码。 谷歌的sitemap生成源码里： 是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。 有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！ 那就好办了，在百度sitemap那里多写一个url就搞定了： 搞定，一次hexo g。两个sitemap的域名是不同的了。]]></content>
-      <categories>
-        <category>源码分析</category>
-      </categories>
-      <tags>
-        <tag>hexo源码</tag>
       </tags>
   </entry>
   <entry>
