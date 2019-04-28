@@ -1,1 +1,23 @@
-<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Unity WebGL Player | WallBallDemo</title><script src="Build/UnityLoader.js"></script><script>var gameInstance=UnityLoader.instantiate("gameContainer","Build/test.json")</script></head><body><div id="contdivc" style="position:absolute;left:50%;top:50%;margin-left:0;margin-top:0"><script type="text/javascript">window.onload=function(){document.getElementById("contdivc").style.marginLeft="-480px",document.getElementById("contdivc").style.marginTop="-270px"}</script><div id="gameContainer" style="width:960px;height:540px;margin:auto"></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | WallBallDemo</title>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/test.json");
+    </script>
+  </head>
+  <body>
+  <div id="contdivc" style="position: absolute;left:50%;top:50%;margin-left:0px;margin-top:0px;">
+  <script type='text/javascript'>
+    window.onload=function() {
+            document.getElementById( "contdivc" ).style.marginLeft = "-"+960/2 + "px";
+			document.getElementById( "contdivc" ).style.marginTop = "-"+540/2 + "px";
+        }
+  </script>
+    <div id="gameContainer" style="width: 960px; height: 540px; margin: auto"></div>
+	</div>
+  </body>
+</html>

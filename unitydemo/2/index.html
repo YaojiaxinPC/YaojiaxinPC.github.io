@@ -1,1 +1,35 @@
-<!doctype html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Unity WebGL Player | 2DRoguelike</title><style></style></head><body><div id="contdivc" style="position:absolute;left:50%;top:50%;margin-left:0;margin-top:0"><script type="text/javascript">window.onload=function(){document.getElementById("contdivc").style.marginLeft="-240px",document.getElementById("contdivc").style.marginTop="-240px"}</script><canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="480px" width="480px"></canvas></div><script type="text/javascript">var Module={TOTAL_MEMORY:33554432,errorhandler:null,compatibilitycheck:null,dataUrl:"Release/test.data",codeUrl:"Release/test.js",memUrl:"Release/test.mem"}</script><script src="Release/UnityLoader.js"></script></body></html>
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | 2DRoguelike</title>
+    <style>
+    /* a style sheet needs to be present for cursor hiding and custom cursors to work. */
+    </style>
+  </head>
+  <body>
+  <div id="contdivc" style="position: absolute;left:50%;top:50%;margin-left:0px;margin-top:0px;">
+  <script type='text/javascript'>
+    window.onload=function() {
+            document.getElementById( "contdivc" ).style.marginLeft = "-"+480/2 + "px";
+			document.getElementById( "contdivc" ).style.marginTop = "-"+480/2 + "px";
+        }
+  </script>
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="480px" width="480px"></canvas>
+</div>
+    <script type='text/javascript'>
+  var Module = {
+    TOTAL_MEMORY: 33554432,
+    errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+    compatibilitycheck: null,
+    dataUrl: "Release/test.data",
+    codeUrl: "Release/test.js",
+    memUrl: "Release/test.mem",
+    
+  };
+</script>
+<script src="Release/UnityLoader.js"></script>
+
+  </body>
+</html>

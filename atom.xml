@@ -401,6 +401,28 @@
   </entry>
   
   <entry>
+    <title>百度sitemap和谷歌sitemap同时使用不同的url</title>
+    <link href="https://YaojiaxinPC.github.io/20sitemap2url/"/>
+    <id>https://YaojiaxinPC.github.io/20sitemap2url/</id>
+    <published>2018-10-19T16:07:59.000Z</published>
+    <updated>2018-10-20T13:35:30.441Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。</p><a id="more"></a><p>　　目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。</p><p>　　真有必要这么麻烦吗？</p><p>　　于是我开始找“node_modules”文件夹里面的源码。</p><p>　　谷歌的sitemap生成源码里：</p><p><img src="/contentimg/20/1.png" alt="Result pic 1" title="hexo-generator-sitemap源码"></p><p>　　是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。</p><p><img src="/contentimg/20/2.png" alt="Result pic 1" title="hexo-generator-baidu-sitemap源码"></p><p><img src="/contentimg/20/3.png" alt="Result pic 1" title="baidusitemap.ejs源码"></p><p>　　有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！</p><p>　　那就好办了，在百度sitemap那里多写一个url就搞定了：</p><p><img src="/contentimg/20/4.png" alt="Result pic 1" title="baidusitemap下多加一个url"></p><p>　　搞定，一次hexo g。两个sitemap的域名是不同的了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="源码分析" scheme="https://YaojiaxinPC.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    
+    
+      <category term="hexo源码" scheme="https://YaojiaxinPC.github.io/tags/hexo%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
     <title>abowman&#39;s demo</title>
     <link href="https://YaojiaxinPC.github.io/21swfobjectdemo/"/>
     <id>https://YaojiaxinPC.github.io/21swfobjectdemo/</id>
@@ -425,28 +447,6 @@
       <category term="flash" scheme="https://YaojiaxinPC.github.io/tags/flash/"/>
     
       <category term="swfobject" scheme="https://YaojiaxinPC.github.io/tags/swfobject/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>百度sitemap和谷歌sitemap同时使用不同的url</title>
-    <link href="https://YaojiaxinPC.github.io/20sitemap2url/"/>
-    <id>https://YaojiaxinPC.github.io/20sitemap2url/</id>
-    <published>2018-10-19T16:07:59.000Z</published>
-    <updated>2018-10-20T13:35:30.441Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。</p><a id="more"></a><p>　　目前我挂谷歌是挂github的链接，而挂百度使用域名。但是默认配置文件中的url只有一个。这样每次生成，他们都会使用那个默认url。这样得生成两次，分开提交才能做好。</p><p>　　真有必要这么麻烦吗？</p><p>　　于是我开始找“node_modules”文件夹里面的源码。</p><p>　　谷歌的sitemap生成源码里：</p><p><img src="/contentimg/20/1.png" alt="Result pic 1" title="hexo-generator-sitemap源码"></p><p>　　是直接拿到hexo.config.sitemap，然后就是generator.js，这样绕进去找。得绕有点久。那先看看百度那边。</p><p><img src="/contentimg/20/2.png" alt="Result pic 1" title="hexo-generator-baidu-sitemap源码"></p><p><img src="/contentimg/20/3.png" alt="Result pic 1" title="baidusitemap.ejs源码"></p><p>　　有戏，使用的不是同一个sitemap，然后在baidusitemap.ejs里面又读了一次url！</p><p>　　那就好办了，在百度sitemap那里多写一个url就搞定了：</p><p><img src="/contentimg/20/4.png" alt="Result pic 1" title="baidusitemap下多加一个url"></p><p>　　搞定，一次hexo g。两个sitemap的域名是不同的了。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　本文分享如果在同一次hexo g中，百度sitemap和谷歌sitemap使用不同的url。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="源码分析" scheme="https://YaojiaxinPC.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    
-    
-      <category term="hexo源码" scheme="https://YaojiaxinPC.github.io/tags/hexo%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
